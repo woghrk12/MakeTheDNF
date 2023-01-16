@@ -78,6 +78,8 @@ public class DNFTransform
 
     #endregion Properties
 
+    #region Constructor
+
     public DNFTransform(Transform p_posObj, Transform p_scaleObj, Vector3 p_pos = default)
     {
         posObj = p_posObj;
@@ -92,4 +94,6 @@ public class DNFTransform
         scaleObj = p_scaleObj;
         Position = p_pos;
     }
+
+    #endregion Constructor
 }

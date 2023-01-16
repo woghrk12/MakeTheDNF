@@ -7,6 +7,8 @@ using UnityEditor;
 
 public class EditorHelper
 {
+    #region Helper Methods
+
     public static string GetPath(Object p_clip)
     {
         string[] t_pathNode = AssetDatabase.GetAssetPath(p_clip).Split('/');
@@ -39,4 +41,6 @@ public class EditorHelper
         if (File.Exists(t_enumFilePath)) File.Delete(t_enumFilePath);
         File.WriteAllText(t_enumFilePath, t_enumTemplate);
     }
+
+    #endregion Helper Methods
 }
