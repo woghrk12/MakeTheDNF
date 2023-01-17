@@ -4,7 +4,14 @@ using UnityEngine;
 
 public class SingletonMonobehaviour<T> : MonoBehaviour where T : Component
 {
+    #region Variables
+
     private static T instance;
+
+    #endregion Variables
+
+    #region Properties
+
     public static T Instance
     {
         get 
@@ -21,6 +28,10 @@ public class SingletonMonobehaviour<T> : MonoBehaviour where T : Component
         }
     }
 
+    #endregion Properties
+
+    #region Unity Event
+
     protected virtual void Awake()
     {
         var t_objs = FindObjectsOfType<T>();
@@ -33,4 +44,6 @@ public class SingletonMonobehaviour<T> : MonoBehaviour where T : Component
 
         DontDestroyOnLoad(gameObject);
     }
+
+    #endregion Unity Event
 }

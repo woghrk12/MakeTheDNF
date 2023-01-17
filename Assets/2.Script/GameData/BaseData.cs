@@ -6,7 +6,7 @@ public class BaseData : ScriptableObject
 {
     #region Variables
 
-    public string[] names = null;
+    private string[] names = null;
 
     #endregion Variables
 
