@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseData : ScriptableObject
+public abstract class BaseData : ScriptableObject
 {
     #region Variables
 
-    private string[] names = null;
+    protected string[] names = null;
 
     #endregion Variables
 
@@ -35,6 +35,13 @@ public class BaseData : ScriptableObject
     }
 
     #endregion Helper Methods
+
+    #region Abstract Methods
+
+    public abstract void LoadData();
+    public abstract void SaveData();
+
+    #endregion Abstract Methods
 
     #region Virtual Methods
 

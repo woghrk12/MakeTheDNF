@@ -4,23 +4,32 @@ using UnityEngine;
 
 public class SoundClip
 {
+    public enum ESoundPlayType 
+    { 
+        NONE = -1,  
+        BGM,
+        EFFECT,
+        UI,
+    }
+
     #region Variables
 
     public int clipID = 0;
-    private string clipName = string.Empty;
-    private string clipPath = string.Empty;
+    public string clipName = string.Empty;
+    public string clipPath = string.Empty;
     private AudioClip clip = null;
 
+    public ESoundPlayType playType = ESoundPlayType.NONE;
     public float maxVolume = 1.0f;
     public float pitch = 1.0f;
-    public float dopplerLevel = 1.0f;
     public float spatialBlend = 1.0f;
-    public AudioRolloffMode audioRollOffMode = AudioRolloffMode.Logarithmic;
 
     public bool isLoop = false;
+    public int cntLoop = 0;
+    public int startLoop = 0;
     public float[] checkTime = new float[0];
     public float[] setTime = new float[0];
-    public int curLoop = 0;
+    private int curLoop = 0;
 
     #endregion Variables
 
@@ -28,6 +37,7 @@ public class SoundClip
 
     public AudioClip Clip
     {
+        set { clip = value; }
         get
         {
             if (clip == null) PreLoad();
@@ -46,6 +56,8 @@ public class SoundClip
     #endregion Properties
 
     #region Constructor
+
+    public SoundClip() { }
 
     public SoundClip(string p_clipPath, string p_clipName)
     {
@@ -87,7 +99,12 @@ public class SoundClip
     public void NextLoop()
     {
         curLoop++;
-        if (curLoop >= checkTime.Length) curLoop = 0;
+        if (curLoop >= cntLoop) curLoop = 0;
+    }
+
+    public void MoveLoop(int p_idx)
+    {
+        curLoop = p_idx >= cntLoop ? 0 : p_idx;
     }
 
     public void CheckLoop(AudioSource p_source)
