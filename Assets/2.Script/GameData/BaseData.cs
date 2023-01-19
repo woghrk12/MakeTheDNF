@@ -6,7 +6,7 @@ public abstract class BaseData : ScriptableObject
 {
     #region Variables
 
-    protected string[] names = null;
+    public string[] names = null;
     protected string xmlFilePath = string.Empty;
 
     #endregion Variables
