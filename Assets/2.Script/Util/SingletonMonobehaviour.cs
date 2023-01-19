@@ -42,7 +42,8 @@ public class SingletonMonobehaviour<T> : MonoBehaviour where T : Component
             return;
         }
 
-        DontDestroyOnLoad(gameObject);
+        if (transform.parent != null) DontDestroyOnLoad(transform.root.gameObject);
+        else DontDestroyOnLoad(gameObject);
     }
 
     #endregion Unity Event
