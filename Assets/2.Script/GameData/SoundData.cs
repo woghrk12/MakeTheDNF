@@ -23,6 +23,7 @@ public class SoundData : BaseData
 
     public override void LoadData()
     {
+        xmlFilePath = Application.dataPath + FilePath.DataDirectoryPath;
         TextAsset t_asset = Resources.Load(dataPath) as TextAsset;
         if (t_asset == null || t_asset.text == null)
         {
