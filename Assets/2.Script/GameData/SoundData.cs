@@ -12,8 +12,6 @@ public class SoundData : BaseData
     private SoundClip[] soundClips = new SoundClip[0];
 
     private string dataPath = "Data/soundData";
-
-    private string xmlFilePath = Application.dataPath + FilePath.DataDirectoryPath;
     private string xmlFileName = "soundData.xml";
 
     private const string soundString = "sound";
