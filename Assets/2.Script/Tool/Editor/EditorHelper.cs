@@ -7,6 +7,10 @@ using UnityObject = UnityEngine.Object;
 
 public class EditorHelper
 {
+    public readonly int uiWidthLarge = 450;
+    public readonly int uiWidthMiddle = 300;
+    public readonly int uiWidthSmall = 200;
+
     #region Helper Methods
 
     public static string GetPath(Object p_clip)
