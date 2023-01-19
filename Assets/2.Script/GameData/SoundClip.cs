@@ -86,12 +86,14 @@ public class SoundClip
     // Loop Method
     public void AddLoop()
     {
+        cntLoop++;
         checkTime = ArrayHelper.Add(0.0f, checkTime);
         setTime = ArrayHelper.Add(0.0f, setTime);
     }
 
     public void RemoveLoop(int p_idx)
     {
+        cntLoop--;
         checkTime = ArrayHelper.Remove(p_idx, checkTime);
         setTime = ArrayHelper.Remove(p_idx, setTime);
     }
@@ -109,7 +111,6 @@ public class SoundClip
 
     public void CheckLoop(AudioSource p_source)
     {
-        if (!HasLoop) return;
         if (p_source.time < checkTime[curLoop]) return;
 
         p_source.time = setTime[curLoop];
