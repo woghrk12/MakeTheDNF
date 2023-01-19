@@ -6,25 +6,25 @@ public class XmlElementName
 {
     public class SoundData
     {
-        public const string LENGTH = "length";
+        public const string LENGTH = "Length";
 
         // Identity
-        public const string ID = "id";
-        public const string NAME = "name";
-        public const string PLAYTYPE = "playType";
-        public const string CLIPNAME = "clipName";
-        public const string CLIPPATH = "clipPath";
+        public const string ID = "ID";
+        public const string NAME = "Name";
+        public const string PLAYTYPE = "PlayType";
+        public const string CLIPNAME = "ClipName";
+        public const string CLIPPATH = "ClipPath";
 
         // Options
-        public const string MAXVOLUME = "maxVolume";
-        public const string PITCH = "pitch";
-        public const string SPATIALBLEND = "spatialBlend";
+        public const string MAXVOLUME = "MaxVolume";
+        public const string PITCH = "Pitch";
+        public const string SPATIALBLEND = "SpatialBlend";
 
         // Loop
-        public const string ISLOOP = "loop";
-        public const string CNTLOOP = "cntLoop";
-        public const string STARTLOOP = "startLoop";
-        public const string CHECKTIME = "checkTime";
-        public const string SETTIME = "setTime";
+        public const string ISLOOP = "Loop";
+        public const string CNTLOOP = "CntLoop";
+        public const string STARTLOOP = "StartLoop";
+        public const string CHECKTIME = "CheckTime";
+        public const string SETTIME = "SetTime";
     }
 }
