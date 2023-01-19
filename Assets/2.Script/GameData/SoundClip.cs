@@ -67,7 +67,7 @@ public class SoundClip
 
     #endregion Constructor
 
-    #region Method
+    #region Methods
 
     public void PreLoad()
     {
@@ -116,5 +116,5 @@ public class SoundClip
         NextLoop();
     }
 
-    #endregion Method
+    #endregion Methods
 }
