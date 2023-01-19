@@ -9,7 +9,7 @@ public class SoundData : BaseData
 {
     #region Variables
 
-    private SoundClip[] soundClips = new SoundClip[0];
+    public SoundClip[] soundClips = new SoundClip[0];
 
     private string dataPath = "Data/soundData";
     private string xmlFileName = "soundData.xml";
@@ -27,7 +27,7 @@ public class SoundData : BaseData
         TextAsset t_asset = Resources.Load(dataPath) as TextAsset;
         if (t_asset == null || t_asset.text == null)
         {
-            AddData("New Sound Data");
+            AddData("New Clip");
             return;
         }
 
@@ -127,43 +127,61 @@ public class SoundData : BaseData
         using (XmlWriter t_writer = XmlWriter.Create(xmlFilePath + xmlFileName, t_settings))
         {
             t_writer.WriteStartDocument();
-            t_writer.WriteStartElement(soundString);
-
-            int t_length = DataCount;
-            t_writer.WriteElementString(XmlElementName.SoundData.LENGTH, t_length.ToString());
-            for (int i = 0; i < t_length; i++)
+            t_writer.WriteWhitespace("\n");
             {
-                SoundClip t_clip = soundClips[i];
-                t_writer.WriteStartElement(clipString);
-                t_writer.WriteElementString(XmlElementName.SoundData.ID, i.ToString());
-                t_writer.WriteElementString(XmlElementName.SoundData.NAME, names[i]);
-                t_writer.WriteElementString(XmlElementName.SoundData.CLIPNAME, t_clip.clipName);
-                t_writer.WriteElementString(XmlElementName.SoundData.CLIPPATH, t_clip.clipPath);
-                t_writer.WriteElementString(XmlElementName.SoundData.PLAYTYPE, t_clip.playType.ToString());
-                t_writer.WriteElementString(XmlElementName.SoundData.MAXVOLUME, t_clip.maxVolume.ToString());
-                t_writer.WriteElementString(XmlElementName.SoundData.PITCH, t_clip.pitch.ToString());
-                t_writer.WriteElementString(XmlElementName.SoundData.SPATIALBLEND, t_clip.spatialBlend.ToString());
+                t_writer.WriteStartElement(soundString);
+                t_writer.WriteWhitespace("\n");
+                {
+                    int t_length = DataCount;
+                    t_writer.WriteElementString(XmlElementName.SoundData.LENGTH, t_length.ToString());
+                    t_writer.WriteWhitespace("\n");
+                    {
 
-                if (!t_clip.isLoop) continue;
-                
-                t_writer.WriteElementString(XmlElementName.SoundData.ISLOOP, t_clip.isLoop.ToString());
-                t_writer.WriteElementString(XmlElementName.SoundData.CNTLOOP, t_clip.cntLoop.ToString());
-                t_writer.WriteElementString(XmlElementName.SoundData.STARTLOOP, t_clip.startLoop.ToString());
+                        for (int i = 0; i < t_length; i++)
+                        {
+                            t_writer.WriteWhitespace("\t");
+                            t_writer.WriteStartElement(clipString);
+                            t_writer.WriteWhitespace("\n");
 
-                string t_str = "";
-                foreach (float t_checkTime in t_clip.checkTime) t_str += t_checkTime.ToString() + "/";
-                t_writer.WriteElementString(XmlElementName.SoundData.CHECKTIME, t_str);
+                            t_writer.WriteWhitespace("\t\t");
+                            SoundClip t_clip = soundClips[i];
+                            t_writer.WriteElementString(XmlElementName.SoundData.ID, i.ToString());
+                            t_writer.WriteElementString(XmlElementName.SoundData.NAME, names[i]);
+                            t_writer.WriteElementString(XmlElementName.SoundData.CLIPNAME, t_clip.clipName);
+                            t_writer.WriteElementString(XmlElementName.SoundData.CLIPPATH, t_clip.clipPath);
+                            t_writer.WriteElementString(XmlElementName.SoundData.PLAYTYPE, t_clip.playType.ToString());
+                            t_writer.WriteElementString(XmlElementName.SoundData.MAXVOLUME, t_clip.maxVolume.ToString());
+                            t_writer.WriteElementString(XmlElementName.SoundData.PITCH, t_clip.pitch.ToString());
+                            t_writer.WriteElementString(XmlElementName.SoundData.SPATIALBLEND, t_clip.spatialBlend.ToString());
 
-                t_str = "";
-                foreach (float t_setTime in t_clip.setTime) t_str += t_setTime.ToString() + "/";
-                t_writer.WriteElementString(XmlElementName.SoundData.SETTIME, t_str);
+                            if (!t_clip.isLoop)
+                            {
+                                t_writer.WriteWhitespace("\n\t");
+                                t_writer.WriteEndElement();
+                                continue;
+                            }
 
+                            t_writer.WriteElementString(XmlElementName.SoundData.ISLOOP, t_clip.isLoop.ToString());
+                            t_writer.WriteElementString(XmlElementName.SoundData.CNTLOOP, t_clip.cntLoop.ToString());
+                            t_writer.WriteElementString(XmlElementName.SoundData.STARTLOOP, t_clip.startLoop.ToString());
+
+                            string t_str = "";
+                            foreach (float t_checkTime in t_clip.checkTime) t_str += t_checkTime.ToString() + "/";
+                            t_writer.WriteElementString(XmlElementName.SoundData.CHECKTIME, t_str);
+
+                            t_str = "";
+                            foreach (float t_setTime in t_clip.setTime) t_str += t_setTime.ToString() + "/";
+                            t_writer.WriteElementString(XmlElementName.SoundData.SETTIME, t_str);
+
+                            t_writer.WriteWhitespace("\n\t");
+                            t_writer.WriteEndElement();
+                        }
+                    }
+                }
+                t_writer.WriteWhitespace("\n");
                 t_writer.WriteEndElement();
             }
-            t_writer.WriteEndElement();
             t_writer.WriteWhitespace("\n");
-            
-            t_writer.WriteEndElement();
             t_writer.WriteEndDocument();
         }
     }
