@@ -51,10 +51,13 @@ public class EditorHelper
     }
 
     #endregion Helper Methods
+}
 
+public class EditorToolLayer<T>
+{
     #region Editor Function
 
-    public static void EditorToolTopLayer(BaseData p_data, ref int p_selection, ref UnityObject p_source, int p_uiWidth)
+    public static void EditorToolTopLayer(BaseData<T> p_data, ref int p_selection, int p_uiWidth)
     {
         EditorGUILayout.BeginHorizontal();
         {
@@ -62,22 +65,18 @@ public class EditorHelper
             {
                 p_data.AddData("New Clip");
                 p_selection = p_data.DataCount - 1;
-                p_source = null;
             }
             if (GUILayout.Button("Copy", GUILayout.Width(p_uiWidth)))
             {
                 p_data.CopyData(p_selection);
                 p_selection = p_data.DataCount - 1;
-                p_source = null;
             }
             if (p_data.DataCount > 0 && GUILayout.Button("Remove", GUILayout.Width(p_uiWidth)))
             {
-                p_source = null; 
                 p_data.RemoveData(p_selection);
             }
             if (p_data.DataCount > 0 && GUILayout.Button("Clear", GUILayout.Width(p_uiWidth)))
             {
-                p_source = null;
                 p_data.ClearData();
             }
             if (p_selection >= p_data.DataCount) p_selection = p_data.DataCount - 1;
@@ -85,7 +84,7 @@ public class EditorHelper
         EditorGUILayout.EndHorizontal();
     }
 
-    public static void EditorToolListLayer(BaseData p_data, ref Vector2 p_scrollPos, ref int p_selection, ref UnityObject p_source, int p_uiWidth)
+    public static void EditorToolListLayer(BaseData<T> p_data, ref Vector2 p_scrollPos, ref int p_selection, int p_uiWidth)
     {
         EditorGUILayout.BeginVertical(GUILayout.Width(p_uiWidth));
         {
@@ -96,11 +95,7 @@ public class EditorHelper
                 p_scrollPos = EditorGUILayout.BeginScrollView(p_scrollPos);
                 {
                     if (p_data.DataCount > 0)
-                    {
-                        int t_lastSelection = p_selection;
                         p_selection = GUILayout.SelectionGrid(p_selection, p_data.GetNameList(true), 1);
-                        if (t_lastSelection != p_selection) p_source = null;                        
-                    }
                 }
                 EditorGUILayout.EndScrollView();
             }
