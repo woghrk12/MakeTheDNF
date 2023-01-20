@@ -65,17 +65,17 @@ public class SoundData : BaseData
                     soundClips[t_curID].setTime = new float[t_cntLoop];
 
                     string[] t_time = t_reader.GetAttribute(XmlElementName.SoundData.CHECKTIME).Split('/');
-                    for (int i = 0; i < t_time.Length; i++)
+                    for (int i = 0; i < t_cntLoop; i++)
                     {
                         if (t_time[i] == string.Empty) continue;
-                        soundClips[i].checkTime[i] = float.Parse(t_time[i]);
+                        soundClips[t_curID].checkTime[i] = float.Parse(t_time[i]);
                     }
 
                     t_time = t_reader.GetAttribute(XmlElementName.SoundData.SETTIME).Split('/');
-                    for (int i = 0; i < t_time.Length; i++)
+                    for (int i = 0; i < t_cntLoop; i++)
                     {
                         if (t_time[i] == string.Empty) continue;
-                        soundClips[i].checkTime[i] = float.Parse(t_time[i]);
+                        soundClips[t_curID].checkTime[i] = float.Parse(t_time[i]);
                     }
                 }
             }
