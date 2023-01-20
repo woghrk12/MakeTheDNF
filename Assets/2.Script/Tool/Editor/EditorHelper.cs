@@ -7,9 +7,9 @@ using UnityObject = UnityEngine.Object;
 
 public class EditorHelper
 {
-    public readonly int uiWidthLarge = 450;
-    public readonly int uiWidthMiddle = 300;
-    public readonly int uiWidthSmall = 200;
+    public static readonly int uiWidthLarge = 450;
+    public static readonly int uiWidthMiddle = 300;
+    public static readonly int uiWidthSmall = 200;
 
     #region Helper Methods
 
@@ -50,7 +50,7 @@ public class EditorHelper
 
     #region Editor Function
 
-    public static void EditorToolTopLayer(BaseData p_data, ref int p_selection, ref UnityObject p_clip, int p_uiWidth)
+    public static void EditorToolTopLayer(BaseData p_data, ref int p_selection, ref UnityObject p_source, int p_uiWidth)
     {
         EditorGUILayout.BeginHorizontal();
         {
@@ -58,22 +58,22 @@ public class EditorHelper
             {
                 p_data.AddData("New Clip");
                 p_selection = p_data.DataCount - 1;
-                p_clip = null;
+                p_source = null;
             }
             if (GUILayout.Button("Copy", GUILayout.Width(p_uiWidth)))
             {
                 p_data.CopyData(p_selection);
                 p_selection = p_data.DataCount - 1;
-                p_clip = null;
+                p_source = null;
             }
-            if (GUILayout.Button("Remove", GUILayout.Width(p_uiWidth)))
+            if (p_data.DataCount > 0 && GUILayout.Button("Remove", GUILayout.Width(p_uiWidth)))
             {
-                p_clip = null; 
+                p_source = null; 
                 p_data.RemoveData(p_selection);
             }
-            if (GUILayout.Button("Clear", GUILayout.Width(p_uiWidth)))
+            if (p_data.DataCount > 0 && GUILayout.Button("Clear", GUILayout.Width(p_uiWidth)))
             {
-                p_clip = null;
+                p_source = null;
                 p_data.ClearData();
             }
             if (p_selection >= p_data.DataCount) p_selection = p_data.DataCount - 1;
@@ -81,7 +81,7 @@ public class EditorHelper
         EditorGUILayout.EndHorizontal();
     }
 
-    public static void EditorToolListLayer(BaseData p_data, ref Vector2 p_scrollPos, ref int p_selection, ref UnityObject p_clip, int p_uiWidth)
+    public static void EditorToolListLayer(BaseData p_data, ref Vector2 p_scrollPos, ref int p_selection, ref UnityObject p_source, int p_uiWidth)
     {
         EditorGUILayout.BeginVertical(GUILayout.Width(p_uiWidth));
         {
@@ -95,7 +95,7 @@ public class EditorHelper
                     {
                         int t_lastSelection = p_selection;
                         p_selection = GUILayout.SelectionGrid(p_selection, p_data.GetNameList(true), 1);
-                        if (t_lastSelection != p_selection) p_clip = null;
+                        if (t_lastSelection != p_selection) p_source = null;                        
                     }
                 }
                 EditorGUILayout.EndScrollView();
