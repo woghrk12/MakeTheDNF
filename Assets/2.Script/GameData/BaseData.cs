@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseData : ScriptableObject
+public abstract class BaseData<T> : ScriptableObject
 {
     #region Variables
 
@@ -41,7 +41,7 @@ public abstract class BaseData : ScriptableObject
 
     public abstract void LoadData();
     public abstract void SaveData();
-
+    public abstract T GetClip(int p_idx, bool p_isCopy = false);
     #endregion Abstract Methods
 
     #region Virtual Methods
