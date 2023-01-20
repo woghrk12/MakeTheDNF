@@ -7,9 +7,13 @@ using UnityObject = UnityEngine.Object;
 
 public class EditorHelper
 {
+    #region Variables
+
     public static readonly int uiWidthLarge = 450;
     public static readonly int uiWidthMiddle = 300;
     public static readonly int uiWidthSmall = 200;
+
+    #endregion Variables
 
     #region Helper Methods
 
@@ -19,7 +23,7 @@ public class EditorHelper
         string t_retString = string.Empty;
         bool t_isFindResources = false;
 
-        for (int i = 0; i < t_pathNode.Length; i++)
+        for (int i = 0; i < t_pathNode.Length - 1; i++)
         {
             if (t_isFindResources)
             {
