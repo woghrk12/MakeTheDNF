@@ -185,7 +185,6 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         p_source.loop = p_clip.isLoop;
         p_source.pitch = p_clip.pitch;
         p_source.spatialBlend = p_clip.spatialBlend;
-
         p_source.Play();
     }
 
@@ -199,18 +198,20 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
         if (curBGMSound.HasLoop && p_isLoop)
         {
             p_clip.MoveLoop(p_loopPos >= 0 ? p_loopPos : p_clip.startLoop);
+            isCheckingLoop = true;
             StartCoroutine(CheckBGMLoop());
         }
 
-        PlayAudioSource(bgmAudio, p_clip, BGMVolume);
+        PlayAudioSource(bgmAudio, p_clip, p_clip.maxVolume);
     }
     public void StopBGM()
     {
         bgmAudio.Stop();
+        isCheckingLoop = false;
         StopAllCoroutines();
     }
 
-    public void PlayUISound(SoundClip p_clip) => PlayAudioSource(uiAudio, p_clip, UIVolume);
+    public void PlayUISound(SoundClip p_clip) => PlayAudioSource(uiAudio, p_clip, p_clip.maxVolume);
     public void StopUISound() => uiAudio.Stop();
 
     public void PlayEffectSound(SoundClip p_clip)
@@ -243,7 +244,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
             t_selectIdx = i;
         }
 
-        PlayAudioSource(effectAudios[t_selectIdx], p_clip, EffectVolume);
+        PlayAudioSource(effectAudios[t_selectIdx], p_clip, p_clip.maxVolume);
     }
     public void StopEffectSound()
     {
