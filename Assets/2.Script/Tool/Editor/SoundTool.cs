@@ -111,8 +111,8 @@ public class SoundTool : EditorWindow
                                     EditorGUILayout.EndVertical();
                                     continue;
                                 }
-                                t_clip.checkTime[i] = EditorGUILayout.FloatField("Check Time", t_clip.checkTime[i], GUILayout.Width(EditorHelper.uiWidthMiddle));
                                 t_clip.setTime[i] = EditorGUILayout.FloatField("Set Time", t_clip.setTime[i], GUILayout.Width(EditorHelper.uiWidthMiddle));
+                                t_clip.checkTime[i] = EditorGUILayout.FloatField("Check Time", t_clip.checkTime[i], GUILayout.Width(EditorHelper.uiWidthMiddle));
                             }
                             EditorGUILayout.EndVertical();
                         }
