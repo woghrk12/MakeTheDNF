@@ -5,7 +5,7 @@ using System.IO;
 using System.Xml;
 using UnityEngine;
 
-public class SoundData : BaseData
+public class SoundData : BaseData<SoundClip>
 {
     #region Variables
 
@@ -136,6 +136,50 @@ public class SoundData : BaseData
         }
     }
 
+    public override SoundClip GetClip(int p_idx, bool p_isCopy = false)
+    {
+        if (p_idx < 0 || p_idx >= DataCount) return default;
+
+        SoundClip t_origin = soundClips[p_idx];
+
+        if (!p_isCopy)
+        {
+            t_origin.PreLoad();
+            return t_origin;
+        }
+
+        SoundClip t_copyClip = new SoundClip();
+
+        t_copyClip.clipID = t_origin.clipID;
+        t_copyClip.clipName = t_origin.clipName;
+        t_copyClip.clipPath = t_origin.clipPath;
+        t_copyClip.Clip = t_origin.Clip;
+        t_copyClip.playType = t_origin.playType;
+        t_copyClip.maxVolume = t_origin.maxVolume;
+        t_copyClip.pitch = t_origin.pitch;
+        t_copyClip.spatialBlend = t_origin.spatialBlend;
+
+        if (t_origin.isLoop)
+        {
+            int t_loopLength = t_origin.cntLoop;
+
+            t_copyClip.isLoop = t_origin.isLoop;
+            t_copyClip.cntLoop = t_loopLength;
+            t_copyClip.startLoop = t_origin.startLoop;
+
+            t_copyClip.checkTime = new float[t_loopLength];
+            t_copyClip.setTime = new float[t_loopLength];
+
+            for (int i = 0; i < t_loopLength; i++)
+            {
+                t_copyClip.checkTime[i] = t_origin.checkTime[i];
+                t_copyClip.setTime[i] = t_origin.setTime[i];
+            }
+        }
+
+        return t_copyClip;
+    }
+
     public override void AddData(string p_newName)
     {
         if (names == null)
@@ -181,52 +225,4 @@ public class SoundData : BaseData
     }
 
     #endregion Override Methods
-
-    #region Helper Methods
-
-    public SoundClip GetClip(int p_idx, bool p_isCopy = false)
-    {
-        if (p_idx < 0 || p_idx >= DataCount) return null;
-
-        SoundClip t_origin = soundClips[p_idx];
-
-        if (!p_isCopy)
-        {
-            t_origin.PreLoad();
-            return t_origin;
-        }
-
-        SoundClip t_copyClip = new SoundClip();
-
-        t_copyClip.clipID = t_origin.clipID;
-        t_copyClip.clipName = t_origin.clipName;
-        t_copyClip.clipPath = t_origin.clipPath;
-        t_copyClip.Clip = t_origin.Clip;
-        t_copyClip.playType = t_origin.playType;
-        t_copyClip.maxVolume = t_origin.maxVolume;
-        t_copyClip.pitch = t_origin.pitch;
-        t_copyClip.spatialBlend = t_origin.spatialBlend;
-
-        if (t_origin.isLoop)
-        {
-            int t_loopLength = t_origin.cntLoop;
-
-            t_copyClip.isLoop = t_origin.isLoop;
-            t_copyClip.cntLoop = t_loopLength;
-            t_copyClip.startLoop = t_origin.startLoop;
-
-            t_copyClip.checkTime = new float[t_loopLength];
-            t_copyClip.setTime = new float[t_loopLength];
-
-            for (int i = 0; i < t_loopLength; i++)
-            {
-                t_copyClip.checkTime[i] = t_origin.checkTime[i];
-                t_copyClip.setTime[i] = t_origin.setTime[i];
-            }
-        }
-
-        return t_copyClip;
-}
-
-    #endregion Helper Methods
 }
