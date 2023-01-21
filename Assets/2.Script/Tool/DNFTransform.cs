@@ -89,7 +89,7 @@ public class DNFTransform
     }
     public DNFTransform(Transform p_posObj, Transform p_yPosObj, Transform p_scaleObj, Vector3 p_pos = default)
     {
-        Position = p_pos;
+        posObj = p_posObj;
         yPosObj = p_yPosObj;
         scaleObj = p_scaleObj;
         Position = p_pos;
