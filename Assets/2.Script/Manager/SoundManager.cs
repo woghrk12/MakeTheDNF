@@ -260,7 +260,7 @@ public class SoundManager : SingletonMonobehaviour<SoundManager>
     {
         while (isCheckingLoop)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return Utilities.WaitForSeconds(0.05f);
             curBGMSound.CheckLoop(bgmAudio);
         }
     }
