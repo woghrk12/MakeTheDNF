@@ -17,7 +17,7 @@ public class ArrayHelper
         ArrayList t_tempList = new ArrayList();
 
         foreach (T t_item in p_array) t_tempList.Add(t_item);
-        t_tempList.Remove(p_index);
+        t_tempList.RemoveAt(p_index);
 
         return t_tempList.ToArray(typeof(T)) as T[];
     }
