@@ -27,7 +27,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     #region Properties
 
-    public Vector3 Direction => Vector3.ClampMagnitude(inputDir, 1f);
+    public Vector3 Direction => inputDir;
 
     public static Dictionary<KeyCode, PlayerKey> Buttons { get => buttons; }
 
