@@ -14,6 +14,8 @@ public class GamePlayer : MonoBehaviour
     private Transform yPosObj = null;
     private Transform scaleObj = null;
 
+    // Behaviours
+    private MoveBehaviour moveController = null;
 
     #endregion Variables
 
@@ -21,12 +23,23 @@ public class GamePlayer : MonoBehaviour
 
     private void Awake()
     {
+        // Init Component
         anim = GetComponent<Animator>();
+        moveController = GetComponent<MoveBehaviour>();
 
+        // Init DNF Transform
         if (posObj == null) posObj = transform;
         if (yPosObj == null) yPosObj = posObj.GetChild(0).transform;
         if (scaleObj == null) scaleObj = yPosObj.GetChild(0).transform;
         charTransform = new DNFTransform(posObj, yPosObj, scaleObj);
+
+        // Init Behaviours 
+        moveController.InitBehaviour(anim, -50f, 50f, -10f, 10f);
+    }
+
+    private void FixedUpdate()
+    {
+        moveController.Move(charTransform, InputManager.Instance.Direction);
     }
 
     #endregion Unity Event
