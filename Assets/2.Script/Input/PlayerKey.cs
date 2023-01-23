@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerKey : MonoBehaviour
+public class PlayerKey
 {
     public enum EButtonState { IDLE, DOWN, PRESSED, UP }
 
     #region Variables
 
-    [HideInInspector] public string buttonName = string.Empty;
-    
     private EButtonState buttonState = EButtonState.IDLE;
 
     private bool isPressed = false;
@@ -23,12 +21,12 @@ public class PlayerKey : MonoBehaviour
 
     #endregion Properties
 
-    #region Unity Event
+    #region Methods
 
-    private void Update()
+    public void SetButtonState(string p_buttonName)
     {
-        if (Input.GetButtonDown(buttonName)) isPressed = true;
-        if (Input.GetButtonUp(buttonName)) isPressed = false;
+        if (Input.GetButtonDown(p_buttonName)) isPressed = true;
+        if (Input.GetButtonUp(p_buttonName)) isPressed = false;
 
         if (isPressed)
         {
@@ -42,5 +40,5 @@ public class PlayerKey : MonoBehaviour
         }
     }
 
-    #endregion Unity Event
+    #endregion Methods
 }
