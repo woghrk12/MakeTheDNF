@@ -9,8 +9,8 @@ public class MoveBehaviour : MonoBehaviour
     private Animator anim = null;
     private int hashIsMove = 0;
 
-    private float xMoveSpeed = 3f;
-    private float zMoveSpeed = 3f;
+    private float xMoveSpeed = 4f;
+    private float zMoveSpeed = 4f;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 position = Vector3.zero;
 
