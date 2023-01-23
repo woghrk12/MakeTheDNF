@@ -67,7 +67,7 @@ public class JumpBehaviour : MonoBehaviour
         while (p_transform.Y <= p_criteria)
         {
             p_transform.Y = originY + Height;
-            jumpTime += Time.fixedDeltaTime;
+            jumpTime += Time.deltaTime;
             yield return null;
         }
     }
@@ -79,7 +79,7 @@ public class JumpBehaviour : MonoBehaviour
         while (p_transform.Y >= p_criteria)
         {
             p_transform.Y = originY + Height;
-            jumpTime += Time.fixedDeltaTime;
+            jumpTime += Time.deltaTime;
             yield return null;
         }
     }
