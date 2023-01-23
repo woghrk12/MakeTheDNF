@@ -70,7 +70,7 @@ public class MoveBehaviour : MonoBehaviour
         moveDir.z *= zMoveSpeed * p_zFactor;
 
         // Limit Area
-        position = p_transform.Position + moveDir * Time.deltaTime;
+        position = p_transform.Position + moveDir * Time.fixedDeltaTime;
         if (position.x > maxX) position.x = maxX;
         if (position.x < minX) position.x = minX;
         if (position.z > maxZ) position.z = maxZ;
