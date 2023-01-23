@@ -16,6 +16,7 @@ public class GamePlayer : MonoBehaviour
 
     // Behaviours
     private MoveBehaviour moveController = null;
+    private JumpBehaviour jumpController = null;
 
     #endregion Variables
 
@@ -26,6 +27,7 @@ public class GamePlayer : MonoBehaviour
         // Init Component
         anim = GetComponent<Animator>();
         moveController = GetComponent<MoveBehaviour>();
+        jumpController = GetComponent<JumpBehaviour>();
 
         // Init DNF Transform
         if (posObj == null) posObj = transform;
@@ -35,6 +37,13 @@ public class GamePlayer : MonoBehaviour
 
         // Init Behaviours 
         moveController.InitBehaviour(anim, -50f, 50f, -10f, 10f);
+        jumpController.InitBehaviour(anim);
+    }
+
+    private void Update()
+    {
+        if (jumpController.CanJump && InputManager.Buttons[KeyName.Jump].ButtonState == PlayerKey.EButtonState.DOWN)
+            StartCoroutine(jumpController.Jump(charTransform));
     }
 
     private void FixedUpdate()
