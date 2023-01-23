@@ -23,10 +23,10 @@ public class PlayerKey
 
     #region Methods
 
-    public void SetButtonState(string p_buttonName)
+    public void SetButtonState(KeyCode p_key)
     {
-        if (Input.GetButtonDown(p_buttonName)) isPressed = true;
-        if (Input.GetButtonUp(p_buttonName)) isPressed = false;
+        if (Input.GetKeyDown(p_key)) isPressed = true;
+        if (Input.GetKeyUp(p_key)) isPressed = false;
 
         if (isPressed)
         {
