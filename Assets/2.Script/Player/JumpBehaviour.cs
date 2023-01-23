@@ -28,7 +28,7 @@ public class JumpBehaviour : MonoBehaviour
 
     private float Height { get => jumpTime * jumpTime * (-gravity) * 0.5f + jumpTime * jumpPower; }
 
-    private float MaxHeight { get => 0.5f * jumpTime * jumpTime * invGravity; }
+    private float MaxHeight { get => 0.5f * jumpPower * jumpPower * invGravity; }
 
     public bool CanJump { get => canJump; }
 
