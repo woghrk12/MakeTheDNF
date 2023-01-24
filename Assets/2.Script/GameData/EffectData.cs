@@ -35,7 +35,7 @@ public class EffectData : BaseData<EffectClip>
 
             while (t_reader.Read())
             {
-                if (t_reader.IsStartElement(XmlElementName.SOUND))
+                if (t_reader.IsStartElement(XmlElementName.EFFECT))
                 {
                     t_length = int.Parse(t_reader.GetAttribute(XmlElementName.LENGTH));
                     names = new string[t_length];
