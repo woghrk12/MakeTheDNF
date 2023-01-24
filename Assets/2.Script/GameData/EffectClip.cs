@@ -21,6 +21,26 @@ public class EffectClip
 
     #endregion Variables
 
+    #region Properties
+
+    public GameObject Clip
+    {
+        set { clip = value; }
+        get
+        {
+            if (clip == null) PreLoad();
+            if (clip == null && clipName != string.Empty)
+            {
+                Debug.LogWarning($"Can not load audio clip resources {clipName}");
+                return null;
+            }
+
+            return clip;
+        }
+    }
+
+    #endregion Properties
+
     #region Constructor
 
     public EffectClip() { }
@@ -35,7 +55,7 @@ public class EffectClip
 
     #region Methods
 
-    public void Preload()
+    public void PreLoad()
     {
         if (clip != null) return;
 
