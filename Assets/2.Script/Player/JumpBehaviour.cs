@@ -8,8 +8,8 @@ public class JumpBehaviour : MonoBehaviour
 
     private Animator anim = null;
 
-    private float gravity = 9.8f;
-    private float invGravity = 1 / 9.8f;
+    private float gravity = 12f;
+    private float invGravity = 0f;
     private float jumpPower = 8f;
 
     private float jumpTime = 0f;
@@ -43,6 +43,8 @@ public class JumpBehaviour : MonoBehaviour
         hashIsJump = Animator.StringToHash(AnimatorKey.IsJump);
         hashJumpStay = Animator.StringToHash(AnimatorKey.JumpStay);
         hashJumpDown = Animator.StringToHash(AnimatorKey.JumpDown);
+
+        invGravity = 1 / gravity;
     }
 
     public IEnumerator Jump(DNFTransform p_transform)
