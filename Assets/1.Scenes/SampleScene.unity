@@ -314,9 +314,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  sizeX: 1
-  sizeZ: 1
-  sizeY: 1
+  sizeX: 0.823849
+  sizeZ: 0.7941827
+  sizeY: 1.6482869
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
