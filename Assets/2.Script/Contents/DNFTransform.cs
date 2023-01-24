@@ -6,8 +6,8 @@ public class DNFTransform
 {
     #region Variables
 
-    private static readonly int xRate = 16;
-    private static readonly int yRate = 9;
+    private static readonly int xRate = 2;
+    private static readonly int yRate = 1;
     public static readonly float convRate = (float)yRate / xRate;
 
     private Transform posObj;
