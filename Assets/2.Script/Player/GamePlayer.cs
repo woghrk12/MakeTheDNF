@@ -14,6 +14,9 @@ public class GamePlayer : MonoBehaviour
     private Transform yPosObj = null;
     private Transform scaleObj = null;
 
+    // Hitbox
+    private Hitbox hitbox = null;
+
     // Behaviours
     private MoveBehaviour moveController = null;
     private JumpBehaviour jumpController = null;
@@ -28,12 +31,16 @@ public class GamePlayer : MonoBehaviour
         anim = GetComponent<Animator>();
         moveController = GetComponent<MoveBehaviour>();
         jumpController = GetComponent<JumpBehaviour>();
+        hitbox = GetComponent<Hitbox>();
 
         // Init DNF Transform
-        if (posObj == null) posObj = transform;
-        if (yPosObj == null) yPosObj = posObj.GetChild(0).transform;
-        if (scaleObj == null) scaleObj = yPosObj.GetChild(0).transform;
+        posObj = transform;
+        yPosObj = posObj.GetChild(0).transform;
+        scaleObj = yPosObj.GetChild(0).transform;
         charTransform = new DNFTransform(posObj, yPosObj, scaleObj);
+
+        // Init Hitbox
+        hitbox.charTransform = charTransform;
 
         // Init Behaviours 
         moveController.InitBehaviour(anim, -50f, 50f, -10f, 10f);
