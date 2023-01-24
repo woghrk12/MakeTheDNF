@@ -71,7 +71,7 @@ public class EffectClip
 
     public GameObject Instantiate(Vector3 p_position)
     {
-        if (clip == null) Preload();
+        if (clip == null) PreLoad();
         return clip != null ? GameObject.Instantiate(clip, p_position, Quaternion.identity) : null; 
     }
 
