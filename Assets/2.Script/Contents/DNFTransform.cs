@@ -8,7 +8,7 @@ public class DNFTransform
 
     private static readonly int xRate = 16;
     private static readonly int yRate = 9;
-    private static readonly float convRate = (float)yRate / xRate;
+    public static readonly float convRate = (float)yRate / xRate;
 
     private Transform posObj;
     private Transform yPosObj;
