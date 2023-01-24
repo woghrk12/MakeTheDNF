@@ -5,6 +5,7 @@ using UnityEngine;
 public class XmlElementName
 {
     public const string SOUND = "Sound";
+    public const string EFFECT = "Effect";
     // Data Attribute
     public const string LENGTH = "Length";
 
@@ -34,5 +35,10 @@ public class XmlElementName
         public const string STARTLOOP = "StartLoop";
         public const string CHECKTIME = "CheckTime";
         public const string SETTIME = "SetTime";
+    }
+
+    public class EffectData
+    { 
+    
     }
 }
