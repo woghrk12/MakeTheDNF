@@ -19,7 +19,7 @@ public class SkillStat : ScriptableObject
     public ESkillType skillType = ESkillType.NONE;
     public int numCombo = 0;
     public string[] skillMotions = null;
-    public GameObject[] skillEffects = null;
+    public EffectList[] skillEffects = null;
     public Vector3[] skillRanges = null;
     public float[] preDelays = null;
     public float[] durations = null;
