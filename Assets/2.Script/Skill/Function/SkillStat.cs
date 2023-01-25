@@ -19,13 +19,12 @@ public class SkillStat : ScriptableObject
     public ESkillType skillType = ESkillType.NONE;
     public int numCombo = 0;
     public string[] skillMotions = null;
-    public string[] skillEffects = null;
+    public GameObject[] skillEffects = null;
     public Vector3[] skillRanges = null;
     public float[] preDelays = null;
     public float[] durations = null;
     public float[] postDelays = null;
     public float coolTime = 0f;
-    [HideInInspector] public float remainCoolTime = 0f;
 
     [Header("Acquire Skill")]
     // minimum level value for acquiring the skill
