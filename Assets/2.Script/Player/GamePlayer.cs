@@ -5,7 +5,7 @@ using UnityEngine;
 public class GamePlayer : MonoBehaviour
 {
     #region Variables
-
+    
     private Animator anim = null;
 
     // DNF Transform
@@ -20,6 +20,7 @@ public class GamePlayer : MonoBehaviour
     // Behaviours
     private MoveBehaviour moveController = null;
     private JumpBehaviour jumpController = null;
+    private AttackBehaviour attackController = null;
 
     #endregion Variables
 
@@ -31,6 +32,7 @@ public class GamePlayer : MonoBehaviour
         anim = GetComponent<Animator>();
         moveController = GetComponent<MoveBehaviour>();
         jumpController = GetComponent<JumpBehaviour>();
+        attackController = GetComponent<AttackBehaviour>();
         hitbox = GetComponent<Hitbox>();
 
         // Init DNF Transform
@@ -45,6 +47,7 @@ public class GamePlayer : MonoBehaviour
         // Init Behaviours 
         moveController.InitBehaviour(anim, -50f, 50f, -10f, 10f);
         jumpController.InitBehaviour(anim);
+        attackController.InitBehaviour(anim);
     }
 
     private void Update()
