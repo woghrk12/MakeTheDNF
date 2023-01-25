@@ -17,10 +17,19 @@ public class SkillManager : SingletonMonobehaviour<SkillManager>
 
     #endregion Properties
 
-    public void RegisterSkill(KeyCode p_key, Skill p_newSkill)
+    #region Methods
+
+    public static void RegisterSkill(KeyCode p_key, Skill p_newSkill)
     {
         if (skills.ContainsKey(p_key)) skills.Remove(p_key);
 
         skills.Add(p_key, p_newSkill);
     }
+
+    public static void RemoveSkill(KeyCode p_key)
+    {
+        if (skills.ContainsKey(p_key)) skills.Remove(p_key);
+    }
+
+    #endregion Methods
 }
