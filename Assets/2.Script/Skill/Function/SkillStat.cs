@@ -29,18 +29,18 @@ public class SkillStat : ScriptableObject
 
     [Header("Acquire Skill")]
     // minimum level value for acquiring the skill
-    public int acquireLevel = -1;
+    public int acquireLevel = 0;
     // interval level value for raising skill level
-    public int stepLevel = -1;
+    public int stepLevel = 0;
     // need point value for raising skill level
-    public int needPoint = -1;
+    public int needPoint = 0;
     // current level value of the skill
-    public int skillLevel = -1;
+    public int skillLevel = 0;
 
     [Header("Need Mana")]
     // base mana value for use skill, increasing in proportion to skill level
-    public int needBaseMana = -1;
-    public int needMana = -1;
+    public int needBaseMana = 0;
+    public int needMana = 0;
 
     public List<Skill> canCancelList = new List<Skill>();
 
