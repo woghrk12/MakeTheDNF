@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillID: 0
   skillType: -1
-  numCombo: 0
-  skillMotions: []
-  skillEffects: 
-  skillRanges: []
-  preDelays: []
-  durations: []
-  postDelays: []
+  numCombo: 1
+  skillInfo:
+  - skillMotion: 
+    skillEffect: 0
+    preDelay: 0
+    duration: 0
+    postDelay: 0
   coolTime: 0
   acquireLevel: 0
   stepLevel: 0

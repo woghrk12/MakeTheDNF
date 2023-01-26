@@ -7,7 +7,6 @@ public class Skill : MonoBehaviour
     #region Variables
 
     public SkillStat skillStat;
-    public Hitbox[] hitboxes;
     public int[] hashSkillMotion;
 
     private float remainCoolTime = 0f;
@@ -20,13 +19,7 @@ public class Skill : MonoBehaviour
     {
         for (int i = 0; i < skillStat.numCombo; i++)
         {
-            Hitbox t_hitbox = new GameObject(typeof(Hitbox).Name, typeof(Hitbox)).GetComponent<Hitbox>();
-            t_hitbox.sizeX = skillStat.skillRanges[i].x;
-            t_hitbox.sizeY = skillStat.skillRanges[i].y;
-            t_hitbox.sizeZ = skillStat.skillRanges[i].z;
-            hitboxes = ArrayHelper.Add(t_hitbox, hitboxes);
-
-            int t_hash = Animator.StringToHash(skillStat.skillMotions[i]);
+            int t_hash = Animator.StringToHash(skillStat.skillInfo[i].skillMotion);
             hashSkillMotion = ArrayHelper.Add(t_hash, hashSkillMotion);
         }
     }
@@ -39,11 +32,12 @@ public class Skill : MonoBehaviour
     {
         for (int i = 0; i < skillStat.numCombo; i++)
         {
+            var t_info = skillStat.skillInfo[i];
             p_anim.SetTrigger(hashSkillMotion[i]);
-            EffectManager.Instance.EffectOneShot((int)skillStat.skillEffects[i]);
-            yield return Utilities.WaitForSeconds(skillStat.preDelays[i]);
-            yield return Utilities.WaitForSeconds(skillStat.durations[i]);
-            yield return Utilities.WaitForSeconds(skillStat.postDelays[i]);
+            EffectManager.Instance.EffectOneShot((int)t_info.skillEffect);
+            yield return Utilities.WaitForSeconds(t_info.preDelay);
+            yield return Utilities.WaitForSeconds(t_info.duration);
+            yield return Utilities.WaitForSeconds(t_info.postDelay);
         }
     }
 
