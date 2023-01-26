@@ -9,13 +9,12 @@ public class Hitbox : MonoBehaviour
         
     #region Variables
 
-    private DNFTransform charTransform = null;
+    [SerializeField] private DNFTransform charTransform = null;
 
     public EHitboxType hitboxType = EHitboxType.NONE;
 
-    public float sizeX = 0f;
-    public float sizeZ = 0f;
-    public float sizeY = 0f;
+    public Vector3 size = Vector3.zero;
+    public Vector3 offset = Vector3.zero;
     private Vector3 minHitbox = Vector3.zero;
     private Vector3 maxHitbox = Vector3.zero;
 
@@ -25,22 +24,22 @@ public class Hitbox : MonoBehaviour
 
     private void Awake()
     {
-        charTransform = GetComponent<DNFTransform>();
+        if(charTransform == null) charTransform = GetComponent<DNFTransform>();
     }
 
     private void Update()
     {
-        var t_position = charTransform.Position;
+        var t_position = charTransform.Position + offset;
 
-        minHitbox.x = t_position.x - sizeX * 0.5f;
-        maxHitbox.x = t_position.x + sizeX * 0.5f;
-        minHitbox.z = t_position.z - sizeZ * 0.5f;
-        maxHitbox.z = t_position.z + sizeZ * 0.5f;
+        minHitbox.x = t_position.x - size.x * 0.5f;
+        maxHitbox.x = t_position.x + size.x * 0.5f;
+        minHitbox.z = t_position.z - size.z * 0.5f;
+        maxHitbox.z = t_position.z + size.z * 0.5f;
 
         if (!charTransform.HasYObj) return;
 
         minHitbox.y = t_position.y;
-        maxHitbox.y = t_position.y + sizeY;
+        maxHitbox.y = t_position.y + size.y;
     }
 
     #endregion Unity Event
@@ -97,14 +96,14 @@ public class Hitbox : MonoBehaviour
         {
             case 1:
             case 7:
-                float t_distHeightRadius = (t_boxMax.z - t_boxMin.z) * 0.5f + p_circle.sizeX;
+                float t_distHeightRadius = (t_boxMax.z - t_boxMin.z) * 0.5f + p_circle.size.x;
                 float t_distVerticalCenter = t_boxCenter.z > t_circleCenter.z ? t_boxCenter.z - t_circleCenter.z : t_circleCenter.z - t_boxCenter.z;
                 if (t_distHeightRadius < t_distVerticalCenter) return false;
                 break;
 
             case 3:
             case 5:
-                float t_distWidthRadius = (t_boxMax.x - t_boxMin.x) * 0.5f + p_circle.sizeZ;
+                float t_distWidthRadius = (t_boxMax.x - t_boxMin.x) * 0.5f + p_circle.size.z;
                 float t_distHorizontalCenter = t_boxCenter.x > t_circleCenter.x ? t_boxCenter.x - t_circleCenter.z : t_circleCenter.z - t_boxCenter.z;
                 if (t_distWidthRadius < t_distHorizontalCenter) return false;
                 break;
@@ -112,7 +111,7 @@ public class Hitbox : MonoBehaviour
             default:
                 float t_cornerX = (t_rectNum == 0 || t_rectNum == 6) ? t_boxMin.x : t_boxMax.x;
                 float t_cornerZ = (t_rectNum == 0 || t_rectNum == 2) ? t_boxMin.z : t_boxMax.z;
-                if (!CheckInsideCircle(t_circleCenter, p_circle.sizeX * 0.5f, t_cornerX, t_cornerZ)) return false;
+                if (!CheckInsideCircle(t_circleCenter, p_circle.size.x * 0.5f, t_cornerX, t_cornerZ)) return false;
                 break;
         }
 
@@ -128,7 +127,7 @@ public class Hitbox : MonoBehaviour
         Vector3 t_aCenter = (p_circleA.minHitbox + p_circleA.maxHitbox) * 0.5f;
         Vector3 t_bCenter = (p_circleB.minHitbox + p_circleB.maxHitbox) * 0.5f;
         Vector3 t_dist = t_aCenter - t_bCenter;
-        float t_sumRadius = (p_circleA.sizeX + p_circleB.sizeX) * 0.5f;
+        float t_sumRadius = (p_circleA.size.x + p_circleB.size.x) * 0.5f;
         t_dist.y = 0;
 
         if (t_sumRadius * t_sumRadius < t_dist.sqrMagnitude) return false;
