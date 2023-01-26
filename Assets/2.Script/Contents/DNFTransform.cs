@@ -62,6 +62,9 @@ public class DNFTransform : MonoBehaviour
         get => position.z;
     }
 
+    /// <summary>
+    /// The position where located in the DNF coordinate system
+    /// </summary>
     public Vector3 Position 
     {
         set
