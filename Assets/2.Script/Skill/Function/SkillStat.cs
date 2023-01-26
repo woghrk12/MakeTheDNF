@@ -16,6 +16,7 @@ public class SkillStat : ScriptableObject
     public enum EAcquireLevel
     { 
         NONE = -1,
+        BASEATTACK,
         ZERO,
         FIVE,
         TEN,
