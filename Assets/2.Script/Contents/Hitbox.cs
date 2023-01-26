@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(DNFTransform))]
 public class Hitbox : MonoBehaviour
 {
     public enum EHitboxType { NONE = -1, BOX, CIRCLE, }
         
     #region Variables
 
-    public DNFTransform charTransform = null;
+    private DNFTransform charTransform = null;
 
     public EHitboxType hitboxType = EHitboxType.NONE;
 
@@ -21,6 +22,11 @@ public class Hitbox : MonoBehaviour
     #endregion Variables
 
     #region Unity Event
+
+    private void Awake()
+    {
+        charTransform = GetComponent<DNFTransform>();
+    }
 
     private void Update()
     {
