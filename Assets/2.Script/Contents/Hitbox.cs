@@ -20,6 +20,12 @@ public class Hitbox : MonoBehaviour
 
     #endregion Variables
 
+    #region Properties
+
+    public DNFTransform CharTransform => charTransform;
+
+    #endregion Properties
+
     #region Unity Event
 
     private void Awake()
