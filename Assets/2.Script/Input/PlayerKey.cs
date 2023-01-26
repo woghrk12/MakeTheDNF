@@ -25,6 +25,14 @@ public class PlayerKey
 
     public void SetButtonState(KeyCode p_key)
     {
+        if (p_key == KeyCode.None)
+        {
+            buttonState = EButtonState.IDLE;
+            isPressed = false;
+            onPressed = false;
+            return;
+        }
+
         if (Input.GetKeyDown(p_key)) isPressed = true;
         if (Input.GetKeyUp(p_key)) isPressed = false;
 
