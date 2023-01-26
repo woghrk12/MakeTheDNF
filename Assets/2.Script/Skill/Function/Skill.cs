@@ -7,7 +7,7 @@ public class Skill : MonoBehaviour
     #region Variables
 
     public SkillStat skillStat;
-    public int[] hashSkillMotion;
+    private int[] hashSkillMotion;
 
     private float remainCoolTime = 0f;
 
@@ -15,8 +15,12 @@ public class Skill : MonoBehaviour
 
     #region Unity Event
 
-    private void Awake()
+    private void OnValidate()
     {
+        if (skillStat == null) return;
+
+        hashSkillMotion = new int[0];
+
         for (int i = 0; i < skillStat.numCombo; i++)
         {
             int t_hash = Animator.StringToHash(skillStat.skillInfo[i].skillMotion);
