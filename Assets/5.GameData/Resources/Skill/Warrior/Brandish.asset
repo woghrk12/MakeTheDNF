@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20a71a85a6458d43a6cfed7fa1ec8ae, type: 3}
+  m_Name: Brandish
+  m_EditorClassIdentifier: 
+  skillID: 0
+  skillType: -1
+  numCombo: 0
+  skillMotions: []
+  skillEffects: 
+  skillRanges: []
+  preDelays: []
+  durations: []
+  postDelays: []
+  coolTime: 0
+  acquireLevel: 0
+  stepLevel: 0
+  needPoint: 0
+  skillLevel: 0
+  needBaseMana: 0
+  needMana: 0
+  canCancelList: []
+  preLearnedList: []
