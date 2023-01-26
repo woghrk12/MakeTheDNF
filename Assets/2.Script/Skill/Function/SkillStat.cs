@@ -13,9 +13,22 @@ public class SkillStat : ScriptableObject
         BUFF,
     }
 
+    public enum EAcquireLevel
+    { 
+        NONE = -1,
+        ZERO,
+        FIVE,
+        TEN,
+        FIFTEEN,
+        TWENTY,
+        TWENTYFIVE,
+        THIRTY,
+    }
+
     #region Variables
 
     [Header("Skill Info")]
+    public int skillID = 0;
     public ESkillType skillType = ESkillType.NONE;
     public int numCombo = 0;
     public string[] skillMotions = null;
@@ -28,7 +41,7 @@ public class SkillStat : ScriptableObject
 
     [Header("Acquire Skill")]
     // minimum level value for acquiring the skill
-    public int acquireLevel = 0;
+    public EAcquireLevel acquireLevel = 0;
     // interval level value for raising skill level
     public int stepLevel = 0;
     // need point value for raising skill level
@@ -41,7 +54,8 @@ public class SkillStat : ScriptableObject
     public int needBaseMana = 0;
     public int needMana = 0;
 
+    [Header("Skill List Info")]
     public List<Skill> canCancelList = new List<Skill>();
-
+    public Skill[] preLearnedList = new Skill[0];
     #endregion Variables
 }
