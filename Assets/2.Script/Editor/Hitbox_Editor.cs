@@ -21,12 +21,12 @@ public class Hitbox_Editor : Editor
 
     private void OnSceneGUI()
     {
-        if (!hitbox || hitbox.hitboxType == Hitbox.EHitboxType.NONE) return;
+        if (!hitbox || hitbox.charTransform == null || hitbox.hitboxType == Hitbox.EHitboxType.NONE) return;
 
         Event t_curEvent = Event.current;
         if (!Application.isPlaying && t_curEvent.type == EventType.KeyDown && t_curEvent.keyCode == KeyCode.F1) isChangeOffset = !isChangeOffset;
 
-        var t_origin = new Vector3(hitbox.CharTransform.X, hitbox.CharTransform.Y + hitbox.CharTransform.Z * DNFTransform.convRate, 0f);
+        var t_origin = new Vector3(hitbox.charTransform.X, hitbox.charTransform.Y + hitbox.charTransform.Z * DNFTransform.convRate, 0f);
         var t_center = t_origin + new Vector3(hitbox.offset.x, hitbox.offset.y + hitbox.offset.z * DNFTransform.convRate, 0f);
 
         if (isChangeOffset)
