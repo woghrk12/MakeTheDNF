@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,18 +27,23 @@ public class SkillStat : ScriptableObject
         THIRTY,
     }
 
+    [Serializable]
+    public class SkillInfo
+    {
+        public string skillMotion = string.Empty;
+        public EffectList skillEffect = EffectList.NONE;
+        public float preDelay = 0f;
+        public float duration = 0f;
+        public float postDelay = 0f;
+    }
+
     #region Variables
 
     [Header("Skill Info")]
     public int skillID = 0;
     public ESkillType skillType = ESkillType.NONE;
     public int numCombo = 0;
-    public string[] skillMotions = null;
-    public EffectList[] skillEffects = null;
-    public Vector3[] skillRanges = null;
-    public float[] preDelays = null;
-    public float[] durations = null;
-    public float[] postDelays = null;
+    public SkillInfo[] skillInfo = null;    
     public float coolTime = 0f;
 
     [Header("Acquire Skill")]
@@ -58,5 +64,22 @@ public class SkillStat : ScriptableObject
     [Header("Skill List Info")]
     public List<Skill> canCancelList = new List<Skill>();
     public Skill[] preLearnedList = new Skill[0];
+
     #endregion Variables
+
+    private void OnValidate()
+    {
+        if (numCombo == skillInfo.Length) return;
+        else if (numCombo > skillInfo.Length)
+        {
+            numCombo = skillInfo.Length;
+        }
+        else
+        {
+            for (int i = skillInfo.Length; i < numCombo; i++)
+            {
+                skillInfo = ArrayHelper.Add(new SkillInfo(), skillInfo);
+            }
+        }
+    }
 }
