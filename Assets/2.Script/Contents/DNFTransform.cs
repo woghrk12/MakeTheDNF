@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DNFTransform
+public class DNFTransform : MonoBehaviour
 {
     #region Variables
 
@@ -10,9 +10,9 @@ public class DNFTransform
     private static readonly int yRate = 1;
     public static readonly float convRate = (float)yRate / xRate;
 
-    private Transform posObj;
-    private Transform yPosObj;
-    private Transform scaleObj;
+    [SerializeField] private Transform posObj = null;
+    [SerializeField] private Transform yPosObj = null;
+    [SerializeField] private Transform scaleObj = null;
     private Vector3 position;
 
     #endregion Variables
@@ -77,23 +77,4 @@ public class DNFTransform
     public Vector3 LocalScale { set { scaleObj.localScale = value; } get => scaleObj.localScale; }
 
     #endregion Properties
-
-    #region Constructor
-
-    public DNFTransform(Transform p_posObj, Transform p_scaleObj, Vector3 p_pos = default)
-    {
-        posObj = p_posObj;
-        yPosObj = null;
-        scaleObj = p_scaleObj;
-        Position = p_pos;
-    }
-    public DNFTransform(Transform p_posObj, Transform p_yPosObj, Transform p_scaleObj, Vector3 p_pos = default)
-    {
-        posObj = p_posObj;
-        yPosObj = p_yPosObj;
-        scaleObj = p_scaleObj;
-        Position = p_pos;
-    }
-
-    #endregion Constructor
 }
