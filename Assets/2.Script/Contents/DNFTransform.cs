@@ -77,5 +77,10 @@ public class DNFTransform : MonoBehaviour
 
     public Vector3 LocalScale { set { scaleObj.localScale = value; } get => scaleObj.localScale; }
 
+    /// <summary>
+    /// The position where actually located in the 2D coordinate system
+    /// </summary>
+    public Vector3 RealPosition { get { return new Vector3(position.x, position.y + position.z * convRate, 0f); } }
+
     #endregion Properties
 }
