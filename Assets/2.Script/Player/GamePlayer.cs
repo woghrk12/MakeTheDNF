@@ -31,9 +31,6 @@ public class GamePlayer : MonoBehaviour
         charTransform = GetComponent<DNFTransform>();
         hitbox = GetComponent<Hitbox>();
 
-        // Init Hitbox
-        hitbox.charTransform = charTransform;
-
         // Init Behaviours 
         moveController.InitBehaviour(anim, -50f, 50f, -10f, 10f);
         jumpController.InitBehaviour(anim);
