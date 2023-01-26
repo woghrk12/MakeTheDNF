@@ -8,13 +8,8 @@ public class GamePlayer : MonoBehaviour
     
     private Animator anim = null;
 
-    // DNF Transform
+    // Hitbox Info
     private DNFTransform charTransform = null;
-    private Transform posObj = null;
-    private Transform yPosObj = null;
-    private Transform scaleObj = null;
-
-    // Hitbox
     private Hitbox hitbox = null;
 
     // Behaviours
