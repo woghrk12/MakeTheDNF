@@ -33,13 +33,8 @@ public class GamePlayer : MonoBehaviour
         moveController = GetComponent<MoveBehaviour>();
         jumpController = GetComponent<JumpBehaviour>();
         attackController = GetComponent<AttackBehaviour>();
+        charTransform = GetComponent<DNFTransform>();
         hitbox = GetComponent<Hitbox>();
-
-        // Init DNF Transform
-        posObj = transform;
-        yPosObj = posObj.GetChild(0).transform;
-        scaleObj = yPosObj.GetChild(0).transform;
-        charTransform = new DNFTransform(posObj, yPosObj, scaleObj);
 
         // Init Hitbox
         hitbox.charTransform = charTransform;
