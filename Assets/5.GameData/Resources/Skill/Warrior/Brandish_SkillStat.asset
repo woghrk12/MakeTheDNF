@@ -13,11 +13,16 @@ MonoBehaviour:
   m_Name: Brandish_SkillStat
   m_EditorClassIdentifier: 
   skillID: 0
-  skillType: -1
-  numCombo: 1
+  skillType: 0
+  numCombo: 2
   skillInfo:
-  - skillMotion: 
-    skillEffect: 0
+  - skillMotion: UpperSlash
+    skillEffects: 0000000001000000
+    preDelay: 0
+    duration: 0
+    postDelay: 0
+  - skillMotion: StrongSlash
+    skillEffects: 02000000
     preDelay: 0
     duration: 0
     postDelay: 0
