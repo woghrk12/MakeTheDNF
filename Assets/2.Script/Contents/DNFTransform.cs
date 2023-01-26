@@ -9,6 +9,7 @@ public class DNFTransform : MonoBehaviour
     private static readonly int xRate = 2;
     private static readonly int yRate = 1;
     public static readonly float convRate = (float)yRate / xRate;
+    public static readonly float invConvRate = (float)xRate / yRate;
 
     [SerializeField] private Transform posObj = null;
     [SerializeField] private Transform yPosObj = null;
