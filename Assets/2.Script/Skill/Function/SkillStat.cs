@@ -70,16 +70,10 @@ public class SkillStat : ScriptableObject
     private void OnValidate()
     {
         if (numCombo == skillInfo.Length) return;
-        else if (numCombo > skillInfo.Length)
+        else 
         {
             numCombo = skillInfo.Length;
         }
-        else
-        {
-            for (int i = skillInfo.Length; i < numCombo; i++)
-            {
-                skillInfo = ArrayHelper.Add(new SkillInfo(), skillInfo);
-            }
-        }
+        
     }
 }
