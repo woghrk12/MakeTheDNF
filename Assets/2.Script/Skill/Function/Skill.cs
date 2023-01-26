@@ -33,8 +33,12 @@ public class Skill : MonoBehaviour
         for (int i = 0; i < skillStat.numCombo; i++)
         {
             var t_info = skillStat.skillInfo[i];
+
             p_anim.SetTrigger(hashSkillMotion[i]);
-            EffectManager.Instance.EffectOneShot((int)t_info.skillEffect);
+
+            foreach (EffectList t_effect in t_info.skillEffects)
+                EffectManager.Instance.EffectOneShot((int)t_effect);
+
             yield return Utilities.WaitForSeconds(t_info.preDelay);
             yield return Utilities.WaitForSeconds(t_info.duration);
             yield return Utilities.WaitForSeconds(t_info.postDelay);

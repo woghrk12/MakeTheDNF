@@ -31,7 +31,7 @@ public class SkillStat : ScriptableObject
     public class SkillInfo
     {
         public string skillMotion = string.Empty;
-        public EffectList skillEffect = EffectList.NONE;
+        public EffectList[] skillEffects = new EffectList[0];
         public float preDelay = 0f;
         public float duration = 0f;
         public float postDelay = 0f;
