@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d20a71a85a6458d43a6cfed7fa1ec8ae, type: 3}
-  m_Name: Brandish
+  m_Name: Brandish_SkillStat
   m_EditorClassIdentifier: 
   skillID: 0
   skillType: -1

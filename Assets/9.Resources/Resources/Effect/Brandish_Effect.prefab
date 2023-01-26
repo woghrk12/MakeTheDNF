@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 8264581104887530301}
   - component: {fileID: 8264581104887530300}
   m_Layer: 0
-  m_Name: Brandish
+  m_Name: Brandish_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
