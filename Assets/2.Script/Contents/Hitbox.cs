@@ -9,7 +9,7 @@ public class Hitbox : MonoBehaviour
         
     #region Variables
 
-    [SerializeField] private DNFTransform charTransform = null;
+    public DNFTransform charTransform = null;
 
     public EHitboxType hitboxType = EHitboxType.NONE;
 
@@ -20,22 +20,11 @@ public class Hitbox : MonoBehaviour
 
     #endregion Variables
 
-    #region Properties
+    #region Methods
 
-    public DNFTransform CharTransform => charTransform;
-
-    #endregion Properties
-
-    #region Unity Event
-
-    private void Awake()
+    public void CalculateHitbox()
     {
-        if(charTransform == null) charTransform = GetComponent<DNFTransform>();
-    }
-
-    private void Update()
-    {
-        var t_position = charTransform.Position + offset;
+        Vector3 t_position = charTransform.Position + offset;
 
         minHitbox.x = t_position.x - size.x * 0.5f;
         maxHitbox.x = t_position.x + size.x * 0.5f;
@@ -47,10 +36,6 @@ public class Hitbox : MonoBehaviour
         minHitbox.y = t_position.y;
         maxHitbox.y = t_position.y + size.y;
     }
-
-    #endregion Unity Event
-
-    #region Methods
 
     public bool CalculateOnHit(Hitbox p_target)
     {
