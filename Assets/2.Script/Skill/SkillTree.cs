@@ -76,25 +76,25 @@ public class SkillTree : ScriptableObject
             switch (t_needSkill.skillStat.acquireLevel)
             {
                 case SkillStat.EAcquireLevel.ZERO:
-                    if (skillStatsLevel0.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel0.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
                 case SkillStat.EAcquireLevel.FIVE:
-                    if (skillStatsLevel5.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel5.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
                 case SkillStat.EAcquireLevel.TEN:
-                    if (skillStatsLevel10.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel10.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
                 case SkillStat.EAcquireLevel.FIFTEEN:
-                    if (skillStatsLevel15.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel15.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
                 case SkillStat.EAcquireLevel.TWENTY:
-                    if (skillStatsLevel20.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel20.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
                 case SkillStat.EAcquireLevel.TWENTYFIVE:
-                    if (skillStatsLevel25.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel25.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
                 case SkillStat.EAcquireLevel.THIRTY:
-                    if (skillStatsLevel30.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
+                    //if (skillStatsLevel30.Find(x => x.skillID == t_needSkill.skillStat.skillID).skillLevel <= 0) return false;
                     break;
             }
         }

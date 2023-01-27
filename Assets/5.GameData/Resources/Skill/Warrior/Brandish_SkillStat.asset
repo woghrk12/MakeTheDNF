@@ -15,11 +15,15 @@ MonoBehaviour:
   skillID: 0
   skillIcon: {fileID: 21300000, guid: 22d17b03301add94ca940a1b758a02b5, type: 3}
   skillType: 0
+  coolTime: 0
+  needMana: 0
   numCombo: 2
   skillInfo:
   - skillMotion: UpperSlash
     skillEffects: 0000000001000000
-    effectOffsets: []
+    effectOffsets:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
     skillRanges: []
     rangeOffsets: []
     preDelay: 0
@@ -27,18 +31,15 @@ MonoBehaviour:
     postDelay: 0
   - skillMotion: StrongSlash
     skillEffects: 02000000
-    effectOffsets: []
+    effectOffsets:
+    - {x: 0, y: 0, z: 0}
     skillRanges: []
     rangeOffsets: []
     preDelay: 0
     duration: 0
     postDelay: 0
-  coolTime: 0
   acquireLevel: 0
   stepLevel: 0
   needPoint: 0
-  skillLevel: 0
-  needBaseMana: 0
-  needMana: 0
   canCancelList: []
   preLearnedList: []

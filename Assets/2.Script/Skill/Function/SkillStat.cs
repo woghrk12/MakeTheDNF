@@ -42,13 +42,16 @@ public class SkillStat : ScriptableObject
 
     #region Variables
 
-    [Header("Skill Info")]
+    [Header("Identity")]
     public int skillID = 0;
     public Sprite skillIcon;
     public ESkillType skillType = ESkillType.NONE;
+    public float coolTime = 0f;
+    public int needMana = 0;
+
+    [Header("Combo")]
     public int numCombo = 0;
     public SkillInfo[] skillInfo = null;    
-    public float coolTime = 0f;
 
     [Header("Acquire Skill")]
     // minimum level value for acquiring the skill
@@ -57,13 +60,6 @@ public class SkillStat : ScriptableObject
     public int stepLevel = 0;
     // need point value for raising skill level
     public int needPoint = 0;
-    // current level value of the skill
-    public int skillLevel = 0;
-
-    [Header("Need Mana")]
-    // base mana value for use skill, increasing in proportion to skill level
-    public int needBaseMana = 0;
-    public int needMana = 0;
 
     [Header("Skill List Info")]
     public List<Skill> canCancelList = new List<Skill>();
