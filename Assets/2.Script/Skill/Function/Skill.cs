@@ -9,6 +9,7 @@ public class Skill : MonoBehaviour
     public SkillStat skillStat;
     private int[] hashSkillMotion;
 
+    public int level = 0;
     private float remainCoolTime = 0f;
 
     #endregion Variables 

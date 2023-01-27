@@ -56,6 +56,8 @@ public class SkillStat : ScriptableObject
     [Header("Acquire Skill")]
     // minimum level value for acquiring the skill
     public EAcquireLevel acquireLevel = 0;
+    // minimum and maximum level value
+    public int minLevel = 0, maxLevel = 0;
     // interval level value for raising skill level
     public int stepLevel = 0;
     // need point value for raising skill level
