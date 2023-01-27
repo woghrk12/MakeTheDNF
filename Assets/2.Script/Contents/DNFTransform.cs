@@ -14,7 +14,6 @@ public class DNFTransform : MonoBehaviour
     [SerializeField] private Transform posObj = null;
     [SerializeField] private Transform yPosObj = null;
     [SerializeField] private Transform scaleObj = null;
-    private Vector3 position;
 
     #endregion Variables
 
@@ -24,47 +23,35 @@ public class DNFTransform : MonoBehaviour
     {
         set
         {
-            position.x = value;
-
             var t_pos = posObj.position;
-            t_pos.x = position.x;
-
+            t_pos.x = value;    
             posObj.position = t_pos;
         }
-        get => position.x;
+        get => posObj.position.x;
     }
 
     public float Y 
     {
         set
         {
-            position.y = value;
-
             var t_pos = yPosObj.localPosition;
-            t_pos.y = position.y;
-
+            t_pos.y = value;
             yPosObj.localPosition = t_pos;
         }
-        get => position.y;
+        get => yPosObj.localPosition.y;
     }
 
     public float Z 
     {
         set
         {
-            position.z = value;
-
             var t_pos = posObj.position;
-            t_pos.y = position.z * convRate;
-
+            t_pos.y = value * convRate;
             posObj.position = t_pos;
         }
-        get => position.z;
+        get => posObj.position.y * invConvRate;
     }
 
-    /// <summary>
-    /// The position where located in the DNF coordinate system
-    /// </summary>
     public Vector3 Position 
     {
         set
@@ -73,17 +60,12 @@ public class DNFTransform : MonoBehaviour
             Y = HasYObj ? value.y : 0f;
             Z = value.z;
         }
-        get => position;
+        get => new Vector3(X, HasYObj ? Y : 0f, Z);
     }
 
     public bool HasYObj { get => yPosObj != null; }
 
     public Vector3 LocalScale { set { scaleObj.localScale = value; } get => scaleObj.localScale; }
-
-    /// <summary>
-    /// The position where actually located in the 2D coordinate system
-    /// </summary>
-    public Vector3 RealPosition { get { return new Vector3(position.x, position.y + position.z * convRate, 0f); } }
 
     #endregion Properties
 }
