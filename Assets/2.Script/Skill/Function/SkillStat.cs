@@ -32,6 +32,9 @@ public class SkillStat : ScriptableObject
     {
         public string skillMotion = string.Empty;
         public EffectList[] skillEffects = new EffectList[0];
+        public Vector3[] effectOffsets = new Vector3[0];
+        public Vector3[] skillRanges = new Vector3[0];
+        public Vector3[] rangeOffsets = new Vector3[0];
         public float preDelay = 0f;
         public float duration = 0f;
         public float postDelay = 0f;
