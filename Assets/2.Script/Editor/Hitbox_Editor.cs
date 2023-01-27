@@ -15,7 +15,7 @@ public class Hitbox_Editor : Editor
 
     public override void OnInspectorGUI()
     {
-        hitbox = (Hitbox)target;
+        hitbox = target as Hitbox;
         base.OnInspectorGUI();
     }
 
