@@ -13,16 +13,23 @@ MonoBehaviour:
   m_Name: Brandish_SkillStat
   m_EditorClassIdentifier: 
   skillID: 0
+  skillIcon: {fileID: 21300000, guid: 22d17b03301add94ca940a1b758a02b5, type: 3}
   skillType: 0
   numCombo: 2
   skillInfo:
   - skillMotion: UpperSlash
     skillEffects: 0000000001000000
+    effectOffsets: []
+    skillRanges: []
+    rangeOffsets: []
     preDelay: 0
     duration: 0
     postDelay: 0
   - skillMotion: StrongSlash
     skillEffects: 02000000
+    effectOffsets: []
+    skillRanges: []
+    rangeOffsets: []
     preDelay: 0
     duration: 0
     postDelay: 0

@@ -44,6 +44,7 @@ public class SkillStat : ScriptableObject
 
     [Header("Skill Info")]
     public int skillID = 0;
+    public Sprite skillIcon;
     public ESkillType skillType = ESkillType.NONE;
     public int numCombo = 0;
     public SkillInfo[] skillInfo = null;    
