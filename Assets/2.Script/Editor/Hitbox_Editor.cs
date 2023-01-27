@@ -8,6 +8,7 @@ public class Hitbox_Editor : Editor
 {
     #region Variables
 
+    private bool isShowHandle = false;
     private bool isChangeOffset = true;
     private Hitbox hitbox = null;
 
@@ -24,7 +25,11 @@ public class Hitbox_Editor : Editor
         if (!hitbox || hitbox.hitboxType == Hitbox.EHitboxType.NONE) return;
 
         Event t_curEvent = Event.current;
-        if (!Application.isPlaying && t_curEvent.type == EventType.KeyDown && t_curEvent.keyCode == KeyCode.F1) isChangeOffset = !isChangeOffset;
+        if (!Application.isPlaying && t_curEvent.type == EventType.KeyDown)
+        {
+            if (t_curEvent.keyCode == KeyCode.F1) isShowHandle = !isShowHandle;
+            if (t_curEvent.keyCode == KeyCode.F2) isChangeOffset = !isChangeOffset;
+        }
 
         Vector3 t_charGroundPos, t_charPos, t_hitboxGroundPos, t_hitboxPos;
 
@@ -42,6 +47,36 @@ public class Hitbox_Editor : Editor
             t_hitboxGroundPos = t_charGroundPos + new Vector3(hitbox.offset.x, hitbox.offset.z * DNFTransform.convRate, 0f);
             t_hitboxPos = t_charPos + new Vector3(hitbox.offset.x, hitbox.offset.y + hitbox.offset.z * DNFTransform.convRate, 0f);
         }
+
+        #region Hitbox
+
+        Handles.color = Color.red;
+        if (hitbox.hitboxType == Hitbox.EHitboxType.BOX)
+        {
+            // Show box hitbox range of x, z axis of DNF transform
+            Handles.DrawWireCube(t_hitboxGroundPos, new Vector3(hitbox.size.x, hitbox.size.z * DNFTransform.convRate, 0f));
+        }
+        else if (hitbox.hitboxType == Hitbox.EHitboxType.CIRCLE)
+        {
+            // Show circle hitbox range of x, z axis of DNF transform
+            float t_angle = Mathf.Acos(DNFTransform.convRate) * Mathf.Rad2Deg;
+            Handles.DrawWireArc(
+                t_hitboxGroundPos,
+                Quaternion.AngleAxis(t_angle, hitbox.transform.right) * hitbox.transform.forward,
+                hitbox.transform.right,
+                360,
+                hitbox.size.x * 0.5f);
+        }
+
+        // Show box hitbox range of x, y axis of DNF transform
+        Handles.color = Color.green;
+        Handles.DrawWireCube(t_hitboxPos + new Vector3(0f, hitbox.size.y * 0.5f, 0f), new Vector3(hitbox.size.x, hitbox.size.y, 0f));
+
+        #endregion Hitbox
+
+        if (!isShowHandle) return;
+
+        #region Handler
 
         if (isChangeOffset)
         {
@@ -82,26 +117,6 @@ public class Hitbox_Editor : Editor
             hitbox.size.y = Handles.ScaleSlider(hitbox.size.y, t_hitboxGroundPos, hitbox.transform.up, Quaternion.identity, 1f, 0.1f);
         }
 
-        Handles.color = Color.red;
-        if (hitbox.hitboxType == Hitbox.EHitboxType.BOX)
-        {
-            // Show box hitbox range of x, z axis of DNF transform
-            Handles.DrawWireCube(t_hitboxGroundPos, new Vector3(hitbox.size.x, hitbox.size.z * DNFTransform.convRate, 0f));
-        }
-        else if (hitbox.hitboxType == Hitbox.EHitboxType.CIRCLE)
-        {
-            // Show circle hitbox range of x, z axis of DNF transform
-            float t_angle = Mathf.Acos(DNFTransform.convRate) * Mathf.Rad2Deg;
-            Handles.DrawWireArc(
-                t_hitboxGroundPos, 
-                Quaternion.AngleAxis(t_angle, hitbox.transform.right) * hitbox.transform.forward, 
-                hitbox.transform.right, 
-                360, 
-                hitbox.size.x * 0.5f);
-        }
-
-        // Show box hitbox range of x, y axis of DNF transform
-        Handles.color = Color.green;
-        Handles.DrawWireCube(t_hitboxPos + new Vector3(0f, hitbox.size.y * 0.5f, 0f), new Vector3(hitbox.size.x, hitbox.size.y, 0f));
+        #endregion Handler
     }
 }
