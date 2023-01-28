@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillSlot
+public class SkillSlot : UISlot
 {
     #region Variables
     
@@ -17,7 +17,11 @@ public class SkillSlot
     public SkillSlot(Skill p_skill) 
     {
         skill = p_skill;
-        skillStat = p_skill.skillStat;
+
+        skillStat = skill.skillStat;
+        iconImage.sprite = skillStat.skillIcon;
+        id = skillStat.skillID;
+        value = skill.level;
     }
 
     #endregion Constructor
