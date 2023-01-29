@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(DNFTransform))]
 public class Hitbox : MonoBehaviour
 {
     public enum EHitboxType { NONE = -1, BOX, CIRCLE, }
