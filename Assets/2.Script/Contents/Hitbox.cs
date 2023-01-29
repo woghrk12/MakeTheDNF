@@ -21,6 +21,7 @@ public class Hitbox : MonoBehaviour
 
     #region Methods
 
+    // Calculate a hitbox with its own transform
     public void CalculateHitbox()
     {
         Vector3 t_position = charTransform.Position + offset;
@@ -29,9 +30,30 @@ public class Hitbox : MonoBehaviour
         maxHitbox.x = t_position.x + size.x * 0.5f;
         minHitbox.z = t_position.z - size.z * 0.5f;
         maxHitbox.z = t_position.z + size.z * 0.5f;
+        minHitbox.y = t_position.y;
+        maxHitbox.y = t_position.y + size.y;
+    }
 
-        if (!charTransform.HasYObj) return;
+    // Calculate a hitbox with fixed position
+    public void CalculateHitbox(Vector3 p_position)
+    {
+        minHitbox.x = p_position.x - size.x * 0.5f;
+        maxHitbox.x = p_position.x + size.x * 0.5f;
+        minHitbox.z = p_position.z - size.z * 0.5f;
+        maxHitbox.z = p_position.z + size.z * 0.5f;
+        minHitbox.y = p_position.y;
+        maxHitbox.y = p_position.y + size.y;
+    }
 
+    // Calculate a hitbox with the transform received
+    public void CalculateHitbox(DNFTransform p_transform)
+    {
+        Vector3 t_position = p_transform.Position + offset;
+
+        minHitbox.x = t_position.x - size.x * 0.5f;
+        maxHitbox.x = t_position.x + size.x * 0.5f;
+        minHitbox.z = t_position.z - size.z * 0.5f;
+        maxHitbox.z = t_position.z + size.z * 0.5f;
         minHitbox.y = t_position.y;
         maxHitbox.y = t_position.y + size.y;
     }
