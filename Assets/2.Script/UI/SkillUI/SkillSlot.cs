@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SkillSlot : UISlot
 {
     #region Variables
     
-    private Skill skill = null;
+    [SerializeField] private Skill skill = null;
     private SkillStat skillStat = null;
 
     #endregion Variables
@@ -66,4 +67,16 @@ public class SkillSlot : UISlot
     }
 
     #endregion Methods
+
+    #region Override Methods
+
+    public override void OnEndDrag(PointerEventData p_data)
+    {
+        if (MouseData.slotMouseIsOver.TryGetComponent(out RegisterSkillSlot t_slot))
+            t_slot.SetSlot(skill);
+
+        base.OnEndDrag(p_data);
+    }
+
+    #endregion Override Methods
 }
