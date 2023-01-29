@@ -35,6 +35,8 @@ public class UISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
 
         t_dragObj.SetActive(true);
         t_dragObj.GetComponent<Image>().sprite = iconImage.sprite;
+
+        MouseData.slotOnDragged = gameObject;
         MouseData.tempItemBeingDragged = t_dragObj.GetComponent<RectTransform>();
     }
     public void OnDrag(PointerEventData p_data)
@@ -45,6 +47,7 @@ public class UISlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public virtual void OnEndDrag(PointerEventData p_data) 
     {
         uiBase.draggedImageObj.SetActive(false);
+        MouseData.slotOnDragged = null;
         MouseData.tempItemBeingDragged = null; 
     }
 

@@ -7,6 +7,7 @@ public static class MouseData
 {
     public static UIBase interfaceMouseIsOver;
     public static GameObject slotMouseIsOver;
+    public static GameObject slotOnDragged;
     public static RectTransform tempItemBeingDragged;
 }
 
