@@ -20,25 +20,35 @@ MonoBehaviour:
   numCombo: 2
   skillInfo:
   - skillMotion: UpperSlash
+    numSkillEffect: 2
     skillEffects: 0000000001000000
     effectOffsets:
     - {x: 0, y: 0, z: 0}
     - {x: 0, y: 0, z: 0}
-    skillRanges: []
-    rangeOffsets: []
+    skillRanges:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
+    rangeOffsets:
+    - {x: 0, y: 0, z: 0}
+    - {x: 0, y: 0, z: 0}
     preDelay: 0
     duration: 0
     postDelay: 0
   - skillMotion: StrongSlash
+    numSkillEffect: 1
     skillEffects: 02000000
     effectOffsets:
     - {x: 0, y: 0, z: 0}
-    skillRanges: []
-    rangeOffsets: []
+    skillRanges:
+    - {x: 0, y: 0, z: 0}
+    rangeOffsets:
+    - {x: 0, y: 0, z: 0}
     preDelay: 0
     duration: 0
     postDelay: 0
   acquireLevel: 0
+  minLevel: 0
+  maxLevel: 0
   stepLevel: 0
   needPoint: 0
   canCancelList: []
