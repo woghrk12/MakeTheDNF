@@ -31,10 +31,11 @@ public class SkillStat : ScriptableObject
     public class SkillInfo
     {
         public string skillMotion = string.Empty;
+        [HideInInspector] public int numSkillEffect = 0;
         public EffectList[] skillEffects = new EffectList[0];
         public Vector3[] effectOffsets = new Vector3[0];
-        public Vector3[] skillRanges = new Vector3[0];
-        public Vector3[] rangeOffsets = new Vector3[0];
+        public Vector3 skillRange = Vector3.zero;
+        public Vector3 rangeOffset = Vector3.zero;
         public float preDelay = 0f;
         public float duration = 0f;
         public float postDelay = 0f;
@@ -50,7 +51,7 @@ public class SkillStat : ScriptableObject
     public int needMana = 0;
 
     [Header("Combo")]
-    public int numCombo = 0;
+    [HideInInspector] public int numCombo = 0;
     public SkillInfo[] skillInfo = null;    
 
     [Header("Acquire Skill")]
@@ -71,11 +72,18 @@ public class SkillStat : ScriptableObject
 
     private void OnValidate()
     {
-        if (numCombo == skillInfo.Length) return;
-        else 
+        if (numCombo != skillInfo.Length) numCombo = skillInfo.Length;
+
+        foreach (SkillInfo t_info in skillInfo)
         {
-            numCombo = skillInfo.Length;
+            if (t_info.numSkillEffect != t_info.skillEffects.Length) t_info.numSkillEffect = t_info.skillEffects.Length;
+
+            while (t_info.numSkillEffect != t_info.effectOffsets.Length)
+            {
+                if (t_info.numSkillEffect < t_info.effectOffsets.Length) 
+                    t_info.effectOffsets = ArrayHelper.Remove(t_info.effectOffsets.Length - 1, t_info.effectOffsets);
+                else t_info.effectOffsets = ArrayHelper.Add(new Vector3(), t_info.effectOffsets);
+            }
         }
-        
     }
 }
