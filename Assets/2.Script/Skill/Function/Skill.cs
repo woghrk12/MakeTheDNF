@@ -14,6 +14,12 @@ public class Skill : MonoBehaviour
 
     #endregion Variables 
 
+    #region Properties
+
+    public float RemainCoolTime => remainCoolTime;
+
+    #endregion Properties
+
     #region Unity Event
 
     private void OnValidate()
