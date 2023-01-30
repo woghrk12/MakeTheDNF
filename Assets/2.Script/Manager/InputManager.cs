@@ -8,27 +8,9 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     private Vector3 inputDir = Vector3.zero;
 
-    //private static Dictionary<int, PlayerKey> buttons = new Dictionary<int, PlayerKey>();
     private static PlayerKey[] buttons = new PlayerKey[KeyID.End];
     private static Dictionary<KeyCode, int> registerKeys = new Dictionary<KeyCode, int>();
-
-    #region Default Key
-    private KeyCode defaultPosHorizontal = KeyCode.RightArrow;
-    private KeyCode defaultNegHorizontal = KeyCode.LeftArrow;
-    private KeyCode defaultPosVertical = KeyCode.UpArrow;
-    private KeyCode defaultNegVertical = KeyCode.DownArrow;
-    private KeyCode defaultAttack = KeyCode.X;
-    private KeyCode defaultJump = KeyCode.J;
-    private KeyCode defaultSkillSlot1 = KeyCode.A;
-    private KeyCode defaultSkillSlot2 = KeyCode.S;
-    private KeyCode defaultSkillSlot3 = KeyCode.D;
-    private KeyCode defaultSkillSlot4 = KeyCode.F;
-    private KeyCode defaultSkillSlot5 = KeyCode.G;
-    private KeyCode defaultSkillSlot6 = KeyCode.H;
-    private KeyCode defaultInventory = KeyCode.I;
-    private KeyCode defaultSkillTree = KeyCode.K;
-    private KeyCode defaultCharInfo = KeyCode.M;
-    #endregion Default Key
+    [SerializeField] private KeyCode[] defaultKey = new KeyCode[KeyID.End];
     
     #endregion Variables
 
@@ -46,56 +28,8 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     {
         base.Awake();
 
-        // Move
-        buttons[KeyID.PosHorizontal].key = PlayerPrefs.HasKey(KeyID.PosHorizontal.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.PosHorizontal.ToString())
-            : defaultPosHorizontal;
-        buttons[KeyID.NegHorizontal].key = PlayerPrefs.HasKey(KeyID.NegHorizontal.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.NegHorizontal.ToString())
-            : defaultNegHorizontal;
-        buttons[KeyID.PosVertical].key = PlayerPrefs.HasKey(KeyID.PosVertical.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.PosVertical.ToString())
-            : defaultPosVertical;
-        buttons[KeyID.NegVertical].key = PlayerPrefs.HasKey(KeyID.NegVertical.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.NegVertical.ToString())
-            : defaultNegVertical;
-        buttons[KeyID.Jump].key = PlayerPrefs.HasKey(KeyID.Jump.ToString())
-           ? (KeyCode)PlayerPrefs.GetInt(KeyID.Jump.ToString())
-           : defaultJump;
-
-        // Attack
-        buttons[KeyID.Attack].key = PlayerPrefs.HasKey(KeyID.Attack.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.Attack.ToString())
-            : defaultAttack;
-        buttons[KeyID.SkillSlot1].key = PlayerPrefs.HasKey(KeyID.SkillSlot1.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot1.ToString())
-            : defaultSkillSlot1;
-        buttons[KeyID.SkillSlot2].key = PlayerPrefs.HasKey(KeyID.SkillSlot2.ToString())
-             ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot2.ToString())
-             : defaultSkillSlot2;
-        buttons[KeyID.SkillSlot3].key = PlayerPrefs.HasKey(KeyID.SkillSlot3.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot3.ToString())
-            : defaultSkillSlot3;
-        buttons[KeyID.SkillSlot4].key = PlayerPrefs.HasKey(KeyID.SkillSlot4.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot4.ToString())
-            : defaultSkillSlot4;
-        buttons[KeyID.SkillSlot5].key = PlayerPrefs.HasKey(KeyID.SkillSlot5.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot5.ToString())
-            : defaultSkillSlot5;
-        buttons[KeyID.SkillSlot6].key = PlayerPrefs.HasKey(KeyID.SkillSlot6.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot6.ToString())
-            : defaultSkillSlot6;
-
-        // UI
-        buttons[KeyID.Inventory].key = PlayerPrefs.HasKey(KeyID.Inventory.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.Inventory.ToString())
-            : defaultInventory;
-        buttons[KeyID.SkillTree].key = PlayerPrefs.HasKey(KeyID.SkillTree.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillTree.ToString())
-            : defaultSkillTree;
-        buttons[KeyID.CharInfo].key = PlayerPrefs.HasKey(KeyID.CharInfo.ToString())
-            ? (KeyCode)PlayerPrefs.GetInt(KeyID.CharInfo.ToString())
-            : defaultCharInfo;
+        for (int i = 0; i < KeyID.End; i++)
+            buttons[i] = new PlayerKey(PlayerPrefs.HasKey(i.ToString()) ? (KeyCode)PlayerPrefs.GetInt(i.ToString()) : defaultKey[i]);
     }
 
     private void Update()

@@ -22,6 +22,12 @@ public class PlayerKey
 
     #endregion Properties
 
+    #region Constructor
+
+    public PlayerKey(KeyCode p_key) { key = p_key; }
+
+    #endregion Constructor
+
     #region Methods
 
     public void SetButtonState()
