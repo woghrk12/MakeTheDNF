@@ -19,6 +19,12 @@ public class GamePlayer : MonoBehaviour
 
     #endregion Variables
 
+    #region Properties
+
+    public bool IsLeft => moveController.IsLeft;
+
+    #endregion Properties
+
     #region Unity Event
 
     private void Awake()
@@ -30,9 +36,6 @@ public class GamePlayer : MonoBehaviour
         attackController = GetComponent<AttackBehaviour>();
         charTransform = GetComponent<DNFTransform>();
         hitbox = GetComponent<Hitbox>();
-
-        // Init Behaviours 
-        attackController.InitBehaviour(anim);
     }
 
     #endregion Unity Event
