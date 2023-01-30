@@ -6,7 +6,7 @@ public class KeyID
     public static int NegHorizontal = 1;
     public static int PosVertical = 2;
     public static int NegVertical = 3;
-    public static int Attack = 4;
+    public static int BaseAttack = 4;
     public static int Jump = 5;
     public static int SkillSlot1 = 6;
     public static int SkillSlot2 = 7;
