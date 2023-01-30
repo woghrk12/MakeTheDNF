@@ -9,7 +9,6 @@ public class RegisterSkillSlot : UISlot
 
     public Skill skill = null;
     private SkillStat skillStat = null;
-    [SerializeField] private KeyCode key = KeyCode.None;
 
     #endregion Variables
 
