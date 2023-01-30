@@ -39,7 +39,7 @@ public class GamePlayer : MonoBehaviour
 
     private void Update()
     {
-        if (jumpController.CanJump && InputManager.Buttons[KeyName.Jump].ButtonState == PlayerKey.EButtonState.DOWN)
+        if (jumpController.CanJump && InputManager.Buttons[KeyID.Jump].ButtonState == PlayerKey.EButtonState.DOWN)
             StartCoroutine(jumpController.Jump(charTransform));
     }
 

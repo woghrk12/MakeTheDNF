@@ -8,6 +8,7 @@ public class PlayerKey
 
     #region Variables
 
+    public KeyCode key = KeyCode.None;
     private EButtonState buttonState = EButtonState.IDLE;
 
     private bool isPressed = false;
@@ -23,9 +24,9 @@ public class PlayerKey
 
     #region Methods
 
-    public void SetButtonState(KeyCode p_key)
+    public void SetButtonState()
     {
-        if (p_key == KeyCode.None)
+        if (key == KeyCode.None)
         {
             buttonState = EButtonState.IDLE;
             isPressed = false;
@@ -33,8 +34,8 @@ public class PlayerKey
             return;
         }
 
-        if (Input.GetKeyDown(p_key)) isPressed = true;
-        if (Input.GetKeyUp(p_key)) isPressed = false;
+        if (Input.GetKeyDown(key)) isPressed = true;
+        if (Input.GetKeyUp(key)) isPressed = false;
 
         if (isPressed)
         {

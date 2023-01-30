@@ -8,28 +8,35 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     private Vector3 inputDir = Vector3.zero;
 
-    private static Dictionary<KeyCode, PlayerKey> buttons = new Dictionary<KeyCode, PlayerKey>();
+    //private static Dictionary<int, PlayerKey> buttons = new Dictionary<int, PlayerKey>();
+    private static PlayerKey[] buttons = new PlayerKey[KeyID.End];
+    private static Dictionary<KeyCode, int> registerKeys = new Dictionary<KeyCode, int>();
 
-    private KeyCode posHorizontal = KeyName.PosHorizontal;
-    private KeyCode negHorizontal = KeyName.NegHorizontal;
-    private KeyCode posVertical = KeyName.PosVertical;
-    private KeyCode negVertical = KeyName.NegVertical;
-    private KeyCode xButton = KeyName.Attack;
-    private KeyCode jButton = KeyName.Jump;
-    private KeyCode skillSlot1 = KeyName.SkillSlot1;
-    private KeyCode skillSlot2 = KeyName.SkillSlot2;
-    private KeyCode skillSlot3 = KeyName.SkillSlot3;
-    private KeyCode skillSlot4 = KeyName.SkillSlot4;
-    private KeyCode skillSlot5 = KeyName.SkillSlot5;
-    private KeyCode skillSlot6 = KeyName.SkillSlot6;
-
+    #region Default Key
+    private KeyCode defaultPosHorizontal = KeyCode.RightArrow;
+    private KeyCode defaultNegHorizontal = KeyCode.LeftArrow;
+    private KeyCode defaultPosVertical = KeyCode.UpArrow;
+    private KeyCode defaultNegVertical = KeyCode.DownArrow;
+    private KeyCode defaultAttack = KeyCode.X;
+    private KeyCode defaultJump = KeyCode.J;
+    private KeyCode defaultSkillSlot1 = KeyCode.A;
+    private KeyCode defaultSkillSlot2 = KeyCode.S;
+    private KeyCode defaultSkillSlot3 = KeyCode.D;
+    private KeyCode defaultSkillSlot4 = KeyCode.F;
+    private KeyCode defaultSkillSlot5 = KeyCode.G;
+    private KeyCode defaultSkillSlot6 = KeyCode.H;
+    private KeyCode defaultInventory = KeyCode.I;
+    private KeyCode defaultSkillTree = KeyCode.K;
+    private KeyCode defaultCharInfo = KeyCode.M;
+    #endregion Default Key
+    
     #endregion Variables
 
     #region Properties
 
     public Vector3 Direction => inputDir;
 
-    public static Dictionary<KeyCode, PlayerKey> Buttons { get => buttons; }
+    public static PlayerKey[] Buttons { get => buttons; }
 
     #endregion Properties
 
@@ -39,64 +46,118 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     {
         base.Awake();
 
-        buttons.Add(posHorizontal, new PlayerKey());
-        buttons.Add(negHorizontal, new PlayerKey());
-        buttons.Add(posVertical, new PlayerKey());
-        buttons.Add(negVertical, new PlayerKey());
-        buttons.Add(xButton, new PlayerKey());
-        buttons.Add(jButton, new PlayerKey());
-        buttons.Add(skillSlot1, new PlayerKey());
-        buttons.Add(skillSlot2, new PlayerKey());
-        buttons.Add(skillSlot3, new PlayerKey());
-        buttons.Add(skillSlot4, new PlayerKey());
-        buttons.Add(skillSlot5, new PlayerKey());
-        buttons.Add(skillSlot6, new PlayerKey());
+        // Move
+        buttons[KeyID.PosHorizontal].key = PlayerPrefs.HasKey(KeyID.PosHorizontal.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.PosHorizontal.ToString())
+            : defaultPosHorizontal;
+        buttons[KeyID.NegHorizontal].key = PlayerPrefs.HasKey(KeyID.NegHorizontal.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.NegHorizontal.ToString())
+            : defaultNegHorizontal;
+        buttons[KeyID.PosVertical].key = PlayerPrefs.HasKey(KeyID.PosVertical.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.PosVertical.ToString())
+            : defaultPosVertical;
+        buttons[KeyID.NegVertical].key = PlayerPrefs.HasKey(KeyID.NegVertical.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.NegVertical.ToString())
+            : defaultNegVertical;
+        buttons[KeyID.Jump].key = PlayerPrefs.HasKey(KeyID.Jump.ToString())
+           ? (KeyCode)PlayerPrefs.GetInt(KeyID.Jump.ToString())
+           : defaultJump;
+
+        // Attack
+        buttons[KeyID.Attack].key = PlayerPrefs.HasKey(KeyID.Attack.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.Attack.ToString())
+            : defaultAttack;
+        buttons[KeyID.SkillSlot1].key = PlayerPrefs.HasKey(KeyID.SkillSlot1.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot1.ToString())
+            : defaultSkillSlot1;
+        buttons[KeyID.SkillSlot2].key = PlayerPrefs.HasKey(KeyID.SkillSlot2.ToString())
+             ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot2.ToString())
+             : defaultSkillSlot2;
+        buttons[KeyID.SkillSlot3].key = PlayerPrefs.HasKey(KeyID.SkillSlot3.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot3.ToString())
+            : defaultSkillSlot3;
+        buttons[KeyID.SkillSlot4].key = PlayerPrefs.HasKey(KeyID.SkillSlot4.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot4.ToString())
+            : defaultSkillSlot4;
+        buttons[KeyID.SkillSlot5].key = PlayerPrefs.HasKey(KeyID.SkillSlot5.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot5.ToString())
+            : defaultSkillSlot5;
+        buttons[KeyID.SkillSlot6].key = PlayerPrefs.HasKey(KeyID.SkillSlot6.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillSlot6.ToString())
+            : defaultSkillSlot6;
+
+        // UI
+        buttons[KeyID.Inventory].key = PlayerPrefs.HasKey(KeyID.Inventory.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.Inventory.ToString())
+            : defaultInventory;
+        buttons[KeyID.SkillTree].key = PlayerPrefs.HasKey(KeyID.SkillTree.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.SkillTree.ToString())
+            : defaultSkillTree;
+        buttons[KeyID.CharInfo].key = PlayerPrefs.HasKey(KeyID.CharInfo.ToString())
+            ? (KeyCode)PlayerPrefs.GetInt(KeyID.CharInfo.ToString())
+            : defaultCharInfo;
     }
 
     private void Update()
     {
+        // Check button state
+        foreach (var t_button in buttons)
+            t_button.SetButtonState();
+
         // Set horizontal direction
-        if (buttons[posHorizontal].ButtonState == PlayerKey.EButtonState.IDLE && buttons[negHorizontal].ButtonState == PlayerKey.EButtonState.IDLE)
+        if (buttons[KeyID.PosHorizontal].ButtonState == PlayerKey.EButtonState.IDLE 
+            && buttons[KeyID.NegHorizontal].ButtonState == PlayerKey.EButtonState.IDLE)
             inputDir.x = 0f;
-        else if (buttons[posHorizontal].ButtonState == PlayerKey.EButtonState.PRESSED)
+        else if (buttons[KeyID.PosHorizontal].ButtonState == PlayerKey.EButtonState.PRESSED)
         {
-            if (buttons[negHorizontal].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.x = -1f;
-            else if (buttons[negHorizontal].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.x = 1f;
+            if (buttons[KeyID.NegHorizontal].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.x = -1f;
+            else if (buttons[KeyID.NegHorizontal].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.x = 1f;
         }
-        else if (buttons[negHorizontal].ButtonState == PlayerKey.EButtonState.PRESSED)
+        else if (buttons[KeyID.NegHorizontal].ButtonState == PlayerKey.EButtonState.PRESSED)
         {
-            if (buttons[posHorizontal].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.x = 1f;
-            else if (buttons[posHorizontal].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.x = -1f;
+            if (buttons[KeyID.PosHorizontal].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.x = 1f;
+            else if (buttons[KeyID.PosHorizontal].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.x = -1f;
         }
 
         // Set vertical direction
-        if (buttons[posVertical].ButtonState == PlayerKey.EButtonState.IDLE && buttons[negVertical].ButtonState == PlayerKey.EButtonState.IDLE)
+        if (buttons[KeyID.PosVertical].ButtonState == PlayerKey.EButtonState.IDLE 
+            && buttons[KeyID.NegVertical].ButtonState == PlayerKey.EButtonState.IDLE)
             inputDir.z = 0;
-        else if (buttons[posVertical].ButtonState == PlayerKey.EButtonState.PRESSED)
+        else if (buttons[KeyID.PosVertical].ButtonState == PlayerKey.EButtonState.PRESSED)
         {
-            if (buttons[negVertical].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.z = -1f;
-            else if (buttons[negVertical].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.z = 1f;
+            if (buttons[KeyID.NegVertical].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.z = -1f;
+            else if (buttons[KeyID.NegVertical].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.z = 1f;
         }
-        else if (buttons[negVertical].ButtonState == PlayerKey.EButtonState.PRESSED)
+        else if (buttons[KeyID.NegVertical].ButtonState == PlayerKey.EButtonState.PRESSED)
         {
-            if (buttons[posVertical].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.z = 1f;
-            else if (buttons[posVertical].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.z = -1f;
+            if (buttons[KeyID.PosVertical].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.z = 1f;
+            else if (buttons[KeyID.PosVertical].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.z = -1f;
         }
-
-        // Check pressed key
-        foreach (var t_button in buttons)
-            t_button.Value.SetButtonState(t_button.Key);
     }
 
     #endregion Unity Event
 
     #region Methods
 
-    public void ChangeKeyCode(KeyCode p_oldKey, KeyCode p_newKey)
+    public void UpdateKeyCode(int p_button, KeyCode p_key)
     {
-        PlayerKey t_playerKey = buttons[p_oldKey];
-        buttons.Remove(p_oldKey);
-        buttons.Add(p_newKey, t_playerKey);
+        if (registerKeys.TryGetValue(p_key, out int t_button))
+        {
+            registerKeys.Remove(p_key);
+            buttons[t_button].key = KeyCode.None;
+        }
+
+        buttons[p_button].key = p_key;
+        registerKeys.Add(p_key, p_button);
+        PlayerPrefs.SetInt(p_button.ToString(), (int)p_key);
+    }
+
+    public void RemoveKeyCode(int p_button)
+    {
+        if (!registerKeys.ContainsKey(buttons[p_button].key)) return;
+
+        registerKeys.Remove(buttons[p_button].key);
+        buttons[p_button].key = KeyCode.None;
     }
 
     #endregion Methods
