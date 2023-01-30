@@ -1,5 +1,6 @@
 public class AnimatorKey 
 {
+    public const string MotionSpeed = "MotionSpeed";
     public const string IsMove = "IsMove";
     public const string IsJump = "IsJump";
     public const string JumpStay = "JumpStay";
