@@ -12,13 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a36cf6bf0b11514a8fbbd66e15b63c5, type: 3}
   m_Name: Warrior_SkillTree
   m_EditorClassIdentifier: 
-  skillStats:
-  - {fileID: 11400000, guid: 3b2ab34c6a06c514b8c105f1399d7c3b, type: 2}
-  skillStatsLevel0:
-  - {fileID: 11400000, guid: 3b2ab34c6a06c514b8c105f1399d7c3b, type: 2}
-  skillStatsLevel5: []
-  skillStatsLevel10: []
-  skillStatsLevel15: []
-  skillStatsLevel20: []
-  skillStatsLevel25: []
-  skillStatsLevel30: []
+  skills:
+  - {fileID: 2989941778734181041, guid: 5f3658194ea39614096a7d84197a2f99, type: 3}
+  skillBaseAttack: {fileID: 2989941778734181041, guid: 5f3658194ea39614096a7d84197a2f99, type: 3}
