@@ -15,7 +15,6 @@ public abstract class UIBase : MonoBehaviour, IPointerEnterHandler, IPointerExit
 {
     #region Variables
 
-    public GameObject[] slots = new GameObject[0];
     protected Dictionary<GameObject, UISlot> slotList = new Dictionary<GameObject, UISlot>();
     
     public GameObject draggedImageObj;
