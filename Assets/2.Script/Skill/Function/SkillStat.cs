@@ -46,13 +46,14 @@ public class SkillStat : ScriptableObject
     [Header("Identity")]
     public int skillID = 0;
     public Sprite skillIcon;
+
+    [Header("Skill Info")]
     public ESkillType skillType = ESkillType.NONE;
     public float coolTime = 0f;
     public int needMana = 0;
-
-    [Header("Combo")]
+    public bool isNoMotion = false;
     [HideInInspector] public int numCombo = 0;
-    public SkillInfo[] skillInfo = null;    
+    public SkillInfo[] skillInfo = null;
 
     [Header("Acquire Skill")]
     // minimum level value for acquiring the skill
