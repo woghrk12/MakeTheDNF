@@ -7,16 +7,16 @@ public class SkillTree : ScriptableObject
 {
     #region Variables
 
-    public List<SkillStat> skillStats = new List<SkillStat>();
+    public List<Skill> skills = new List<Skill>();
 
-    private SkillStat skillStatBaseAttack = null;
-    private List<SkillStat> skillStatsLevel0 = new List<SkillStat>();
-    private List<SkillStat> skillStatsLevel5 = new List<SkillStat>();
-    private List<SkillStat> skillStatsLevel10 = new List<SkillStat>();
-    private List<SkillStat> skillStatsLevel15 = new List<SkillStat>();
-    private List<SkillStat> skillStatsLevel20 = new List<SkillStat>();
-    private List<SkillStat> skillStatsLevel25 = new List<SkillStat>();
-    private List<SkillStat> skillStatsLevel30 = new List<SkillStat>();
+    public Skill skillBaseAttack = null;
+    private List<Skill> skillLevel0 = new List<Skill>();
+    private List<Skill> skillLevel5 = new List<Skill>();
+    private List<Skill> skillLevel10 = new List<Skill>();
+    private List<Skill> skillLevel15 = new List<Skill>();
+    private List<Skill> skillLevel20 = new List<Skill>();
+    private List<Skill> skillLevel25 = new List<Skill>();
+    private List<Skill> skillLevel30 = new List<Skill>();
 
     #endregion Variables
 
@@ -24,42 +24,42 @@ public class SkillTree : ScriptableObject
     
     private void OnValidate()
     {
-        skillStatBaseAttack = null;
-        skillStatsLevel0.Clear();
-        skillStatsLevel5.Clear();
-        skillStatsLevel10.Clear();
-        skillStatsLevel15.Clear();
-        skillStatsLevel20.Clear();
-        skillStatsLevel25.Clear();
-        skillStatsLevel30.Clear();
+        skillBaseAttack = null;
+        skillLevel0.Clear();
+        skillLevel5.Clear();
+        skillLevel10.Clear();
+        skillLevel15.Clear();
+        skillLevel20.Clear();
+        skillLevel25.Clear();
+        skillLevel30.Clear();
 
-        foreach (SkillStat t_skill in skillStats)
+        foreach (Skill t_skill in skills)
         {
-            switch (t_skill.acquireLevel)
+            switch (t_skill.skillStat.acquireLevel)
             {
                 case SkillStat.EAcquireLevel.BASEATTACK:
-                    skillStatBaseAttack = t_skill;
+                    skillBaseAttack = t_skill;
                     break;
                 case SkillStat.EAcquireLevel.ZERO:
-                    if(!skillStatsLevel0.Contains(t_skill)) skillStatsLevel0.Add(t_skill);
+                    if(!skillLevel0.Contains(t_skill)) skillLevel0.Add(t_skill);
                     break;
                 case SkillStat.EAcquireLevel.FIVE:
-                    if (!skillStatsLevel5.Contains(t_skill)) skillStatsLevel5.Add(t_skill);
+                    if (!skillLevel5.Contains(t_skill)) skillLevel5.Add(t_skill);
                     break;
                 case SkillStat.EAcquireLevel.TEN:
-                    if (!skillStatsLevel10.Contains(t_skill)) skillStatsLevel10.Add(t_skill);
+                    if (!skillLevel10.Contains(t_skill)) skillLevel10.Add(t_skill);
                     break;
                 case SkillStat.EAcquireLevel.FIFTEEN:
-                    if (!skillStatsLevel15.Contains(t_skill)) skillStatsLevel15.Add(t_skill);
+                    if (!skillLevel15.Contains(t_skill)) skillLevel15.Add(t_skill);
                     break;
                 case SkillStat.EAcquireLevel.TWENTY:
-                    if (!skillStatsLevel20.Contains(t_skill)) skillStatsLevel20.Add(t_skill);
+                    if (!skillLevel20.Contains(t_skill)) skillLevel20.Add(t_skill);
                     break;
                 case SkillStat.EAcquireLevel.TWENTYFIVE:
-                    if (!skillStatsLevel25.Contains(t_skill)) skillStatsLevel25.Add(t_skill);
+                    if (!skillLevel25.Contains(t_skill)) skillLevel25.Add(t_skill);
                     break;
                 case SkillStat.EAcquireLevel.THIRTY:
-                    if (!skillStatsLevel30.Contains(t_skill)) skillStatsLevel30.Add(t_skill);
+                    if (!skillLevel30.Contains(t_skill)) skillLevel30.Add(t_skill);
                     break;
             }
         }
@@ -69,9 +69,9 @@ public class SkillTree : ScriptableObject
 
     #region Methods
 
-    public bool CheckCanLearnSkill(SkillStat p_skillStat)
+    public bool CheckCanLearnSkill(Skill p_skill)
     {
-        foreach (Skill t_needSkill in p_skillStat.preLearnedList)
+        foreach (Skill t_needSkill in p_skill.skillStat.preLearnedList)
         {
             switch (t_needSkill.skillStat.acquireLevel)
             {
