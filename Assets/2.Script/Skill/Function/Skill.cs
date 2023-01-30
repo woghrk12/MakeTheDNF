@@ -39,21 +39,33 @@ public class Skill : MonoBehaviour
 
     #region Methods
 
-    public IEnumerator UseSkill(Animator p_anim, bool p_isLeft, PlayerKey p_key)
+    public IEnumerator UseSkill(DNFTransform p_transform, Animator p_anim, bool p_isLeft, int p_keyID)
     {
-        for (int i = 0; i < skillStat.numCombo; i++)
+        for (int t_comboIdx = 0; t_comboIdx < skillStat.numCombo; t_comboIdx++)
         {
-            var t_info = skillStat.skillInfo[i];
-
-            p_anim.SetTrigger(hashSkillMotion[i]);
-
-            foreach (EffectList t_effect in t_info.skillEffects)
-                EffectManager.Instance.EffectOneShot((int)t_effect);
+            var t_info = skillStat.skillInfo[t_comboIdx];
+            var t_hitbox = ObjectPoolingManager.Instantiate(PoolingObjectName.Hitbox).GetComponent<Hitbox>();
+            
+            p_anim.SetTrigger(hashSkillMotion[t_comboIdx]);
 
             yield return Utilities.WaitForSeconds(t_info.preDelay);
+
+            for (int t_effectIdx = 0; t_effectIdx < t_info.numSkillEffect; t_effectIdx++)
+            {
+                PlayEffect(t_info.skillEffects[t_effectIdx], p_transform.Position + t_info.effectOffsets[t_effectIdx], p_isLeft);
+            }
+            
             yield return Utilities.WaitForSeconds(t_info.duration);
             yield return Utilities.WaitForSeconds(t_info.postDelay);
         }
+    }
+
+    private GameObject PlayEffect(EffectList p_effect, Vector3 p_position, bool p_isLeft)
+    {
+        Vector3 t_effectPos = new Vector3(p_position.x, p_position.y + p_position.z * DNFTransform.convRate, 0f);
+        GameObject t_effect = EffectManager.Instance.EffectOneShot((int)p_effect, p_isLeft, t_effectPos);
+        t_effect.transform.localScale = new Vector3(p_isLeft ? -1f : 1f, 1f, 1f);
+        return t_effect;
     }
 
     private IEnumerator ApplyCoolTime()
