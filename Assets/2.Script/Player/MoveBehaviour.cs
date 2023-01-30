@@ -7,14 +7,18 @@ public class MoveBehaviour : MonoBehaviour
     #region Variables
 
     private Animator anim = null;
+    private DNFTransform charTransform = null;
+
     private int hashIsMove = 0;
 
     private float xMoveSpeed = 4f;
     private float zMoveSpeed = 4f;
+    public float xFactor = 1f;
+    public float zFactor = 1f;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 position = Vector3.zero;
 
-    private float minX, maxX, minZ, maxZ;
+    private float minX = -50f, maxX = 50f, minZ = -10f, maxZ = 10f;
 
     private bool isLeft = false;
     private bool canMove = true;
@@ -41,44 +45,54 @@ public class MoveBehaviour : MonoBehaviour
             if (!canMove)
             {
                 moveDir = Vector3.zero;
-                anim.SetBool(AnimatorKey.IsMove, false);
+                anim?.SetBool(AnimatorKey.IsMove, false);
             }
         }
-        get => canMove;
     }
 
     #endregion Properties
 
+    #region Unity Event
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+        charTransform = GetComponent<DNFTransform>();
+
+        hashIsMove = Animator.StringToHash(AnimatorKey.IsMove);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!canMove) return;
+
+        // Handle Input
+        moveDir = InputManager.Instance.Direction;
+        moveDir.x *= xMoveSpeed * xFactor;
+        moveDir.z *= zMoveSpeed * zFactor;
+
+        // Limit Area
+        position = charTransform.Position + moveDir * Time.deltaTime;
+        if (position.x > maxX) position.x = maxX;
+        if (position.x < minX) position.x = minX;
+        if (position.z > maxZ) position.z = maxZ;
+        if (position.z < minZ) position.z = minZ;
+        charTransform.Position = position;
+
+        if (moveDir.x != 0) IsLeft = moveDir.x < 0;
+        anim?.SetBool(hashIsMove, moveDir != Vector3.zero);
+    }
+
+    #endregion Unity Event
+
     #region Methods
 
-    public void InitBehaviour(Animator p_anim, float p_minX, float p_maxX, float p_minZ, float p_maxZ, bool p_canMove = true)
+    public void SetMovableArea(float p_minX, float p_maxX, float p_minZ, float p_maxZ)
     {
-        anim = p_anim;
-        hashIsMove = Animator.StringToHash(AnimatorKey.IsMove);
         minX = p_minX;
         maxX = p_maxX;
         minZ = p_minZ;
         maxZ = p_maxZ;
-        CanMove = p_canMove;
-    }
-
-    public void Move(DNFTransform p_transform, Vector3 p_moveDir, float p_xFactor = 1f, float p_zFactor = 1f)
-    {
-        // Handle Input
-        moveDir = p_moveDir;
-        moveDir.x *= xMoveSpeed * p_xFactor;
-        moveDir.z *= zMoveSpeed * p_zFactor;
-
-        // Limit Area
-        position = p_transform.Position + moveDir * Time.deltaTime;
-        if (position.x > maxX) position.x = maxX;
-        if (position.x < minX) position.x = minX;
-        if (position.z > maxZ) position.z = maxZ;
-        if (position.z < minZ) position.z = minZ;   
-        p_transform.Position = position;
-        
-        if (moveDir.x != 0) IsLeft = moveDir.x < 0;
-        if (anim != null) anim.SetBool(hashIsMove, moveDir != Vector3.zero);
     }
 
     #endregion Methods

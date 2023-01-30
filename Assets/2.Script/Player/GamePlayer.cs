@@ -32,7 +32,6 @@ public class GamePlayer : MonoBehaviour
         hitbox = GetComponent<Hitbox>();
 
         // Init Behaviours 
-        moveController.InitBehaviour(anim, -50f, 50f, -10f, 10f);
         jumpController.InitBehaviour(anim);
         attackController.InitBehaviour(anim);
     }
@@ -41,11 +40,6 @@ public class GamePlayer : MonoBehaviour
     {
         if (jumpController.CanJump && InputManager.Buttons[KeyID.Jump].ButtonState == PlayerKey.EButtonState.DOWN)
             StartCoroutine(jumpController.Jump(charTransform));
-    }
-
-    private void FixedUpdate()
-    {
-        moveController.Move(charTransform, InputManager.Instance.Direction);
     }
 
     #endregion Unity Event
