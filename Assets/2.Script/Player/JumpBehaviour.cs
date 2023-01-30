@@ -7,10 +7,12 @@ public class JumpBehaviour : MonoBehaviour
     #region Variables
 
     private Animator anim = null;
+    private DNFTransform charTransform = null;
 
     private float gravity = 12f;
-    private float invGravity = 0f;
+    public float gravityFactor = 1f;
     private float jumpPower = 8f;
+    public float jumpFactor = 1f;
 
     private float jumpTime = 0f;
     private float criteria = 0f;
@@ -26,41 +28,48 @@ public class JumpBehaviour : MonoBehaviour
 
     #region Properties
 
-    private float Height { get => jumpTime * jumpTime * (-gravity) * 0.5f + jumpTime * jumpPower; }
+    private float Height { get => jumpTime * jumpTime * (-(gravity * gravityFactor)) * 0.5f + jumpTime * jumpPower * jumpFactor; }
 
-    private float MaxHeight { get => 0.5f * jumpPower * jumpPower * invGravity; }
-
-    public bool CanJump { get => canJump; }
+    private float MaxHeight { get => 0.5f * (jumpPower * jumpFactor) * (jumpPower * jumpFactor) * (1 / (gravity * gravityFactor)); }
 
     #endregion Properties
 
-    #region Methods
+    #region Unity Events
 
-    public void InitBehaviour(Animator p_anim)
+    private void Awake()
     {
-        anim = p_anim;
+        anim = GetComponent<Animator>();
+        charTransform = GetComponent<DNFTransform>();
 
         hashIsJump = Animator.StringToHash(AnimatorKey.IsJump);
         hashJumpStay = Animator.StringToHash(AnimatorKey.JumpStay);
         hashJumpDown = Animator.StringToHash(AnimatorKey.JumpDown);
-
-        invGravity = 1 / gravity;
     }
 
-    public IEnumerator Jump(DNFTransform p_transform)
+    private void Update()
+    {
+        if (canJump && InputManager.Buttons[KeyID.Jump].ButtonState == PlayerKey.EButtonState.DOWN)
+            StartCoroutine(Jump());
+    }
+
+    #endregion Unity Events
+
+    #region Methods
+
+    private IEnumerator Jump()
     {
         canJump = false;
         jumpTime = 0f;
         criteria = 0.8f * MaxHeight + originY;
 
         anim.SetBool(hashIsJump, true);
-        yield return JumpUp(p_transform, criteria);
-        yield return JumpStay(p_transform, criteria);
-        yield return JumpDown(p_transform);
+        yield return JumpUp(charTransform, criteria);
+        yield return JumpStay(charTransform, criteria);
+        yield return JumpDown(charTransform);
         anim.SetBool(hashIsJump, false);
 
         jumpTime = 0f;
-        p_transform.Y = originY;
+        charTransform.Y = originY;
         canJump = true;
     }
 
