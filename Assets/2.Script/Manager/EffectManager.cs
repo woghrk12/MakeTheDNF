@@ -14,10 +14,11 @@ public class EffectManager : SingletonMonobehaviour<EffectManager>
         effectRoot.SetParent(transform);
     }
 
-    public GameObject EffectOneShot(int p_idx, Vector3 p_position = default)
+    public GameObject EffectOneShot(int p_idx, bool p_isLeft, Vector3 p_position = default)
     {
         GameObject t_effect = DataManager.EffectData.GetClip(p_idx).Instantiate(p_position);
         t_effect.SetActive(true);
+        t_effect.transform.localScale = new Vector3(p_isLeft ? -1f : 1f, 1f, 1f);
         return t_effect;
     }
 }
