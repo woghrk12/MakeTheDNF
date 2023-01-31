@@ -52,7 +52,7 @@ public class Skill : MonoBehaviour
 
             for (int t_effectIdx = 0; t_effectIdx < t_info.numSkillEffect; t_effectIdx++)
             {
-                PlayEffect(t_info.skillEffects[t_effectIdx], p_transform.Position + t_info.effectOffsets[t_effectIdx], p_isLeft);
+                PlayEffect(t_info.skillEffects[t_effectIdx], p_isLeft, p_transform.Position, t_info.effectOffsets[t_effectIdx]);
             }
             
             yield return Utilities.WaitForSeconds(t_info.duration);
@@ -60,11 +60,21 @@ public class Skill : MonoBehaviour
         }
     }
 
-    private GameObject PlayEffect(EffectList p_effect, Vector3 p_position, bool p_isLeft)
+    private GameObject PlayEffect(EffectList p_effect, bool p_isLeft, Vector3 p_position, Vector3 p_offset)
     {
         Vector3 t_effectPos = new Vector3(p_position.x, p_position.y + p_position.z * DNFTransform.convRate, 0f);
-        GameObject t_effect = EffectManager.Instance.EffectOneShot((int)p_effect, p_isLeft, t_effectPos);
-        t_effect.transform.localScale = new Vector3(p_isLeft ? -1f : 1f, 1f, 1f);
+        Vector3 t_offset = new Vector3(p_offset.x, p_offset.y + p_offset.z * DNFTransform.convRate, 0f);
+        Vector3 t_localScale = new Vector3(1f, 1f, 1f);
+
+        if (p_isLeft)
+        {
+            t_offset.x *= -1f;
+            t_localScale.x *= -1f;
+        }
+
+        GameObject t_effect = DataManager.EffectData.GetClip((int)p_effect).Instantiate(t_effectPos + t_offset);
+        t_effect.transform.localScale = t_localScale;
+
         return t_effect;
     }
 
