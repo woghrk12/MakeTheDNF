@@ -7,11 +7,18 @@ using UnityEngine;
 
 public class PlayerKeySetting
 {
-    public KeyCode[] moveButtons;
-    public KeyCode attackButton;
-    public KeyCode jumpButton;
-    public KeyCode[] skillSlotButtons;
-    public KeyCode[] uiButtons;
+    public KeyCode[] moveButtons = new KeyCode[4];
+    public KeyCode attackButton = KeyCode.None;
+    public KeyCode jumpButton = KeyCode.None;
+    public KeyCode[] skillSlotButtons = new KeyCode[12];
+    public KeyCode[] uiButtons = new KeyCode[3];
+
+    public PlayerKeySetting()
+    {
+        for (int i = 0; i < 4; i++) moveButtons[i] = KeyCode.None;
+        for (int i = 0; i < 12; i++) skillSlotButtons[i] = KeyCode.None;
+        for (int i = 0; i < 3; i++) uiButtons[i] = KeyCode.None;
+    }
 }
 
 public class InputData : ScriptableObject
