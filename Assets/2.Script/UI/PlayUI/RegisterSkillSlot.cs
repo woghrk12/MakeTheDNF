@@ -10,6 +10,9 @@ public class RegisterSkillSlot : UISlot
     public Skill skill = null;
     private SkillStat skillStat = null;
 
+    private Color registerColor = new Color(1f, 1f, 1f, 1f);
+    private Color noAlphaColor = new Color(1f, 1f, 1f, 0f);
+
     #endregion Variables
 
     #region Methods
@@ -20,6 +23,7 @@ public class RegisterSkillSlot : UISlot
 
         skillStat = skill.skillStat;
         iconImage.sprite = skillStat.skillIcon;
+        iconImage.color = registerColor;
         id = skillStat.skillID;
     }
 
