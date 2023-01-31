@@ -9,6 +9,7 @@ public class DataManager : SingletonMonobehaviour<DataManager>
     private static InputData inputData = null;
     private static SoundData soundData = null;
     private static EffectData effectData = null;
+    private static SkillData skillData = null;
 
     #endregion Variables
 
@@ -56,6 +57,20 @@ public class DataManager : SingletonMonobehaviour<DataManager>
         }
     }
 
+    public static SkillData SkillData
+    {
+        get
+        {
+            if (ReferenceEquals(skillData, null))
+            {
+                skillData = ScriptableObject.CreateInstance<SkillData>();
+                skillData.LoadData();
+            }
+
+            return skillData;
+        }
+    }
+
     #endregion Properties
 
     private void Start()
@@ -70,6 +85,12 @@ public class DataManager : SingletonMonobehaviour<DataManager>
         {
             effectData = ScriptableObject.CreateInstance<EffectData>();
             effectData.LoadData();
+        }
+
+        if (ReferenceEquals(skillData, null))
+        {
+            skillData = ScriptableObject.CreateInstance<SkillData>();
+            skillData.LoadData();
         }
     }
 }
