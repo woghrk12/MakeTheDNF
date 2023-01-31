@@ -6,6 +6,7 @@ public class XmlElementName
 {
     public const string SOUND = "Sound";
     public const string EFFECT = "Effect";
+    public const string SKILL = "Skill";
     public const string INPUT = "Input";
     // Data Attribute
     public const string LENGTH = "Length";
@@ -38,9 +39,44 @@ public class XmlElementName
         public const string SETTIME = "SetTime";
     }
 
-    public class EffectData
-    { 
-    
+    public class SkillData
+    {
+        // Skill Stat Header
+        public const string SKILLSTAT = "SkillStat";
+        // Skill Stat Element
+        public const string ICONFILEPATH = "IconFilePath";
+        public const string CLASSTYPE = "ClassType";
+        public const string SKILLTYPE = "SkillType";
+        public const string COOLTIME = "CoolTime";
+        public const string NEEDMANA = "NeedMana";
+        public const string ISNOMOTION = "ISNOMOTION";
+        public const string NUMCOMBO = "NumCombo";
+
+        // Combo Stat Element
+        public const string SKILLMOTION = "SkillMotion";
+        public const string NUMSKILLEFFECT = "NumSkillEffect";
+        public const string SKILLEFFECT = "SkillEffect";
+        public const string EFFECTOFFSET = "EffectOffset";
+        public const string SKILLRANGE = "SkillRange";
+        public const string RANGEOFFSET = "RangeOffset";
+        public const string PREDELAY = "PreDelay";
+        public const string DURATION = "Duration";
+        public const string POSTDELAY = "PostDelay";
+
+        // Acquire Stat Header
+        public const string ACQUIRE = "Acquire";
+        // Acquire Stat Element
+        public const string ACQUIRELEVEL = "AcquireLevel";
+        public const string MINLEVEL = "MinLevel";
+        public const string MAXLEVEL = "MaxLevel";
+        public const string STEPLEVEL = "StepLevel";
+        public const string NEEDPOINT = "NeedPoint";
+
+        // Skill List Info Header
+        public const string LIST = "List";
+        // Skill List Element
+        public const string CANCANCELLIST = "CanCancelList";
+        public const string PRELEAREDLIST = "PreLearnedList";
     }
 
     public class InputData
