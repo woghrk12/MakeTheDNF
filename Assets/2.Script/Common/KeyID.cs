@@ -33,6 +33,5 @@ public class KeyID
         public static int Inventory = 12;
         public static int SkillTree = 13;
         public static int CharInfo = 14;
-
     }
 }
