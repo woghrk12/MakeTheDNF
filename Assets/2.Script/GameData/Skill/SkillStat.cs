@@ -48,6 +48,7 @@ public class SkillStat : ScriptableObject
     public Sprite skillIcon;
 
     [Header("Skill Info")]
+    public EClassType classType = EClassType.NONE;
     public ESkillType skillType = ESkillType.NONE;
     public float coolTime = 0f;
     public int needMana = 0;
