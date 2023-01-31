@@ -18,7 +18,7 @@ MonoBehaviour:
   coolTime: 0
   needMana: 0
   isNoMotion: 0
-  numCombo: 2
+  numCombo: 1
   skillInfo:
   - skillMotion: UpperSlash
     numSkillEffect: 2
@@ -30,16 +30,6 @@ MonoBehaviour:
     rangeOffset: {x: 0, y: 0, z: 0}
     preDelay: 0.067
     duration: 0.067
-    postDelay: 0.067
-  - skillMotion: StrongSlash
-    numSkillEffect: 1
-    skillEffects: 02000000
-    effectOffsets:
-    - {x: 2.35, y: 1.14, z: 0}
-    skillRange: {x: 0, y: 0, z: 0}
-    rangeOffset: {x: 0, y: 0, z: 0}
-    preDelay: 0.2
-    duration: 0.2
     postDelay: 0.067
   acquireLevel: 0
   minLevel: 0
