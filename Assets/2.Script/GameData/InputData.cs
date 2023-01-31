@@ -49,27 +49,38 @@ public class InputData : ScriptableObject
                 {
                     string[] t_buttons = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_buttons.Length; i++)
+                    {
+                        if (t_buttons[i] == string.Empty) continue;
                         t_keySetting.moveButtons[i] = (KeyCode)Enum.Parse(typeof(KeyCode), t_buttons[i]);
+                    }
+                    
                 }
                 if (t_reader.IsStartElement(XmlElementName.InputData.Attack))
-                    t_keySetting.attackButton = (KeyCode)int.Parse(t_reader.ReadElementContentAsString());
+                    t_keySetting.attackButton = (KeyCode)Enum.Parse(typeof(KeyCode), t_reader.ReadElementContentAsString());
                 if (t_reader.IsStartElement(XmlElementName.InputData.Jump))
-                    t_keySetting.jumpButton = (KeyCode)int.Parse(t_reader.ReadElementContentAsString());
+                    t_keySetting.jumpButton = (KeyCode)Enum.Parse(typeof(KeyCode), t_reader.ReadElementContentAsString());
                 if (t_reader.IsStartElement(XmlElementName.InputData.SKILLSLOTS))
                 {
                     string[] t_buttons = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_buttons.Length; i++)
+                    {
+                        if (t_buttons[i] == string.Empty) continue;
                         t_keySetting.skillSlotButtons[i] = (KeyCode)Enum.Parse(typeof(KeyCode), t_buttons[i]);
+                    }
+                        
                 }
                 if (t_reader.IsStartElement(XmlElementName.InputData.UI))
                 {
                     string[] t_buttons = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_buttons.Length; i++)
+                    {
+                        if (t_buttons[i] == string.Empty) continue;
                         t_keySetting.uiButtons[i] = (KeyCode)Enum.Parse(typeof(KeyCode), t_buttons[i]);
+                    }
+                        
                 }
             }
         }
-
         return t_keySetting;
     }
 
