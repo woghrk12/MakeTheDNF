@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Move = KeyID.Move;
+
 public class MoveBehaviour : MonoBehaviour
 {
     #region Variables
@@ -15,6 +17,7 @@ public class MoveBehaviour : MonoBehaviour
     private float zMoveSpeed = 4f;
     public float xFactor = 1f;
     public float zFactor = 1f;
+    private Vector3 inputDir = Vector3.zero;
     private Vector3 moveDir = Vector3.zero;
     private Vector3 position = Vector3.zero;
 
@@ -62,12 +65,47 @@ public class MoveBehaviour : MonoBehaviour
         hashIsMove = Animator.StringToHash(AnimatorKey.IsMove);
     }
 
+    private void Update()
+    {
+        PlayerKey[] t_moveButtons = InputManager.MoveButtons;
+
+        // Set horizontal direction
+        if (t_moveButtons[Move.PosHorizontal].ButtonState == PlayerKey.EButtonState.IDLE
+            && t_moveButtons[Move.NegHorizontal].ButtonState == PlayerKey.EButtonState.IDLE)
+            inputDir.x = 0f;
+        else if (t_moveButtons[Move.PosHorizontal].ButtonState == PlayerKey.EButtonState.PRESSED)
+        {
+            if (t_moveButtons[Move.NegHorizontal].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.x = -1f;
+            else if (t_moveButtons[Move.NegHorizontal].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.x = 1f;
+        }
+        else if (t_moveButtons[Move.NegHorizontal].ButtonState == PlayerKey.EButtonState.PRESSED)
+        {
+            if (t_moveButtons[Move.PosHorizontal].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.x = 1f;
+            else if (t_moveButtons[Move.PosHorizontal].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.x = -1f;
+        }
+
+        // Set vertical direction
+        if (t_moveButtons[Move.PosVertical].ButtonState == PlayerKey.EButtonState.IDLE
+            && t_moveButtons[Move.NegVertical].ButtonState == PlayerKey.EButtonState.IDLE)
+            inputDir.z = 0;
+        else if (t_moveButtons[Move.PosVertical].ButtonState == PlayerKey.EButtonState.PRESSED)
+        {
+            if (t_moveButtons[Move.NegVertical].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.z = -1f;
+            else if (t_moveButtons[Move.NegVertical].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.z = 1f;
+        }
+        else if (t_moveButtons[Move.NegVertical].ButtonState == PlayerKey.EButtonState.PRESSED)
+        {
+            if (t_moveButtons[Move.PosVertical].ButtonState == PlayerKey.EButtonState.DOWN) inputDir.z = 1f;
+            else if (t_moveButtons[Move.PosVertical].ButtonState != PlayerKey.EButtonState.PRESSED) inputDir.z = -1f;
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!canMove) return;
 
         // Handle Input
-        moveDir = InputManager.Instance.Direction;
+        moveDir = inputDir;
         moveDir.x *= xMoveSpeed * xFactor;
         moveDir.z *= zMoveSpeed * zFactor;
 
