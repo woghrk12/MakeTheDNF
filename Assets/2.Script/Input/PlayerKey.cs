@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerKey
 {
@@ -14,11 +15,21 @@ public class PlayerKey
     private bool isPressed = false;
     private bool onPressed = false;
 
+    public UnityAction<KeyCode> OnClickEvent;
+
     #endregion Variables
 
     #region Properties
 
-    public EButtonState ButtonState => buttonState;
+    public EButtonState ButtonState
+    {
+        private set 
+        {
+            buttonState = value;
+            if (buttonState == EButtonState.DOWN) OnClickEvent?.Invoke(key);
+        }
+        get => buttonState;
+    }
 
     #endregion Properties
 
@@ -34,7 +45,7 @@ public class PlayerKey
     {
         if (key == KeyCode.None)
         {
-            buttonState = EButtonState.IDLE;
+            ButtonState = EButtonState.IDLE;
             isPressed = false;
             onPressed = false;
             return;
@@ -45,12 +56,12 @@ public class PlayerKey
 
         if (isPressed)
         {
-            buttonState = onPressed ? EButtonState.PRESSED : EButtonState.DOWN;
+            ButtonState = onPressed ? EButtonState.PRESSED : EButtonState.DOWN;
             onPressed = true;
         }
         else
         {
-            buttonState = onPressed ? EButtonState.UP : EButtonState.IDLE;
+            ButtonState = onPressed ? EButtonState.UP : EButtonState.IDLE;
             onPressed = false;
         }
     }
