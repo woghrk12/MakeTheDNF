@@ -1,10 +1,21 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Skill", menuName = "Skill System/Skill")]
-public class SkillStat : ScriptableObject
+public class SkillInfo
+{
+    public string skillMotion = string.Empty;
+    public int numSkillEffect = 0;
+    public string[] skillEffectPaths = new string[0];
+    public Vector3[] effectOffsets = new Vector3[0];
+    public Vector3 skillRange = Vector3.zero;
+    public Vector3 rangeOffset = Vector3.zero;
+    public float preDelay = 0f;
+    public float duration = 0f;
+    public float postDelay = 0f;
+}
+
+public class SkillStat
 {
     public enum ESkillType
     {
@@ -27,36 +38,24 @@ public class SkillStat : ScriptableObject
         THIRTY,
     }
 
-    [Serializable]
-    public class SkillInfo
-    {
-        public string skillMotion = string.Empty;
-        [HideInInspector] public int numSkillEffect = 0;
-        public EffectList[] skillEffects = new EffectList[0];
-        public Vector3[] effectOffsets = new Vector3[0];
-        public Vector3 skillRange = Vector3.zero;
-        public Vector3 rangeOffset = Vector3.zero;
-        public float preDelay = 0f;
-        public float duration = 0f;
-        public float postDelay = 0f;
-    }
-
     #region Variables
 
-    [Header("Identity")]
+    // Identity
     public int skillID = 0;
-    public Sprite skillIcon;
+    public string clipPath = string.Empty;
+    public string clipName = string.Empty;
 
-    [Header("Skill Info")]
+    // Skill Info
+    public string skillIconPath = string.Empty;
     public EClassType classType = EClassType.NONE;
     public ESkillType skillType = ESkillType.NONE;
     public float coolTime = 0f;
     public int needMana = 0;
     public bool isNoMotion = false;
-    [HideInInspector] public int numCombo = 0;
+    public int numCombo = 0;
     public SkillInfo[] skillInfo = null;
 
-    [Header("Acquire Skill")]
+    // Acquire Level
     // minimum level value for acquiring the skill
     public EAcquireLevel acquireLevel = 0;
     // minimum and maximum level value
@@ -66,12 +65,13 @@ public class SkillStat : ScriptableObject
     // need point value for raising skill level
     public int needPoint = 0;
 
-    [Header("Skill List Info")]
-    public List<Skill> canCancelList = new List<Skill>();
-    public Skill[] preLearnedList = new Skill[0];
+    // Skill List Info
+    public List<int> canCancelList = new List<int>();
+    public List<int> preLearnedList = new List<int>();
 
     #endregion Variables
 
+    /*
     private void OnValidate()
     {
         if (numCombo != skillInfo.Length) numCombo = skillInfo.Length;
@@ -87,5 +87,5 @@ public class SkillStat : ScriptableObject
                 else t_info.effectOffsets = ArrayHelper.Add(new Vector3(), t_info.effectOffsets);
             }
         }
-    }
+    }*/
 }
