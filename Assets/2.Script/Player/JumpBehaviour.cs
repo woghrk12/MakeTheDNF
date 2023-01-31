@@ -48,7 +48,7 @@ public class JumpBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (canJump && InputManager.Buttons[KeyID.Jump].ButtonState == PlayerKey.EButtonState.DOWN)
+        if (canJump && InputManager.JumpButton.ButtonState == PlayerKey.EButtonState.DOWN)
             StartCoroutine(Jump());
     }
 

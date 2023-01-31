@@ -40,20 +40,20 @@ public class AttackBehaviour : MonoBehaviour
     {
         if (!canAttack) return;
 
-        if (InputManager.Buttons[KeyID.BaseAttack].ButtonState == PlayerKey.EButtonState.DOWN)
-            curRunningSkill = StartCoroutine(Attack(baseAttack, player.IsLeft, KeyID.BaseAttack));
+        if (InputManager.AttackButton.ButtonState == PlayerKey.EButtonState.DOWN)
+            curRunningSkill = StartCoroutine(Attack(baseAttack, player.IsLeft, InputManager.AttackButton.key));
     }
 
     #endregion Unity Events
 
     #region Methods
 
-    private IEnumerator Attack(Skill p_skill, bool p_isLeft, int  p_keyID)
+    private IEnumerator Attack(Skill p_skill, bool p_isLeft, KeyCode p_key)
     {
         if (!CheckCanUse(p_skill)) yield break;
 
         anim?.SetBool(hashIsAttack, true);
-        yield return p_skill.UseSkill(charTransform, anim, p_isLeft, p_keyID);
+        yield return p_skill.UseSkill(charTransform, anim, p_isLeft, p_key);
         anim?.SetBool(hashIsAttack, false);
 
         curSkill = null;
