@@ -15,21 +15,11 @@ public class PlayerKey
     private bool isPressed = false;
     private bool onPressed = false;
 
-    public UnityAction<KeyCode> OnClickEvent;
-
     #endregion Variables
 
     #region Properties
 
-    public EButtonState ButtonState
-    {
-        private set 
-        {
-            buttonState = value;
-            if (buttonState == EButtonState.DOWN) OnClickEvent?.Invoke(key);
-        }
-        get => buttonState;
-    }
+    public EButtonState ButtonState => buttonState;
 
     #endregion Properties
 
@@ -45,7 +35,7 @@ public class PlayerKey
     {
         if (key == KeyCode.None)
         {
-            ButtonState = EButtonState.IDLE;
+            buttonState = EButtonState.IDLE;
             isPressed = false;
             onPressed = false;
             return;
@@ -56,12 +46,12 @@ public class PlayerKey
 
         if (isPressed)
         {
-            ButtonState = onPressed ? EButtonState.PRESSED : EButtonState.DOWN;
+            buttonState = onPressed ? EButtonState.PRESSED : EButtonState.DOWN;
             onPressed = true;
         }
         else
         {
-            ButtonState = onPressed ? EButtonState.UP : EButtonState.IDLE;
+            buttonState = onPressed ? EButtonState.UP : EButtonState.IDLE;
             onPressed = false;
         }
     }
