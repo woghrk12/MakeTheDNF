@@ -48,13 +48,11 @@ public class SkillData : BaseData<SkillStat>
                 }
                 if (t_reader.IsStartElement(XmlElementName.NAME))
                     names[t_curID] = t_reader.ReadElementContentAsString();
-                if (t_reader.IsStartElement(XmlElementName.CLIPPATH))
-                    skillStats[t_curID].clipPath = t_reader.ReadElementContentAsString();
-                if (t_reader.IsStartElement(XmlElementName.CLIPNAME))
-                    skillStats[t_curID].clipName = t_reader.ReadElementContentAsString();
 
                 if (t_reader.IsStartElement(XmlElementName.SkillData.ICONFILEPATH))
                     skillStats[t_curID].skillIconPath = t_reader.ReadElementContentAsString();
+                if (t_reader.IsStartElement(XmlElementName.SkillData.ICONFILENAME))
+                    skillStats[t_curID].skillIconName = t_reader.ReadElementContentAsString();
                 if (t_reader.IsStartElement(XmlElementName.SkillData.CLASSTYPE))
                     skillStats[t_curID].classType = (EClassType)Enum.Parse(typeof(EClassType), t_reader.ReadElementContentAsString());
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLTYPE))
@@ -91,16 +89,28 @@ public class SkillData : BaseData<SkillStat>
                         skillStats[t_curID].skillInfo[i].numSkillEffect = int.Parse(t_num[i]);
                     }
                 }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECT))
+                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTPATH))
                 {
 
-                    string[] t_effects = t_reader.ReadElementContentAsString().Split('.');
-                    for (int i = 0; i < t_effects.Length; i++)
+                    string[] t_paths = t_reader.ReadElementContentAsString().Split('.');
+                    for (int i = 0; i < t_paths.Length; i++)
                     {
-                        if (t_effects[i] == string.Empty) continue;
-                        string[] t_effect = t_effects[i].Split(',');
-                        for (int j = 0; j < t_effect.Length; j++)
-                            skillStats[t_curID].skillInfo[i].skillEffectPaths[j] = t_effect[j];
+                        if (t_paths[i] == string.Empty) continue;
+                        string[] t_path = t_paths[i].Split(',');
+                        for (int j = 0; j < t_path.Length; j++)
+                            skillStats[t_curID].skillInfo[i].skillEffectPaths[j] = t_path[j];
+                    }
+                }
+                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTNAME))
+                {
+
+                    string[] t_names = t_reader.ReadElementContentAsString().Split('.');
+                    for (int i = 0; i < t_names.Length; i++)
+                    {
+                        if (t_names[i] == string.Empty) continue;
+                        string[] t_name = t_names[i].Split(',');
+                        for (int j = 0; j < t_name.Length; j++)
+                            skillStats[t_curID].skillInfo[i].skillEffectNames[j] = t_name[j];
                     }
                 }
                 if (t_reader.IsStartElement(XmlElementName.SkillData.EFFECTOFFSET))
@@ -225,14 +235,13 @@ public class SkillData : BaseData<SkillStat>
                         {
                             t_writer.WriteElementString(XmlElementName.ID, i.ToString());
                             t_writer.WriteElementString(XmlElementName.NAME, names[i]);
-                            t_writer.WriteElementString(XmlElementName.CLIPPATH, t_clip.clipPath);
-                            t_writer.WriteElementString(XmlElementName.CLIPNAME, t_clip.clipName);
                         }
                         t_writer.WriteEndElement();
 
                         t_writer.WriteStartElement(XmlElementName.SkillData.SKILLSTAT);
                         {
                             t_writer.WriteElementString(XmlElementName.SkillData.ICONFILEPATH, t_clip.skillIconPath);
+                            t_writer.WriteElementString(XmlElementName.SkillData.ICONFILENAME, t_clip.skillIconName);
                             t_writer.WriteElementString(XmlElementName.SkillData.CLASSTYPE, t_clip.classType.ToString());
                             t_writer.WriteElementString(XmlElementName.SkillData.SKILLTYPE, t_clip.skillType.ToString());
                             t_writer.WriteElementString(XmlElementName.SkillData.COOLTIME, t_clip.coolTime.ToString());
@@ -251,10 +260,18 @@ public class SkillData : BaseData<SkillStat>
                             t_str = "";
                             foreach (SkillInfo t_info in t_clip.skillInfo)
                             {
-                                foreach (string t_effect in t_info.skillEffectPaths) t_str += t_effect.ToString() + ",";
+                                foreach (string t_path in t_info.skillEffectPaths) t_str += t_path + ",";
                                 t_str += ".";
                             }
-                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECT, t_str);
+                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTPATH, t_str);
+
+                            t_str = "";
+                            foreach (SkillInfo t_info in t_clip.skillInfo)
+                            {
+                                foreach (string t_name in t_info.skillEffectNames) t_str += t_name + ",";
+                                t_str += ".";
+                            }
+                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTNAME, t_str);
 
                             t_str = "";
                             foreach (SkillInfo t_info in t_clip.skillInfo)

@@ -45,6 +45,7 @@ public class XmlElementName
         public const string SKILLSTAT = "SkillStat";
         // Skill Stat Element
         public const string ICONFILEPATH = "IconFilePath";
+        public const string ICONFILENAME = "IconFileName";
         public const string CLASSTYPE = "ClassType";
         public const string SKILLTYPE = "SkillType";
         public const string COOLTIME = "CoolTime";
@@ -55,7 +56,8 @@ public class XmlElementName
         // Combo Stat Element
         public const string SKILLMOTION = "SkillMotion";
         public const string NUMSKILLEFFECT = "NumSkillEffect";
-        public const string SKILLEFFECT = "SkillEffect";
+        public const string SKILLEFFECTPATH = "SkillEffectPath";
+        public const string SKILLEFFECTNAME = "SkillEffectName";
         public const string EFFECTOFFSET = "EffectOffset";
         public const string SKILLRANGE = "SkillRange";
         public const string RANGEOFFSET = "RangeOffset";
