@@ -17,6 +17,8 @@ public class SkillData : BaseData<SkillStat>
 
     #endregion Variables
 
+    #region Override Methods
+
     public override void LoadData()
     {
         xmlFilePath = Application.dataPath + FilePath.DataDirectoryPath;
@@ -344,7 +346,120 @@ public class SkillData : BaseData<SkillStat>
 
     public override SkillStat GetClip(int p_idx, bool p_isCopy = false)
     {
+        if (p_idx < 0 || p_idx >= DataCount) return null;
 
-        return null;
+        SkillStat t_origin = skillStats[p_idx];
+
+        if (!p_isCopy)
+        {
+            t_origin.PreLoadEffect();
+            t_origin.PreLoadIcon();
+            return t_origin;
+        }
+
+        SkillStat t_copy = new SkillStat();
+
+        t_copy.skillID = t_origin.skillID;
+        t_copy.skillIconPath = t_origin.skillIconPath;
+        t_copy.skillIconName = t_origin.skillIconName;
+        t_copy.skillIcon = t_origin.skillIcon;
+        t_copy.classType = t_origin.classType;
+        t_copy.skillType = t_origin.skillType;
+        t_copy.coolTime = t_origin.coolTime;
+        t_copy.needMana = t_origin.needMana;
+        t_copy.isNoMotion = t_origin.isNoMotion;
+        t_copy.numCombo = t_origin.numCombo;
+
+        t_copy.skillInfo = new SkillInfo[t_copy.numCombo];
+        for (int i = 0; i < t_copy.numCombo; i++)
+        {
+            t_copy.skillInfo[i] = new SkillInfo();
+            t_copy.skillInfo[i].skillMotion = t_origin.skillInfo[i].skillMotion;
+            t_copy.skillInfo[i].numSkillEffect = t_origin.skillInfo[i].numSkillEffect;
+
+            t_copy.skillInfo[i].skillEffectPaths = new string[t_copy.skillInfo[i].numSkillEffect];
+            t_copy.skillInfo[i].skillEffectNames = new string[t_copy.skillInfo[i].numSkillEffect];
+            t_copy.skillInfo[i].skillEffects = new GameObject[t_copy.skillInfo[i].numSkillEffect];
+            t_copy.skillInfo[i].effectOffsets= new Vector3[t_copy.skillInfo[i].numSkillEffect];
+            for (int j = 0; j < t_copy.skillInfo[i].numSkillEffect; j++)
+            {
+                t_copy.skillInfo[i].skillEffectPaths[j] = t_origin.skillInfo[i].skillEffectPaths[j];
+                t_copy.skillInfo[i].skillEffectNames[j] = t_origin.skillInfo[i].skillEffectNames[j];
+                t_copy.skillInfo[i].skillEffects[j] = t_origin.skillInfo[i].skillEffects[j];
+                t_copy.skillInfo[i].effectOffsets[j] = t_origin.skillInfo[i].effectOffsets[j];
+            }
+
+            t_copy.skillInfo[i].skillRange = t_origin.skillInfo[i].skillRange;
+            t_copy.skillInfo[i].rangeOffset = t_origin.skillInfo[i].rangeOffset;
+            t_copy.skillInfo[i].preDelay = t_origin.skillInfo[i].preDelay;
+            t_copy.skillInfo[i].duration = t_origin.skillInfo[i].duration;
+            t_copy.skillInfo[i].postDelay = t_origin.skillInfo[i].postDelay;
+        }
+
+        t_copy.acquireLevel = t_origin.acquireLevel;
+        t_copy.minLevel = t_origin.minLevel;
+        t_copy.maxLevel = t_origin.maxLevel;
+        t_copy.stepLevel = t_origin.stepLevel;
+        t_copy.needPoint = t_origin.needPoint;
+
+        t_copy.canCancelList = new List<int>();
+        foreach (int t_skillID in t_origin.canCancelList)
+            t_copy.canCancelList.Add(t_skillID);
+
+        t_copy.preLearnedList = new List<int>();
+        foreach (int t_skillID in t_origin.preLearnedList)
+            t_copy.preLearnedList.Add(t_skillID);
+
+        return t_copy;
     }
+
+    public override void AddData(string p_newName)
+    {
+        if (names == null)
+        {
+            names = new string[] { p_newName };
+            skillStats = new SkillStat[] { new SkillStat() };
+            return;
+        }
+
+        names = ArrayHelper.Add(p_newName, names);
+        skillStats = ArrayHelper.Add(new SkillStat(), skillStats);
+    }
+
+    public override void RemoveData(int p_idx)
+    {
+        if (p_idx < 0 || p_idx >= DataCount) return;
+        if (DataCount <= 0) return;
+
+        names = ArrayHelper.Remove(p_idx, names);
+        skillStats = ArrayHelper.Remove(p_idx, skillStats);
+
+        if (DataCount <= 0)
+        {
+            names = null;
+            skillStats = null;
+        }
+    }
+
+    public override void ClearData()
+    {
+        foreach (SkillStat t_clip in skillStats)
+        {
+            t_clip.ReleaseEffect();
+            t_clip.ReleaseIcon();
+        }
+
+        names = null;
+        skillStats = null;
+    }
+
+    public override void CopyData(int p_idx)
+    {
+        if (p_idx < 0 || p_idx >= DataCount) return;
+
+        names = ArrayHelper.Add(names[p_idx], names);
+        skillStats = ArrayHelper.Add(skillStats[p_idx], skillStats);
+    }
+
+    #endregion Override Methods
 }

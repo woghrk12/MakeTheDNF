@@ -55,7 +55,7 @@ public class SkillStat
     public int needMana = 0;
     public bool isNoMotion = false;
     public int numCombo = 0;
-    public SkillInfo[] skillInfo = null;
+    public SkillInfo[] skillInfo = new SkillInfo[0];
 
     // Acquire Level
     // minimum level value for acquiring the skill
