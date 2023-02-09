@@ -15,7 +15,7 @@ public class EffectTool : EditorWindow
 
     #endregion Variables
 
-    [MenuItem("Tools/EffectData Tool")]
+    [MenuItem("Tools/Data/EffectData Tool")]
     private static void Init()
     {
         effectData = CreateInstance<EffectData>();

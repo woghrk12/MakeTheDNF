@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class SkillInfo
 {
     public string skillMotion = string.Empty;
@@ -91,7 +93,7 @@ public class SkillStat
     {
         if (skillIcon != null) return;
 
-        skillIcon = Resources.Load(skillIconPath + skillIconName) as Sprite;
+        skillIcon = Resources.Load(skillIconPath + skillIconName, typeof(Sprite)) as Sprite;
     }
 
     public void ReleaseEffect()

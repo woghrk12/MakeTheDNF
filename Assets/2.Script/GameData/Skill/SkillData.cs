@@ -5,7 +5,6 @@ using System.IO;
 using System.Xml;
 using UnityEngine;
 
-
 public class SkillData : BaseData<SkillStat>
 {
     #region Variables
@@ -336,7 +335,6 @@ public class SkillData : BaseData<SkillStat>
                         }
                         t_writer.WriteEndElement();
                     }
-                    t_writer.WriteEndElement();
                 }
                 t_writer.WriteEndElement();
             }

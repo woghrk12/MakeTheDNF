@@ -17,7 +17,7 @@ public class SoundTool : EditorWindow
 
     #endregion Variables
 
-    [MenuItem("Tools/SoundData Tool")]
+    [MenuItem("Tools/Data/SoundData Tool")]
     private static void Init()
     {
         soundData = CreateInstance<SoundData>();
