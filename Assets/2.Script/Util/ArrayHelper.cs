@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ArrayHelper 
 {
@@ -20,5 +22,15 @@ public class ArrayHelper
         t_tempList.RemoveAt(p_index);
 
         return t_tempList.ToArray(typeof(T)) as T[];
+    }
+
+    public static List<T> ArrayToList<T>(T[] p_array)
+    {
+        return p_array.ToList();
+    }
+    
+    public static T[] ListToArray<T>(List<T> p_list)
+    {
+        return p_list.ToArray();
     }
 }
