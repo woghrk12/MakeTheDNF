@@ -41,42 +41,41 @@ public class XmlElementName
 
     public class SkillData
     {
-        // Skill Stat Header
-        public const string SKILLSTAT = "SkillStat";
-        // Skill Stat Element
+        // Skill Icon
+        public const string SKILLICON = "SkillIcon";
         public const string ICONFILEPATH = "IconFilePath";
         public const string ICONFILENAME = "IconFileName";
+
+        // Skill Stat
+        public const string SKILLSTAT = "SkillStat";
         public const string CLASSTYPE = "ClassType";
         public const string SKILLTYPE = "SkillType";
         public const string COOLTIME = "CoolTime";
         public const string NEEDMANA = "NeedMana";
-        public const string ISNOMOTION = "ISNOMOTION";
-        public const string NUMCOMBO = "NumCombo";
-
-        // Combo Stat Element
-        public const string SKILLMOTION = "SkillMotion";
-        public const string NUMSKILLEFFECT = "NumSkillEffect";
-        public const string SKILLEFFECTPATH = "SkillEffectPath";
-        public const string SKILLEFFECTNAME = "SkillEffectName";
-        public const string EFFECTOFFSET = "EffectOffset";
-        public const string SKILLRANGE = "SkillRange";
-        public const string RANGEOFFSET = "RangeOffset";
         public const string PREDELAY = "PreDelay";
         public const string DURATION = "Duration";
         public const string POSTDELAY = "PostDelay";
 
-        // Acquire Stat Header
+        // Skill Motion
+        public const string ISNOMOTION = "ISNOMOTION";
+        public const string SKILLMOTION = "SkillMotion";
+
+        // Skill Effect
+        public const string NUMSKILLEFFECT = "NumSkillEffect";
+        public const string SKILLEFFECTPATH = "SkillEffectPath";
+        public const string SKILLEFFECTNAME = "SkillEffectName";
+        public const string EFFECTOFFSET = "EffectOffset";
+
+        // Acquire Level
         public const string ACQUIRE = "Acquire";
-        // Acquire Stat Element
         public const string ACQUIRELEVEL = "AcquireLevel";
         public const string MINLEVEL = "MinLevel";
         public const string MAXLEVEL = "MaxLevel";
         public const string STEPLEVEL = "StepLevel";
         public const string NEEDPOINT = "NeedPoint";
 
-        // Skill List Info Header
+        // Skill List
         public const string LIST = "List";
-        // Skill List Element
         public const string CANCANCELLIST = "CanCancelList";
         public const string PRELEAREDLIST = "PreLearnedList";
     }
