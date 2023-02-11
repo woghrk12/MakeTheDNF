@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Text; 
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class SkillTool : EditorWindow
@@ -12,6 +13,12 @@ public class SkillTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static SkillData skillData;
+    private string enumName = "SkillList";
+
+    private bool isSelectedAnother = false;
+    private ReorderableList effectList;
+    private ReorderableList canCancelList;
+    private ReorderableList preLearnedList;
 
     #endregion Variables
 
@@ -20,6 +27,7 @@ public class SkillTool : EditorWindow
     {
         skillData = CreateInstance<SkillData>();
         skillData.LoadData();
+
         selection = -1;
         GetWindow<SkillTool>(false, "Skill Tool").Show();
     }
@@ -33,31 +41,16 @@ public class SkillTool : EditorWindow
             EditorToolLayer<SkillStat>.EditorToolTopLayer(skillData, ref selection, EditorHelper.uiWidthMiddle);
             EditorGUILayout.BeginHorizontal();
             {
+                int t_oldSelection = selection;
                 EditorToolLayer<SkillStat>.EditorToolListLayer(skillData, ref scrollPos1, ref selection, EditorHelper.uiWidthMiddle);
-                if (selection >= 0) InfoLayer();
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.Separator();
-
-            EditorGUILayout.BeginHorizontal();
-            {
-                if (GUILayout.Button("Reload Settings"))
+                if (selection >= 0)
                 {
-                    skillData = CreateInstance<SkillData>();
-                    skillData.LoadData();
-                    selection = 0;
-                    Debug.Log("Reload Complete!!");
-                }
-                if (GUILayout.Button("Save Settings"))
-                {
-                    skillData.SaveData();
-                    CreateEnumStructure();
-                    AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-                    Debug.Log("Save Complete!!");
+                    isSelectedAnother = t_oldSelection != selection;
+                    InfoLayer();
                 }
             }
             EditorGUILayout.EndHorizontal();
+            EditorToolLayer<SkillStat>.EditorToolBottomLayer(skillData, ref selection, enumName);
         }
         EditorGUILayout.EndVertical();
     }
@@ -66,18 +59,52 @@ public class SkillTool : EditorWindow
 
     private void InfoLayer()
     {
-        if (skillData.DataCount <= 0) return;
-
         EditorGUILayout.BeginVertical();
         {
             scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             {
                 SkillStat t_clip = skillData.skillStats[selection];
 
-                EditorGUILayout.LabelField("Identity", EditorStyles.boldLabel);
+                if (isSelectedAnother)
+                {
+                    // Initialize Effect List 
+                    effectList = new ReorderableList(ArrayHelper.ArrayToList(t_clip.skillEffectNames), typeof(string));
+                    effectList.drawElementCallback = (Rect p_rect, int p_idx, bool p_isActive, bool p_isFocused) =>
+                    {
+                        var t_element = t_clip.skillEffectNames[p_idx];
+                        EditorGUI.LabelField(p_rect, t_element);
+                    };
+                    effectList.drawHeaderCallback = (Rect p_rect) => { EditorGUI.LabelField(p_rect, "Effect List"); };
+                    effectList.onAddCallback = (ReorderableList p_list) => 
+                    {
+                        int t_index = t_clip.numSkillEffect - 1;
+                        t_clip.AddEffect();
+                        p_list.list.Add("New Effect");
+                        p_list.index = t_index;
+                    };
+                    effectList.onRemoveCallback = (ReorderableList p_list) => 
+                    {
+                        int t_index = t_clip.numSkillEffect - 1;
+                        p_list.index = t_index - 1;
+                        p_list.list.RemoveAt(t_index);
+                        t_clip.RemoveEffect(t_index);
+                    };
+
+                    // Initialize CanCancel List
+                    canCancelList = new ReorderableList(t_clip.canCancelList, typeof(int));
+
+                    // Initialize PreLearned List
+                    preLearnedList = new ReorderableList(t_clip.preLearnedList, typeof(int));
+                }
+
+                // Identity
                 EditorGUILayout.LabelField("ID", t_clip.skillID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
                 skillData.names[selection] = EditorGUILayout.TextField("Name", skillData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
 
+                EditorGUILayout.Separator();
+
+                // Skill Icon
+                EditorGUILayout.LabelField("Skill Icon", EditorStyles.boldLabel);
                 if (t_clip.skillIcon == null && t_clip.skillIconName != string.Empty) t_clip.PreLoadIcon();
                 t_clip.skillIcon = EditorGUILayout.ObjectField("Skill Icon", t_clip.skillIcon, typeof(Sprite), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as Sprite;
                 if (t_clip.skillIcon != null)
@@ -91,103 +118,69 @@ public class SkillTool : EditorWindow
                     t_clip.skillIconName = string.Empty;
                 }
 
-                EditorGUILayout.LabelField("Skill Info", EditorStyles.boldLabel);
+                EditorGUILayout.Separator();
+
+                // Skill Stat
+                EditorGUILayout.LabelField("Skill Stat", EditorStyles.boldLabel);
                 t_clip.classType = (EClassType)EditorGUILayout.EnumPopup("Class Type", t_clip.classType, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.skillType = (SkillStat.ESkillType)EditorGUILayout.EnumPopup("Skill Type", t_clip.skillType, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.coolTime = EditorGUILayout.FloatField("Cool Time", t_clip.coolTime, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.needMana = EditorGUILayout.IntField("Need Mana", t_clip.needMana, GUILayout.Width(EditorHelper.uiWidthLarge));
+                t_clip.preDelay = EditorGUILayout.FloatField("Pre Delay", t_clip.preDelay, GUILayout.Width(EditorHelper.uiWidthLarge));
+                t_clip.duration = EditorGUILayout.FloatField("Duration", t_clip.duration, GUILayout.Width(EditorHelper.uiWidthLarge));
+                t_clip.postDelay = EditorGUILayout.FloatField("Post Delay", t_clip.postDelay, GUILayout.Width(EditorHelper.uiWidthLarge));
+
                 EditorGUILayout.Separator();
 
-                EditorGUILayout.LabelField("Skill Info related to level", EditorStyles.boldLabel);
+                // Skill Motion
+                EditorGUILayout.LabelField("Skill Motion", EditorStyles.boldLabel);
+                t_clip.isNoMotion = EditorGUILayout.Toggle("No Motion", t_clip.isNoMotion, GUILayout.Width(EditorHelper.uiWidthLarge));
+                if (t_clip.isNoMotion) t_clip.skillMotion = string.Empty;
+                else t_clip.skillMotion = EditorGUILayout.TextField("Skill Motion", t_clip.skillMotion, GUILayout.Width(EditorHelper.uiWidthLarge));
+
+                EditorGUILayout.Separator();
+
+                // Skill Effect
+                EditorGUILayout.LabelField("Skill Effect", EditorStyles.boldLabel);
+                effectList.DoLayoutList();
+                int t_idxEffect = effectList.index;
+                if (t_idxEffect >= 0)
+                {
+                    if (t_clip.skillEffects[t_idxEffect] == null && t_clip.skillEffectNames[t_idxEffect] != string.Empty) t_clip.PreLoadEffect();
+                    t_clip.skillEffects[t_idxEffect] = EditorGUILayout.ObjectField("Skill Effect", t_clip.skillEffects[t_idxEffect], typeof(GameObject), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as GameObject;
+                    if (t_clip.skillEffects[t_idxEffect] != null)
+                    {
+                        t_clip.skillEffectPaths[t_idxEffect] = EditorHelper.GetPath(t_clip.skillEffects[t_idxEffect]);
+                        t_clip.skillEffectNames[t_idxEffect] = t_clip.skillEffects[t_idxEffect].name;
+                        t_clip.effectOffsets[t_idxEffect] = EditorGUILayout.Vector3Field("Effect Offset", t_clip.effectOffsets[t_idxEffect], GUILayout.Width(EditorHelper.uiWidthLarge));
+                    }
+                    else
+                    {
+                        t_clip.skillEffectPaths[t_idxEffect] = string.Empty;
+                        t_clip.skillEffectNames[t_idxEffect] = string.Empty;
+                        t_clip.effectOffsets[t_idxEffect] = Vector3.zero;
+                    }
+                }
+
+                EditorGUILayout.Separator();
+
+                // Acquire Level
+                EditorGUILayout.LabelField("Acquire Level", EditorStyles.boldLabel);
                 t_clip.acquireLevel = (SkillStat.EAcquireLevel)EditorGUILayout.EnumPopup("Acquire Level", t_clip.acquireLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.minLevel = EditorGUILayout.IntField("Min Level", t_clip.minLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.maxLevel = EditorGUILayout.IntField("Max Level", t_clip.maxLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.stepLevel = EditorGUILayout.IntField("Step Level", t_clip.stepLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.needPoint = EditorGUILayout.IntField("Need Point", t_clip.needPoint, GUILayout.Width(EditorHelper.uiWidthLarge));
+                
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Skill List Info", EditorStyles.boldLabel);
-
-                EditorGUILayout.Separator();
-
-                t_clip.isNoMotion = EditorGUILayout.Toggle("No Motion", t_clip.isNoMotion, GUILayout.Width(EditorHelper.uiWidthLarge));
-
-                if (GUILayout.Button("Add Combo", GUILayout.Width(EditorHelper.uiWidthMiddle))) t_clip.AddCombo();
-                if (t_clip.numCombo > 0) ComboLayer(t_clip);
+                
             }
             EditorGUILayout.EndScrollView();
         }
         EditorGUILayout.EndVertical();
     }
-
-    private void ComboLayer(SkillStat p_clip)
-    {
-        EditorGUILayout.BeginVertical();
-        {
-            for (int i = 0; i < p_clip.numCombo; i++)
-            {
-                SkillInfo t_info = p_clip.skillInfo[i];
-
-                EditorGUILayout.BeginHorizontal();
-                {
-                    EditorGUILayout.LabelField("Combo " + i.ToString(), EditorStyles.boldLabel, GUILayout.Width(EditorHelper.uiWidthSmall));
-                    if (GUILayout.Button("Remove", GUILayout.Width(EditorHelper.uiWidthSmall)))
-                    {
-                        p_clip.RemoveCombo(i);
-                        EditorGUILayout.EndHorizontal();
-                        continue;
-                    }
-                }
-                EditorGUILayout.EndHorizontal();
-
-                t_info.skillMotion = EditorGUILayout.TextField("Skill Motion", t_info.skillMotion, GUILayout.Width(EditorHelper.uiWidthLarge));
-                t_info.numSkillEffect = EditorGUILayout.IntField("Num Effect", t_info.numSkillEffect, GUILayout.Width(EditorHelper.uiWidthLarge));
-                for (int j = 0; j < t_info.numSkillEffect; j++)
-                {
-                    t_info.skillEffects[j] = EditorGUILayout.ObjectField("Effect", t_info.skillEffects[j], typeof(GameObject), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as GameObject;
-                    if (t_info.skillEffects[i] != null)
-                    {
-                        t_info.skillEffectPaths[j] = EditorHelper.GetPath(t_info.skillEffects[j]);
-                        t_info.skillEffectNames[j] = t_info.skillEffects[j].name;
-                    }
-                    else
-                    {
-                        t_info.skillEffectPaths[j] = string.Empty;
-                        t_info.skillEffectNames[j] = string.Empty;
-                    }
-                    t_info.effectOffsets[j] = EditorGUILayout.Vector3Field("Effect Offset", t_info.effectOffsets[j], GUILayout.Width(EditorHelper.uiWidthLarge));
-                }
-                t_info.skillRange = EditorGUILayout.Vector3Field("Skill Range", t_info.skillRange, GUILayout.Width(EditorHelper.uiWidthLarge));
-                t_info.rangeOffset = EditorGUILayout.Vector3Field("Range Offset", t_info.rangeOffset, GUILayout.Width(EditorHelper.uiWidthLarge));
-                t_info.preDelay = EditorGUILayout.FloatField("Pre Delay", t_info.preDelay, GUILayout.Width(EditorHelper.uiWidthLarge));
-                t_info.duration = EditorGUILayout.FloatField("Duration", t_info.duration, GUILayout.Width(EditorHelper.uiWidthLarge));
-                t_info.postDelay = EditorGUILayout.FloatField("Post Delay", t_info.postDelay, GUILayout.Width(EditorHelper.uiWidthLarge));
-            }                     
-        }
-        EditorGUILayout.EndVertical();
-    }
-
+   
     #endregion Panel Methods
-
-    #region Helper Methods
-
-    private void CreateEnumStructure()
-    {
-        StringBuilder t_builder = new StringBuilder();
-        t_builder.AppendLine();
-
-        int t_lenght = skillData.names != null ? skillData.DataCount : 0;
-        for (int i = 0; i < t_lenght; i++)
-        {
-            if (skillData.names[i] == string.Empty) continue;
-
-            string t_name = skillData.names[i];
-            string t_className = skillData.skillStats[i].classType.ToString();
-            t_name = string.Concat(t_name.Where(t_char => !char.IsWhiteSpace(t_char)));
-            t_builder.AppendLine("    " + t_className + "_" + t_name + " = " + i + ",");
-        }
-        EditorHelper.CreateEnumStructure("SkillList", t_builder);
-    }
-
-    #endregion Helper Methods
 }
