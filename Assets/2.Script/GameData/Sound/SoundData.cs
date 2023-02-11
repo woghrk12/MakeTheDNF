@@ -32,6 +32,7 @@ public class SoundData : BaseData<SoundClip>
         {
             int t_length = 0;
             int t_curID = 0;
+            int t_cntLoop = 0;
 
             while (t_reader.Read())
             {
@@ -41,41 +42,62 @@ public class SoundData : BaseData<SoundClip>
                     names = new string[t_length];
                     soundClips = new SoundClip[t_length];
                 }
-                if (t_reader.IsStartElement(XmlElementName.IDENTITY))
+                // Sound Identity
+                if (t_reader.IsStartElement(XmlElementName.SoundData.SOUNDSETTINGS))
                 {
                     t_curID = int.Parse(t_reader.GetAttribute(XmlElementName.ID));
                     names[t_curID] = t_reader.GetAttribute(XmlElementName.NAME);
                     soundClips[t_curID] = new SoundClip();
+
+
                     soundClips[t_curID].clipPath = t_reader.GetAttribute(XmlElementName.CLIPPATH);
                     soundClips[t_curID].clipName = t_reader.GetAttribute(XmlElementName.CLIPNAME);
                 }
-                if (t_reader.IsStartElement(XmlElementName.SoundData.OPTIONS))
+
+                // Sound Clip
+                if (t_reader.IsStartElement(XmlElementName.SoundData.CLIPPATH))
+                    soundClips[t_curID].clipPath = t_reader.ReadElementContentAsString();
+                if (t_reader.IsStartElement(XmlElementName.SoundData.CLIPNAME))
+                    soundClips[t_curID].clipName = t_reader.ReadElementContentAsString();
+
+                // Options
+                if (t_reader.IsStartElement(XmlElementName.SoundData.PLAYTYPE))
+                    soundClips[t_curID].playType = (SoundClip.ESoundPlayType)Enum.Parse(typeof(SoundClip.ESoundPlayType), t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SoundData.MAXVOLUME))
+                    soundClips[t_curID].maxVolume = float.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SoundData.PITCH))
+                    soundClips[t_curID].pitch = float.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SoundData.SPATIALBLEND))
+                    soundClips[t_curID].spatialBlend = float.Parse(t_reader.ReadElementContentAsString());
+
+                // Loop Options
+                if (t_reader.IsStartElement(XmlElementName.SoundData.ISLOOP))
+                    soundClips[t_curID].isLoop = bool.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SoundData.CNTLOOP))
                 {
-                    soundClips[t_curID].playType = (SoundClip.ESoundPlayType)Enum.Parse(typeof(SoundClip.ESoundPlayType), t_reader.GetAttribute(XmlElementName.SoundData.PLAYTYPE));
-                    soundClips[t_curID].maxVolume = float.Parse(t_reader.GetAttribute(XmlElementName.SoundData.MAXVOLUME));
-                    soundClips[t_curID].pitch = float.Parse(t_reader.GetAttribute(XmlElementName.SoundData.PITCH));
-                    soundClips[t_curID].spatialBlend = float.Parse(t_reader.GetAttribute(XmlElementName.SoundData.SPATIALBLEND));
-                }
-                if(t_reader.IsStartElement(XmlElementName.SoundData.LOOPOPTIONS))
-                {
-                    soundClips[t_curID].isLoop = bool.Parse(t_reader.GetAttribute(XmlElementName.SoundData.ISLOOP));
-                    int t_cntLoop = int.Parse(t_reader.GetAttribute(XmlElementName.SoundData.CNTLOOP));
+                    t_cntLoop = int.Parse(t_reader.ReadElementContentAsString());
                     soundClips[t_curID].cntLoop = t_cntLoop;
                     soundClips[t_curID].checkTime = new float[t_cntLoop];
                     soundClips[t_curID].setTime = new float[t_cntLoop];
-
-                    string[] t_time = t_reader.GetAttribute(XmlElementName.SoundData.CHECKTIME).Split('/');
+                }
+                if (t_reader.IsStartElement(XmlElementName.SoundData.STARTLOOP))
+                    soundClips[t_curID].startLoop = int.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SoundData.CHECKTIME))
+                {
+                    string[] t_time = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_cntLoop; i++)
                     {
                         if (t_time[i] == string.Empty) continue;
                         soundClips[t_curID].checkTime[i] = float.Parse(t_time[i]);
                     }
-
-                    t_time = t_reader.GetAttribute(XmlElementName.SoundData.SETTIME).Split('/');
+                }
+                if (t_reader.IsStartElement(XmlElementName.SoundData.SETTIME))
+                {
+                    string[] t_time = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_cntLoop; i++)
                     {
                         if (t_time[i] == string.Empty) continue;
-                        soundClips[t_curID].checkTime[i] = float.Parse(t_time[i]);
+                        soundClips[t_curID].setTime[i] = float.Parse(t_time[i]);
                     }
                 }
             }
@@ -98,36 +120,47 @@ public class SoundData : BaseData<SoundClip>
                     for (int i = 0; i < t_length; i++)
                     {
                         SoundClip t_clip = soundClips[i];
-                        t_writer.WriteStartElement(XmlElementName.IDENTITY);
+
+                        t_writer.WriteStartElement(XmlElementName.SoundData.SOUNDSETTINGS);
                         t_writer.WriteAttributeString(XmlElementName.ID, i.ToString());
                         t_writer.WriteAttributeString(XmlElementName.NAME, names[i]);
-                        t_writer.WriteAttributeString(XmlElementName.CLIPPATH, t_clip.clipPath);
-                        t_writer.WriteAttributeString(XmlElementName.CLIPNAME, t_clip.clipName);
-                        t_writer.WriteEndElement();
-
-                        t_writer.WriteStartElement(XmlElementName.SoundData.OPTIONS);
-                        t_writer.WriteAttributeString(XmlElementName.SoundData.PLAYTYPE, t_clip.playType.ToString());
-                        t_writer.WriteAttributeString(XmlElementName.SoundData.MAXVOLUME, t_clip.maxVolume.ToString());
-                        t_writer.WriteAttributeString(XmlElementName.SoundData.PITCH, t_clip.pitch.ToString());
-                        t_writer.WriteAttributeString(XmlElementName.SoundData.SPATIALBLEND, t_clip.spatialBlend.ToString());
-                        t_writer.WriteEndElement();
-
-                        if (t_clip.isLoop)
                         {
-                            t_writer.WriteStartElement(XmlElementName.SoundData.LOOPOPTIONS);
-                            t_writer.WriteAttributeString(XmlElementName.SoundData.ISLOOP, t_clip.isLoop.ToString());
-                            t_writer.WriteAttributeString(XmlElementName.SoundData.CNTLOOP, t_clip.cntLoop.ToString());
-                            t_writer.WriteAttributeString(XmlElementName.SoundData.STARTLOOP, t_clip.startLoop.ToString());
-
-                            string t_str = "";
-                            foreach (float t_checkTime in t_clip.checkTime) t_str += t_checkTime.ToString() + "/";
-                            t_writer.WriteAttributeString(XmlElementName.SoundData.CHECKTIME, t_str);
-
-                            t_str = "";
-                            foreach (float t_setTime in t_clip.setTime) t_str += t_setTime.ToString() + "/";
-                            t_writer.WriteAttributeString(XmlElementName.SoundData.SETTIME, t_str);
+                            t_writer.WriteStartElement(XmlElementName.SoundData.SOUNDCLIP);
+                            {
+                                t_writer.WriteElementString(XmlElementName.SoundData.CLIPPATH, t_clip.clipPath);
+                                t_writer.WriteElementString(XmlElementName.SoundData.CLIPNAME, t_clip.clipName);
+                            }
                             t_writer.WriteEndElement();
+
+                            t_writer.WriteStartElement(XmlElementName.SoundData.OPTIONS);
+                            {
+                                t_writer.WriteElementString(XmlElementName.SoundData.PLAYTYPE, t_clip.playType.ToString());
+                                t_writer.WriteElementString(XmlElementName.SoundData.MAXVOLUME, t_clip.maxVolume.ToString());
+                                t_writer.WriteElementString(XmlElementName.SoundData.PITCH, t_clip.pitch.ToString());
+                                t_writer.WriteElementString(XmlElementName.SoundData.SPATIALBLEND, t_clip.spatialBlend.ToString());
+                            }
+                            t_writer.WriteEndElement();
+
+                            if (t_clip.isLoop)
+                            {
+                                t_writer.WriteStartElement(XmlElementName.SoundData.LOOPOPTIONS);
+                                {
+                                    t_writer.WriteElementString(XmlElementName.SoundData.ISLOOP, t_clip.isLoop.ToString());
+                                    t_writer.WriteElementString(XmlElementName.SoundData.CNTLOOP, t_clip.cntLoop.ToString());
+                                    t_writer.WriteElementString(XmlElementName.SoundData.STARTLOOP, t_clip.startLoop.ToString());
+
+                                    string t_str = "";
+                                    foreach (float t_checkTime in t_clip.checkTime) t_str += t_checkTime.ToString() + "/";
+                                    t_writer.WriteElementString(XmlElementName.SoundData.CHECKTIME, t_str);
+
+                                    t_str = "";
+                                    foreach (float t_setTime in t_clip.setTime) t_str += t_setTime.ToString() + "/";
+                                    t_writer.WriteElementString(XmlElementName.SoundData.SETTIME, t_str);
+                                }
+                                t_writer.WriteEndElement();
+                            }
                         }
+                        t_writer.WriteEndElement();
                     }
                 }
                 t_writer.WriteEndElement();

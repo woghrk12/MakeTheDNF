@@ -21,17 +21,22 @@ public class XmlElementName
 
     public class SoundData
     {
-        // Options Element
+        public const string SOUNDSETTINGS = "SoundSettings";
+
+        // Sound Clip
+        public const string SOUNDCLIP = "SoundClip";
+        public const string CLIPPATH = "ClipPath";
+        public const string CLIPNAME = "ClipName";
+
+        // Options
         public const string OPTIONS = "Options";
-        // Options Attribute
         public const string PLAYTYPE = "PlayType";
         public const string MAXVOLUME = "MaxVolume";
         public const string PITCH = "Pitch";
         public const string SPATIALBLEND = "SpatialBlend";
 
-        // Loop Element
+        // Loop Options
         public const string LOOPOPTIONS = "LoopOptions";
-        // Loop Attribute
         public const string ISLOOP = "Loop";
         public const string CNTLOOP = "CntLoop";
         public const string STARTLOOP = "StartLoop";
@@ -42,6 +47,7 @@ public class XmlElementName
     public class SkillData
     {
         public const string SKILLINFO = "SkillInfo";
+
         // Skill Icon
         public const string SKILLICON = "SkillIcon";
         public const string ICONFILEPATH = "IconFilePath";
