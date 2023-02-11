@@ -5,19 +5,14 @@ using UnityEngine;
 public class XmlElementName
 {
     public const string SOUND = "Sound";
-    public const string EFFECT = "Effect";
     public const string SKILL = "Skill";
     public const string INPUT = "Input";
     // Data Attribute
     public const string LENGTH = "Length";
 
-    // Identity Element
-    public const string IDENTITY = "Identity";
     // Common Identity Attribute
     public const string ID = "ID";
     public const string NAME = "Name";
-    public const string CLIPPATH = "ClipPath";
-    public const string CLIPNAME = "ClipName";
 
     public class SoundData
     {

@@ -50,8 +50,8 @@ public class SoundData : BaseData<SoundClip>
                     soundClips[t_curID] = new SoundClip();
 
 
-                    soundClips[t_curID].clipPath = t_reader.GetAttribute(XmlElementName.CLIPPATH);
-                    soundClips[t_curID].clipName = t_reader.GetAttribute(XmlElementName.CLIPNAME);
+                    soundClips[t_curID].clipPath = t_reader.GetAttribute(XmlElementName.SoundData.CLIPPATH);
+                    soundClips[t_curID].clipName = t_reader.GetAttribute(XmlElementName.SoundData.CLIPNAME);
                 }
 
                 // Sound Clip

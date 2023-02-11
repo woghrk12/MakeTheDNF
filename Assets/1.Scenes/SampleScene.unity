@@ -6877,7 +6877,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1470354408}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &595787406
 MonoBehaviour:
@@ -13863,50 +13863,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036523402}
   m_CullTransparentMesh: 0
---- !u!1 &1039642759
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1039642760}
-  - component: {fileID: 1039642761}
-  m_Layer: 0
-  m_Name: EffectManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1039642760
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1039642759}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1470354408}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1039642761
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1039642759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86509f87df92ddb4ab68e45d1db8f943, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1045689297
 GameObject:
   m_ObjectHideFlags: 0
@@ -15326,7 +15282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc504f59650c944c9cd167f1e04e84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultKey: 130100001401000011010000120100007800000063000000610000007300000064000000660000006700000068000000690000006b0000006d000000
   defaultMoveKey: 13010000140100001101000012010000
   defaultAttackKey: 120
   defaultJumpKey: 99
@@ -20003,7 +19958,6 @@ Transform:
   - {fileID: 1388574658}
   - {fileID: 1114460926}
   - {fileID: 1346588260}
-  - {fileID: 1039642760}
   - {fileID: 595787405}
   m_Father: {fileID: 0}
   m_RootOrder: 3
