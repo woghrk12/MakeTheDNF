@@ -41,6 +41,7 @@ public class XmlElementName
 
     public class SkillData
     {
+        public const string SKILLINFO = "SkillInfo";
         // Skill Icon
         public const string SKILLICON = "SkillIcon";
         public const string ICONFILEPATH = "IconFilePath";
@@ -61,6 +62,7 @@ public class XmlElementName
         public const string SKILLMOTION = "SkillMotion";
 
         // Skill Effect
+        public const string SKILLEFFECT = "SkillEffect";
         public const string NUMSKILLEFFECT = "NumSkillEffect";
         public const string SKILLEFFECTPATH = "SkillEffectPath";
         public const string SKILLEFFECTNAME = "SkillEffectName";

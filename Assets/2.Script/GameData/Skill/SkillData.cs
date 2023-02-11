@@ -32,6 +32,7 @@ public class SkillData : BaseData<SkillStat>
         {
             int t_length = 0;
             int t_curID = 0;
+            int t_numEffect = 0;
 
             while (t_reader.Read())
             {
@@ -42,18 +43,21 @@ public class SkillData : BaseData<SkillStat>
                     skillStats = new SkillStat[t_length];
                 }
 
-                if (t_reader.IsStartElement(XmlElementName.ID))
+                // Skill Identity
+                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLINFO))
                 {
-                    t_curID = int.Parse(t_reader.ReadElementContentAsString());
+                    t_curID = int.Parse(t_reader.GetAttribute(XmlElementName.ID));
+                    names[t_curID] = t_reader.GetAttribute(XmlElementName.NAME);
                     skillStats[t_curID] = new SkillStat();
                 }
-                if (t_reader.IsStartElement(XmlElementName.NAME))
-                    names[t_curID] = t_reader.ReadElementContentAsString();
-
+                
+                // Skill Icon
                 if (t_reader.IsStartElement(XmlElementName.SkillData.ICONFILEPATH))
                     skillStats[t_curID].skillIconPath = t_reader.ReadElementContentAsString();
                 if (t_reader.IsStartElement(XmlElementName.SkillData.ICONFILENAME))
                     skillStats[t_curID].skillIconName = t_reader.ReadElementContentAsString();
+
+                // Skill Stat
                 if (t_reader.IsStartElement(XmlElementName.SkillData.CLASSTYPE))
                     skillStats[t_curID].classType = (EClassType)Enum.Parse(typeof(EClassType), t_reader.ReadElementContentAsString());
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLTYPE))
@@ -62,56 +66,46 @@ public class SkillData : BaseData<SkillStat>
                     skillStats[t_curID].coolTime = int.Parse(t_reader.ReadElementContentAsString());
                 if (t_reader.IsStartElement(XmlElementName.SkillData.NEEDMANA))
                     skillStats[t_curID].needMana = int.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SkillData.PREDELAY))
+                    skillStats[t_curID].preDelay = float.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SkillData.DURATION))
+                    skillStats[t_curID].duration = float.Parse(t_reader.ReadElementContentAsString());
+                if (t_reader.IsStartElement(XmlElementName.SkillData.POSTDELAY))
+                    skillStats[t_curID].postDelay = float.Parse(t_reader.ReadElementContentAsString());
+
+                // Skill Motion
                 if (t_reader.IsStartElement(XmlElementName.SkillData.ISNOMOTION))
                     skillStats[t_curID].isNoMotion = bool.Parse(t_reader.ReadElementContentAsString());
-                if (t_reader.IsStartElement(XmlElementName.SkillData.NUMCOMBO))
-                {
-                    skillStats[t_curID].numCombo = int.Parse(t_reader.ReadElementContentAsString());
-                    skillStats[t_curID].skillInfo = new SkillInfo[skillStats[t_curID].numCombo];
-                    for (int i = 0; i < skillStats[t_curID].numCombo; i++)
-                        skillStats[t_curID].skillInfo[i] = new SkillInfo();
-                }
-
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLMOTION))
+                    skillStats[t_curID].skillMotion = t_reader.ReadElementContentAsString();
+
+                // Skill Effect
+                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECT))
                 {
-                    string[] t_motions = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_motions.Length; i++)
-                    {
-                        if (t_motions[i] == string.Empty) continue;
-                        skillStats[t_curID].skillInfo[i].skillMotion = t_motions[i];
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.NUMSKILLEFFECT))
-                {
-                    string[] t_num = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_num.Length; i++)
-                    {
-                        if (t_num[i] == string.Empty) continue;
-                        skillStats[t_curID].skillInfo[i].numSkillEffect = int.Parse(t_num[i]);
-                    }
+                    t_numEffect = int.Parse(t_reader.GetAttribute(XmlElementName.SkillData.NUMSKILLEFFECT));
+                    skillStats[t_curID].numSkillEffect = t_numEffect;
+                    skillStats[t_curID].skillEffectPaths = new string[t_numEffect];
+                    skillStats[t_curID].skillEffectNames = new string[t_numEffect];
+                    skillStats[t_curID].skillEffects = new GameObject[t_numEffect];
+                    skillStats[t_curID].effectOffsets = new Vector3[t_numEffect];
                 }
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTPATH))
                 {
-
-                    string[] t_paths = t_reader.ReadElementContentAsString().Split('.');
+                    string[] t_paths = t_reader.ReadElementContentAsString().Split(',');
                     for (int i = 0; i < t_paths.Length; i++)
                     {
                         if (t_paths[i] == string.Empty) continue;
-                        string[] t_path = t_paths[i].Split(',');
-                        for (int j = 0; j < t_path.Length; j++)
-                            skillStats[t_curID].skillInfo[i].skillEffectPaths[j] = t_path[j];
+                        skillStats[t_curID].skillEffectPaths[i] = t_paths[i];
                     }
                 }
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTNAME))
                 {
 
-                    string[] t_names = t_reader.ReadElementContentAsString().Split('.');
+                    string[] t_names = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_names.Length; i++)
                     {
                         if (t_names[i] == string.Empty) continue;
-                        string[] t_name = t_names[i].Split(',');
-                        for (int j = 0; j < t_name.Length; j++)
-                            skillStats[t_curID].skillInfo[i].skillEffectNames[j] = t_name[j];
+                        skillStats[t_curID].skillEffectNames[i] = t_names[i];
                     }
                 }
                 if (t_reader.IsStartElement(XmlElementName.SkillData.EFFECTOFFSET))
@@ -120,68 +114,14 @@ public class SkillData : BaseData<SkillStat>
                     for (int i = 0; i < t_offsets.Length; i++)
                     {
                         if (t_offsets[i] == string.Empty) continue;
-                        string[] t_effect = t_offsets[i].Split(',');
-                        for (int j = 0; j < t_effect.Length; j++)
-                        {
-                            string[] t_vector = t_effect[j].Split('.');
-                            skillStats[t_curID].skillInfo[i].effectOffsets[j].x = int.Parse(t_vector[0]);
-                            skillStats[t_curID].skillInfo[i].effectOffsets[j].y = int.Parse(t_vector[1]);
-                            skillStats[t_curID].skillInfo[i].effectOffsets[j].z = int.Parse(t_vector[2]);
-                        }
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLRANGE))
-                {
-                    string[] t_ranges = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_ranges.Length; i++)
-                    {
-                        if (t_ranges[i] == string.Empty) continue;
-                        string[] t_range = t_ranges[i].Split('.');
-                        skillStats[t_curID].skillInfo[i].skillRange.x = int.Parse(t_range[0]);
-                        skillStats[t_curID].skillInfo[i].skillRange.y = int.Parse(t_range[1]);
-                        skillStats[t_curID].skillInfo[i].skillRange.z = int.Parse(t_range[2]);
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.RANGEOFFSET))
-                {
-                    string[] t_rangeOffsets = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_rangeOffsets.Length; i++)
-                    {
-                        if (t_rangeOffsets[i] == string.Empty) continue;
-                        string[] t_range = t_rangeOffsets[i].Split('.');
-                        skillStats[t_curID].skillInfo[i].rangeOffset.x = int.Parse(t_range[0]);
-                        skillStats[t_curID].skillInfo[i].rangeOffset.y = int.Parse(t_range[1]);
-                        skillStats[t_curID].skillInfo[i].rangeOffset.z = int.Parse(t_range[2]);
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.PREDELAY))
-                {
-                    string[] t_preDelays = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_preDelays.Length; i++)
-                    {
-                        if (t_preDelays[i] == string.Empty) continue;
-                        skillStats[t_curID].skillInfo[i].preDelay = int.Parse(t_preDelays[i]);
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.DURATION))
-                {
-                    string[] t_durations = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_durations.Length; i++)
-                    {
-                        if (t_durations[i] == string.Empty) continue;
-                        skillStats[t_curID].skillInfo[i].duration = int.Parse(t_durations[i]);
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.POSTDELAY))
-                {
-                    string[] t_postDelays = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_postDelays.Length; i++)
-                    {
-                        if (t_postDelays[i] == string.Empty) continue;
-                        skillStats[t_curID].skillInfo[i].postDelay = int.Parse(t_postDelays[i]);
+                        string[] t_vector = t_offsets[i].Split(',');
+                        skillStats[t_curID].effectOffsets[i].x = int.Parse(t_vector[0]);
+                        skillStats[t_curID].effectOffsets[i].y = int.Parse(t_vector[1]);
+                        skillStats[t_curID].effectOffsets[i].z = int.Parse(t_vector[2]);
                     }
                 }
 
+                // Acquire Level
                 if (t_reader.IsStartElement(XmlElementName.SkillData.ACQUIRELEVEL))
                     skillStats[t_curID].acquireLevel = (SkillStat.EAcquireLevel)Enum.Parse(typeof(SkillStat.EAcquireLevel), t_reader.ReadElementContentAsString());
                 if (t_reader.IsStartElement(XmlElementName.SkillData.MINLEVEL))
@@ -193,6 +133,7 @@ public class SkillData : BaseData<SkillStat>
                 if (t_reader.IsStartElement(XmlElementName.SkillData.NEEDPOINT))
                     skillStats[t_curID].needPoint = int.Parse(t_reader.ReadElementContentAsString());
 
+                // Skill List
                 if (t_reader.IsStartElement(XmlElementName.SkillData.CANCANCELLIST))
                 {
                     string[] t_canCancelList = t_reader.ReadElementContentAsString().Split('/');
@@ -232,106 +173,74 @@ public class SkillData : BaseData<SkillStat>
                     {
                         SkillStat t_clip = skillStats[i];
 
-                        t_writer.WriteStartElement(XmlElementName.IDENTITY);
+                        t_writer.WriteStartElement(XmlElementName.SkillData.SKILLINFO);
+                        t_writer.WriteAttributeString(XmlElementName.ID, i.ToString());
+                        t_writer.WriteAttributeString(XmlElementName.NAME, names[i]);
                         {
-                            t_writer.WriteElementString(XmlElementName.ID, i.ToString());
-                            t_writer.WriteElementString(XmlElementName.NAME, names[i]);
-                        }
-                        t_writer.WriteEndElement();
-
-                        t_writer.WriteStartElement(XmlElementName.SkillData.SKILLSTAT);
-                        {
-                            t_writer.WriteElementString(XmlElementName.SkillData.ICONFILEPATH, t_clip.skillIconPath);
-                            t_writer.WriteElementString(XmlElementName.SkillData.ICONFILENAME, t_clip.skillIconName);
-                            t_writer.WriteElementString(XmlElementName.SkillData.CLASSTYPE, t_clip.classType.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLTYPE, t_clip.skillType.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.COOLTIME, t_clip.coolTime.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.NEEDMANA, t_clip.needMana.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.ISNOMOTION, t_clip.isNoMotion.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.NUMCOMBO, t_clip.numCombo.ToString());
-
-                            string t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo) t_str += t_info.skillMotion + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLMOTION, t_str);
-
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo) t_str += t_info.numSkillEffect + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.NUMSKILLEFFECT, t_str);
-
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo)
+                            t_writer.WriteStartElement(XmlElementName.SkillData.SKILLICON);
                             {
-                                foreach (string t_path in t_info.skillEffectPaths) t_str += t_path + ",";
-                                t_str += ".";
+                                t_writer.WriteElementString(XmlElementName.SkillData.ICONFILEPATH, t_clip.skillIconPath);
+                                t_writer.WriteElementString(XmlElementName.SkillData.ICONFILENAME, t_clip.skillIconName);
                             }
-                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTPATH, t_str);
+                            t_writer.WriteEndElement();
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo)
+                            t_writer.WriteStartElement(XmlElementName.SkillData.SKILLSTAT);
                             {
-                                foreach (string t_name in t_info.skillEffectNames) t_str += t_name + ",";
-                                t_str += ".";
+                                t_writer.WriteElementString(XmlElementName.SkillData.CLASSTYPE, t_clip.classType.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.SKILLTYPE, t_clip.skillType.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.COOLTIME, t_clip.coolTime.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.NEEDMANA, t_clip.needMana.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.PREDELAY, t_clip.preDelay.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.DURATION, t_clip.duration.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.POSTDELAY, t_clip.postDelay.ToString());
                             }
-                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTNAME, t_str);
+                            t_writer.WriteEndElement();
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo)
+                            t_writer.WriteStartElement(XmlElementName.SkillData.SKILLMOTION);
                             {
-                                foreach (Vector3 t_offset in t_info.effectOffsets)
-                                    t_str += t_offset.x.ToString() + "." + t_offset.y.ToString() + "." + t_offset.z.ToString() + ",";
-                                t_str += "/";
+                                t_writer.WriteElementString(XmlElementName.SkillData.ISNOMOTION, t_clip.isNoMotion.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.SKILLMOTION, t_clip.skillMotion);
                             }
-                            t_writer.WriteElementString(XmlElementName.SkillData.EFFECTOFFSET, t_str);
+                            t_writer.WriteEndElement();
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo)
+                            t_writer.WriteStartElement(XmlElementName.SkillData.SKILLEFFECT);
+                            t_writer.WriteAttributeString(XmlElementName.SkillData.NUMSKILLEFFECT, t_clip.numSkillEffect.ToString());
                             {
-                                t_str += t_info.skillRange.x.ToString() + "." + t_info.skillRange.y.ToString() + "." + t_info.skillRange.z.ToString();
-                                t_str += "/";
-                            }
-                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLRANGE, t_str);
+                                string t_str = "";
+                                foreach (string t_path in t_clip.skillEffectPaths) t_str += t_path + ",";
+                                t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTPATH, t_str);
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo)
+                                t_str = "";
+                                foreach (string t_name in t_clip.skillEffectNames) t_str += t_name + "/";
+                                t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTNAME, t_str);
+
+                                t_str = "";
+                                foreach (Vector3 t_offset in t_clip.effectOffsets) 
+                                    t_str += t_offset.x.ToString() + "," + t_offset.y.ToString() + "," + t_offset.z.ToString() + "/";
+                            }
+                            t_writer.WriteEndElement();
+
+                            t_writer.WriteStartElement(XmlElementName.SkillData.ACQUIRE);
                             {
-                                t_str += t_info.rangeOffset.x.ToString() + "." + t_info.rangeOffset.y.ToString() + "." + t_info.rangeOffset.z.ToString();
-                                t_str += "/";
+                                t_writer.WriteElementString(XmlElementName.SkillData.ACQUIRELEVEL, t_clip.acquireLevel.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.MINLEVEL, t_clip.minLevel.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.MAXLEVEL, t_clip.maxLevel.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.STEPLEVEL, t_clip.stepLevel.ToString());
+                                t_writer.WriteElementString(XmlElementName.SkillData.NEEDPOINT, t_clip.needPoint.ToString());
                             }
-                            t_writer.WriteElementString(XmlElementName.SkillData.RANGEOFFSET, t_str);
+                            t_writer.WriteEndElement();
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo) t_str += t_info.preDelay.ToString() + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.PREDELAY, t_str);
+                            t_writer.WriteStartElement(XmlElementName.SkillData.LIST);
+                            {
+                                string t_str = "";
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo) t_str += t_info.duration.ToString() + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.DURATION, t_str);
+                                foreach (int t_id in t_clip.canCancelList) t_str += t_id.ToString() + "/";
+                                t_writer.WriteElementString(XmlElementName.SkillData.CANCANCELLIST, t_str);
 
-                            t_str = "";
-                            foreach (SkillInfo t_info in t_clip.skillInfo) t_str += t_info.postDelay.ToString() + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.POSTDELAY, t_str);
-                        }
-                        t_writer.WriteEndElement();
-
-                        t_writer.WriteStartElement(XmlElementName.SkillData.ACQUIRE);
-                        {
-                            t_writer.WriteElementString(XmlElementName.SkillData.ACQUIRELEVEL, t_clip.acquireLevel.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.MINLEVEL, t_clip.minLevel.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.MAXLEVEL, t_clip.maxLevel.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.STEPLEVEL, t_clip.stepLevel.ToString());
-                            t_writer.WriteElementString(XmlElementName.SkillData.NEEDPOINT, t_clip.needPoint.ToString());
-                        }
-                        t_writer.WriteEndElement();
-
-                        t_writer.WriteStartElement(XmlElementName.SkillData.LIST);
-                        {
-                            string t_str = "";
-
-                            foreach (int t_id in t_clip.canCancelList) t_str += t_id.ToString() + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.CANCANCELLIST, t_str);
-
-                            foreach (int t_id in t_clip.preLearnedList) t_str += t_id.ToString() + "/";
-                            t_writer.WriteElementString(XmlElementName.SkillData.PRELEAREDLIST, t_str);
+                                foreach (int t_id in t_clip.preLearnedList) t_str += t_id.ToString() + "/";
+                                t_writer.WriteElementString(XmlElementName.SkillData.PRELEAREDLIST, t_str);
+                            }
+                            t_writer.WriteEndElement();
                         }
                         t_writer.WriteEndElement();
                     }
@@ -358,40 +267,33 @@ public class SkillData : BaseData<SkillStat>
         SkillStat t_copy = new SkillStat();
 
         t_copy.skillID = t_origin.skillID;
+
         t_copy.skillIconPath = t_origin.skillIconPath;
         t_copy.skillIconName = t_origin.skillIconName;
         t_copy.skillIcon = t_origin.skillIcon;
+
         t_copy.classType = t_origin.classType;
         t_copy.skillType = t_origin.skillType;
         t_copy.coolTime = t_origin.coolTime;
         t_copy.needMana = t_origin.needMana;
+        t_copy.preDelay = t_origin.preDelay;
+        t_copy.duration = t_origin.duration;
+        t_copy.postDelay = t_origin.postDelay;
+
         t_copy.isNoMotion = t_origin.isNoMotion;
-        t_copy.numCombo = t_origin.numCombo;
+        t_copy.skillMotion = t_origin.skillMotion;
 
-        t_copy.skillInfo = new SkillInfo[t_copy.numCombo];
-        for (int i = 0; i < t_copy.numCombo; i++)
+        int t_numEffect = t_copy.numSkillEffect = t_origin.numSkillEffect;
+        t_copy.skillEffectPaths = new string[t_numEffect];
+        t_copy.skillEffectNames = new string[t_numEffect];
+        t_copy.skillEffects = new GameObject[t_numEffect];
+        t_copy.effectOffsets = new Vector3[t_numEffect];
+        for (int i = 0; i < t_numEffect; i++)
         {
-            t_copy.skillInfo[i] = new SkillInfo();
-            t_copy.skillInfo[i].skillMotion = t_origin.skillInfo[i].skillMotion;
-            t_copy.skillInfo[i].numSkillEffect = t_origin.skillInfo[i].numSkillEffect;
-
-            t_copy.skillInfo[i].skillEffectPaths = new string[t_copy.skillInfo[i].numSkillEffect];
-            t_copy.skillInfo[i].skillEffectNames = new string[t_copy.skillInfo[i].numSkillEffect];
-            t_copy.skillInfo[i].skillEffects = new GameObject[t_copy.skillInfo[i].numSkillEffect];
-            t_copy.skillInfo[i].effectOffsets= new Vector3[t_copy.skillInfo[i].numSkillEffect];
-            for (int j = 0; j < t_copy.skillInfo[i].numSkillEffect; j++)
-            {
-                t_copy.skillInfo[i].skillEffectPaths[j] = t_origin.skillInfo[i].skillEffectPaths[j];
-                t_copy.skillInfo[i].skillEffectNames[j] = t_origin.skillInfo[i].skillEffectNames[j];
-                t_copy.skillInfo[i].skillEffects[j] = t_origin.skillInfo[i].skillEffects[j];
-                t_copy.skillInfo[i].effectOffsets[j] = t_origin.skillInfo[i].effectOffsets[j];
-            }
-
-            t_copy.skillInfo[i].skillRange = t_origin.skillInfo[i].skillRange;
-            t_copy.skillInfo[i].rangeOffset = t_origin.skillInfo[i].rangeOffset;
-            t_copy.skillInfo[i].preDelay = t_origin.skillInfo[i].preDelay;
-            t_copy.skillInfo[i].duration = t_origin.skillInfo[i].duration;
-            t_copy.skillInfo[i].postDelay = t_origin.skillInfo[i].postDelay;
+            t_copy.skillEffectPaths[i] = t_origin.skillEffectPaths[i];
+            t_copy.skillEffectNames[i] = t_origin.skillEffectNames[i];
+            t_copy.skillEffects[i] = t_origin.skillEffects[i];
+            t_copy.effectOffsets[i] = t_origin.effectOffsets[i];
         }
 
         t_copy.acquireLevel = t_origin.acquireLevel;

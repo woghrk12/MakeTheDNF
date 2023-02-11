@@ -37,7 +37,7 @@ public class SkillStat : ScriptableObject
     public string skillIconName = string.Empty;
     public Sprite skillIcon = null;
 
-    // Skill Info
+    // Skill Stat
     public EClassType classType = EClassType.NONE;
     public ESkillType skillType = ESkillType.NONE;
     public float coolTime = 0f;
@@ -96,14 +96,12 @@ public class SkillStat : ScriptableObject
     public void PreLoadIcon()
     {
         if (skillIcon != null) return;
-
         skillIcon = Resources.Load(skillIconPath + skillIconName, typeof(Sprite)) as Sprite;
     }
 
     public void ReleaseIcon()
     {
         if (skillIcon == null) return;
-
         skillIcon = null;
     }
 
