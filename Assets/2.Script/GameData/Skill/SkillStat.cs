@@ -4,22 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SkillInfo
-{
-    public string skillMotion = string.Empty;
-    public int numSkillEffect = 0;
-    public string[] skillEffectPaths = new string[0];
-    public string[] skillEffectNames = new string[0];
-    public GameObject[] skillEffects = new GameObject[0];
-    public Vector3[] effectOffsets = new Vector3[0];
-    public Vector3 skillRange = Vector3.zero;
-    public Vector3 rangeOffset = Vector3.zero;
-    public float preDelay = 0f;
-    public float duration = 0f;
-    public float postDelay = 0f;
-}
-
-public class SkillStat
+public class SkillStat : ScriptableObject
 {
     public enum ESkillType
     {
@@ -47,17 +32,30 @@ public class SkillStat
     // Identity
     public int skillID = 0;
 
-    // Skill Info
+    // Skill Icon
     public string skillIconPath = string.Empty;
     public string skillIconName = string.Empty;
     public Sprite skillIcon = null;
+
+    // Skill Info
     public EClassType classType = EClassType.NONE;
     public ESkillType skillType = ESkillType.NONE;
     public float coolTime = 0f;
     public int needMana = 0;
+    public float preDelay = 0f;
+    public float duration = 0f;
+    public float postDelay = 0f;
+
+    // Skill Motion
     public bool isNoMotion = false;
-    public int numCombo = 0;
-    public SkillInfo[] skillInfo = new SkillInfo[0];
+    public string skillMotion = string.Empty;
+
+    // Skill Effect
+    public int numSkillEffect = 0;
+    public string[] skillEffectPaths = new string[0];
+    public string[] skillEffectNames = new string[0];
+    public GameObject[] skillEffects = new GameObject[0];
+    public Vector3[] effectOffsets = new Vector3[0];
 
     // Acquire Level
     // minimum level value for acquiring the skill
@@ -79,13 +77,19 @@ public class SkillStat
 
     public void PreLoadEffect()
     {
-        foreach (SkillInfo t_skillInfo in skillInfo)
+        for (int i = 0; i < numSkillEffect; i++)
         {
-            for (int i = 0; i < t_skillInfo.numSkillEffect; i++)
-            {
-                if (t_skillInfo.skillEffects[i] != null) continue;
-                t_skillInfo.skillEffects[i] = Resources.Load(t_skillInfo.skillEffectPaths[i] + t_skillInfo.skillEffectNames[i]) as GameObject;
-            }
+            if (skillEffects[i] != null) continue;
+            skillEffects[i] = Resources.Load(skillEffectPaths[i] + skillEffectNames[i]) as GameObject;
+        }
+    }
+
+    public void ReleaseEffect()
+    {
+        for (int i = 0; i < numSkillEffect; i++)
+        {
+            if (skillEffects[i] == null) continue;
+            skillEffects[i] = null;
         }
     }
 
@@ -94,18 +98,6 @@ public class SkillStat
         if (skillIcon != null) return;
 
         skillIcon = Resources.Load(skillIconPath + skillIconName, typeof(Sprite)) as Sprite;
-    }
-
-    public void ReleaseEffect()
-    {
-        foreach (SkillInfo t_skillInfo in skillInfo)
-        {
-            for (int i = 0; i < t_skillInfo.numSkillEffect; i++)
-            {
-                if (t_skillInfo.skillEffects[i] == null) continue;
-                t_skillInfo.skillEffects[i] = null;
-            }
-        }
     }
 
     public void ReleaseIcon()
@@ -119,52 +111,23 @@ public class SkillStat
 
     #region Helper Methods
 
-    public void AddCombo()
+    public void AddEffect()
     {
-        numCombo++;
-        skillInfo = ArrayHelper.Add(new SkillInfo(), skillInfo);
+        numSkillEffect++;
+        skillEffects = ArrayHelper.Add(null, skillEffects);
+        skillEffectPaths = ArrayHelper.Add(string.Empty, skillEffectPaths);
+        skillEffectNames = ArrayHelper.Add(string.Empty, skillEffectNames);
+        effectOffsets = ArrayHelper.Add(Vector3.zero, effectOffsets);
     }
 
-    public void RemoveCombo(int p_idx)
+    public void RemoveEffect(int p_idx)
     {
-        numCombo--;
-        skillInfo = ArrayHelper.Remove(p_idx, skillInfo);
-    }
-
-    public void AddEffect(SkillInfo p_skillInfo)
-    {
-        p_skillInfo.numSkillEffect++;
-        p_skillInfo.skillEffects = ArrayHelper.Add(null, p_skillInfo.skillEffects);
-        p_skillInfo.skillEffectPaths = ArrayHelper.Add(string.Empty, p_skillInfo.skillEffectPaths);
-        p_skillInfo.skillEffectNames = ArrayHelper.Add(string.Empty, p_skillInfo.skillEffectNames);
-        p_skillInfo.effectOffsets = ArrayHelper.Add(Vector3.zero, p_skillInfo.effectOffsets);
-    }
-
-    public void RemoveEffect(SkillInfo p_skillInfo, int p_idx)
-    {
-        p_skillInfo.numSkillEffect--;
-        p_skillInfo.skillEffects = ArrayHelper.Remove(p_idx, p_skillInfo.skillEffects);
-        p_skillInfo.skillEffectPaths = ArrayHelper.Remove(p_idx, p_skillInfo.skillEffectPaths);
-        p_skillInfo.skillEffectNames = ArrayHelper.Remove(p_idx, p_skillInfo.skillEffectNames);
-        p_skillInfo.effectOffsets = ArrayHelper.Remove(p_idx, p_skillInfo.effectOffsets);
+        numSkillEffect--;
+        skillEffects = ArrayHelper.Remove(p_idx, skillEffects);
+        skillEffectPaths = ArrayHelper.Remove(p_idx, skillEffectPaths);
+        skillEffectNames = ArrayHelper.Remove(p_idx, skillEffectNames);
+        effectOffsets = ArrayHelper.Remove(p_idx, effectOffsets);
     }
 
     #endregion Helper Methods
-    /*
-    private void OnValidate()
-    {
-        if (numCombo != skillInfo.Length) numCombo = skillInfo.Length;
-
-        foreach (SkillInfo t_info in skillInfo)
-        {
-            if (t_info.numSkillEffect != t_info.skillEffects.Length) t_info.numSkillEffect = t_info.skillEffects.Length;
-
-            while (t_info.numSkillEffect != t_info.effectOffsets.Length)
-            {
-                if (t_info.numSkillEffect < t_info.effectOffsets.Length) 
-                    t_info.effectOffsets = ArrayHelper.Remove(t_info.effectOffsets.Length - 1, t_info.effectOffsets);
-                else t_info.effectOffsets = ArrayHelper.Add(new Vector3(), t_info.effectOffsets);
-            }
-        }
-    }*/
 }
