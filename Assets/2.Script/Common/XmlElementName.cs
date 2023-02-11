@@ -58,7 +58,8 @@ public class XmlElementName
         public const string POSTDELAY = "PostDelay";
 
         // Skill Motion
-        public const string ISNOMOTION = "ISNOMOTION";
+        public const string MOTION = "Motion";
+        public const string ISNOMOTION = "IsNoMotion";
         public const string SKILLMOTION = "SkillMotion";
 
         // Skill Effect

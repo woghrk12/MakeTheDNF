@@ -196,7 +196,7 @@ public class SkillData : BaseData<SkillStat>
                             }
                             t_writer.WriteEndElement();
 
-                            t_writer.WriteStartElement(XmlElementName.SkillData.SKILLMOTION);
+                            t_writer.WriteStartElement(XmlElementName.SkillData.MOTION);
                             {
                                 t_writer.WriteElementString(XmlElementName.SkillData.ISNOMOTION, t_clip.isNoMotion.ToString());
                                 t_writer.WriteElementString(XmlElementName.SkillData.SKILLMOTION, t_clip.skillMotion);
