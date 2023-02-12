@@ -42,16 +42,13 @@ public class SoundData : BaseData<SoundClip>
                     names = new string[t_length];
                     soundClips = new SoundClip[t_length];
                 }
+
                 // Sound Identity
                 if (t_reader.IsStartElement(XmlElementName.SoundData.SOUNDSETTINGS))
                 {
                     t_curID = int.Parse(t_reader.GetAttribute(XmlElementName.ID));
                     names[t_curID] = t_reader.GetAttribute(XmlElementName.NAME);
                     soundClips[t_curID] = new SoundClip();
-
-
-                    soundClips[t_curID].clipPath = t_reader.GetAttribute(XmlElementName.SoundData.CLIPPATH);
-                    soundClips[t_curID].clipName = t_reader.GetAttribute(XmlElementName.SoundData.CLIPNAME);
                 }
 
                 // Sound Clip
