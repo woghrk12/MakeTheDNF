@@ -37,10 +37,10 @@ public class SkillTool : EditorWindow
 
         EditorGUILayout.BeginVertical();
         {
+            int t_oldSelection = selection;
             EditorToolLayer<SkillStat>.EditorToolTopLayer(skillData, ref selection, EditorHelper.uiWidthMiddle);
             EditorGUILayout.BeginHorizontal();
             {
-                int t_oldSelection = selection;
                 EditorToolLayer<SkillStat>.EditorToolListLayer(skillData, ref scrollPos1, ref selection, EditorHelper.uiWidthMiddle);
                 if (selection >= 0)
                 {
@@ -75,6 +75,7 @@ public class SkillTool : EditorWindow
                 {
                     // Initialize Effect List 
                     effectList = new ReorderableList(ArrayHelper.ArrayToList(t_clip.skillEffectNames), typeof(string));
+                    effectList.index = -1;
                     effectList.drawElementCallback = (Rect p_rect, int p_idx, bool p_isActive, bool p_isFocused) =>
                     {
                         var t_element = t_clip.skillEffectNames[p_idx];

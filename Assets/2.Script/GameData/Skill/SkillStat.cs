@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class SkillStat : ScriptableObject
+public class SkillStat
 {
     public enum ESkillType
     {
