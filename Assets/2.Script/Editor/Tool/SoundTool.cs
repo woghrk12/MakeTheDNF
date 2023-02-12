@@ -62,7 +62,11 @@ public class SoundTool : EditorWindow
     {
         EditorGUILayout.BeginVertical();
         {
-            EditorGUILayout.LabelField("Setting", EditorStyles.boldLabel);
+            EditorGUILayout.Separator();
+            
+            EditorGUILayout.LabelField("Sound Setting", EditorStyles.boldLabel);
+
+            EditorGUILayout.Separator();
             EditorGUILayout.Separator();
             scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             {
@@ -117,6 +121,7 @@ public class SoundTool : EditorWindow
                 soundData.names[selection] = EditorGUILayout.TextField("Name", soundData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
 
                 EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 // Audio Clip
                 EditorGUILayout.LabelField("Audio Clip", EditorStyles.boldLabel);
@@ -131,6 +136,7 @@ public class SoundTool : EditorWindow
                     t_clip.pitch = EditorGUILayout.Slider("Pitch", t_clip.pitch, -3.0f, 3.0f, GUILayout.Width(EditorHelper.uiWidthLarge));
                     t_clip.spatialBlend = EditorGUILayout.Slider("Pan Level", t_clip.spatialBlend, 0.0f, 1.0f, GUILayout.Width(EditorHelper.uiWidthLarge));
 
+                    EditorGUILayout.Separator();
                     EditorGUILayout.Separator();
 
                     // Loop Option

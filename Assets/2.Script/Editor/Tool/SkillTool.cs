@@ -60,6 +60,13 @@ public class SkillTool : EditorWindow
     {
         EditorGUILayout.BeginVertical();
         {
+            EditorGUILayout.Separator();
+
+            EditorGUILayout.LabelField("Skill Setting", EditorStyles.boldLabel);
+
+            EditorGUILayout.Separator();
+            EditorGUILayout.Separator();
+
             scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             {
                 SkillStat t_clip = skillData.skillStats[selection];
@@ -99,6 +106,7 @@ public class SkillTool : EditorWindow
                 skillData.names[selection] = EditorGUILayout.TextField("Name", skillData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
 
                 EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 // Skill Icon
                 EditorGUILayout.LabelField("Skill Icon", EditorStyles.boldLabel);
@@ -116,6 +124,7 @@ public class SkillTool : EditorWindow
                 }
 
                 EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 // Skill Stat
                 EditorGUILayout.LabelField("Skill Stat", EditorStyles.boldLabel);
@@ -128,6 +137,7 @@ public class SkillTool : EditorWindow
                 t_clip.postDelay = EditorGUILayout.FloatField("Post Delay", t_clip.postDelay, GUILayout.Width(EditorHelper.uiWidthLarge));
 
                 EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 // Skill Motion
                 EditorGUILayout.LabelField("Skill Motion", EditorStyles.boldLabel);
@@ -135,6 +145,7 @@ public class SkillTool : EditorWindow
                 if (t_clip.isNoMotion) t_clip.skillMotion = string.Empty;
                 else t_clip.skillMotion = EditorGUILayout.TextField("Skill Motion", t_clip.skillMotion, GUILayout.Width(EditorHelper.uiWidthLarge));
 
+                EditorGUILayout.Separator();
                 EditorGUILayout.Separator();
 
                 // Skill Effect
@@ -160,6 +171,7 @@ public class SkillTool : EditorWindow
                 }
 
                 EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 // Acquire Level
                 EditorGUILayout.LabelField("Acquire Level", EditorStyles.boldLabel);
@@ -170,9 +182,10 @@ public class SkillTool : EditorWindow
                 t_clip.needPoint = EditorGUILayout.IntField("Need Point", t_clip.needPoint, GUILayout.Width(EditorHelper.uiWidthLarge));
                 
                 EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Skill List Info", EditorStyles.boldLabel);
-
+                // List Modify
 
                 skillData.skillStats[selection] = t_clip;
             }
