@@ -5,6 +5,7 @@ using UnityEngine;
 public class XmlElementName
 {
     public const string SOUND = "Sound";
+    public const string EFFECT = "Effect";
     public const string SKILL = "Skill";
     public const string INPUT = "Input";
     // Data Attribute
@@ -37,6 +38,20 @@ public class XmlElementName
         public const string STARTLOOP = "StartLoop";
         public const string CHECKTIME = "CheckTime";
         public const string SETTIME = "SetTime";
+    }
+
+    public class EffectData
+    {
+        public const string EFFECTSETTINGS = "EffectSettings";
+
+        // Sound Clip
+        public const string EFFECTCLIP = "EffectClip";
+        public const string CLIPPATH = "ClipPath";
+        public const string CLIPNAME = "ClipName";
+
+        // Options
+        public const string OPTIONS = "Options";
+        public const string PLAYTYPE = "PlayType";
     }
 
     public class SkillData

@@ -124,6 +124,9 @@ public class SoundTool : EditorWindow
                 if (t_clip.Clip == null && t_clip.clipName != string.Empty) t_clip.PreLoad();
                 t_clip.Clip = EditorGUILayout.ObjectField("Audio Clip", t_clip.Clip, typeof(AudioClip), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as AudioClip;
 
+                EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
+
                 if (t_clip.Clip != null)
                 {
                     t_clip.clipPath = EditorHelper.GetPath(t_clip.Clip);
