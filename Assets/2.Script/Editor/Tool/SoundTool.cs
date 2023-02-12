@@ -120,11 +120,7 @@ public class SoundTool : EditorWindow
                 EditorGUILayout.LabelField("ID", t_clip.clipID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
                 soundData.names[selection] = EditorGUILayout.TextField("Name", soundData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
 
-                EditorGUILayout.Separator();
-                EditorGUILayout.Separator();
-
                 // Audio Clip
-                EditorGUILayout.LabelField("Audio Clip", EditorStyles.boldLabel);
                 if (t_clip.Clip == null && t_clip.clipName != string.Empty) t_clip.PreLoad();
                 t_clip.Clip = EditorGUILayout.ObjectField("Audio Clip", t_clip.Clip, typeof(AudioClip), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as AudioClip;
 
@@ -132,6 +128,9 @@ public class SoundTool : EditorWindow
                 {
                     t_clip.clipPath = EditorHelper.GetPath(t_clip.Clip);
                     t_clip.clipName = t_clip.Clip.name;
+
+                    // Options
+                    EditorGUILayout.LabelField("Options", EditorStyles.boldLabel);
                     t_clip.maxVolume = EditorGUILayout.FloatField("Max Volume", t_clip.maxVolume, GUILayout.Width(EditorHelper.uiWidthLarge));
                     t_clip.pitch = EditorGUILayout.Slider("Pitch", t_clip.pitch, -3.0f, 3.0f, GUILayout.Width(EditorHelper.uiWidthLarge));
                     t_clip.spatialBlend = EditorGUILayout.Slider("Pan Level", t_clip.spatialBlend, 0.0f, 1.0f, GUILayout.Width(EditorHelper.uiWidthLarge));
