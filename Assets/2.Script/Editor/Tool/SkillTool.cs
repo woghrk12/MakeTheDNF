@@ -13,7 +13,7 @@ public class SkillTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static SkillData skillData;
-    private string enumName = "SkillList";
+    private const string enumName = "SkillList";
 
     private bool isSelectedAnother = false;
     private ReorderableList effectList;
@@ -27,7 +27,6 @@ public class SkillTool : EditorWindow
     {
         skillData = CreateInstance<SkillData>();
         skillData.LoadData();
-
         selection = -1;
         GetWindow<SkillTool>(false, "Skill Tool").Show();
     }
@@ -72,22 +71,20 @@ public class SkillTool : EditorWindow
                     effectList.drawElementCallback = (Rect p_rect, int p_idx, bool p_isActive, bool p_isFocused) =>
                     {
                         var t_element = t_clip.skillEffectNames[p_idx];
-                        EditorGUI.LabelField(p_rect, t_element);
+                        EditorGUI.LabelField(p_rect, t_element != string.Empty ? t_element : "New Effect");
                     };
                     effectList.drawHeaderCallback = (Rect p_rect) => { EditorGUI.LabelField(p_rect, "Effect List"); };
                     effectList.onAddCallback = (ReorderableList p_list) => 
                     {
-                        int t_index = t_clip.numSkillEffect - 1;
                         t_clip.AddEffect();
                         p_list.list.Add("New Effect");
-                        p_list.index = t_index;
                     };
                     effectList.onRemoveCallback = (ReorderableList p_list) => 
                     {
-                        int t_index = t_clip.numSkillEffect - 1;
-                        p_list.index = t_index - 1;
-                        p_list.list.RemoveAt(t_index);
-                        t_clip.RemoveEffect(t_index);
+                        int t_idx = p_list.index;
+                        p_list.list.RemoveAt(t_idx);
+                        t_clip.RemoveEffect(t_idx);
+                        p_list.index = t_idx - 1;
                     };
 
                     // Initialize CanCancel List
@@ -175,7 +172,9 @@ public class SkillTool : EditorWindow
                 EditorGUILayout.Separator();
 
                 EditorGUILayout.LabelField("Skill List Info", EditorStyles.boldLabel);
-                
+
+
+                skillData.skillStats[selection] = t_clip;
             }
             EditorGUILayout.EndScrollView();
         }
