@@ -217,6 +217,7 @@ public class SkillData : BaseData<SkillStat>
                                 t_str = "";
                                 foreach (Vector3 t_offset in t_clip.effectOffsets) 
                                     t_str += t_offset.x.ToString() + "," + t_offset.y.ToString() + "," + t_offset.z.ToString() + "/";
+                                t_writer.WriteElementString(XmlElementName.SkillData.EFFECTOFFSET, t_str);
                             }
                             t_writer.WriteEndElement();
 
