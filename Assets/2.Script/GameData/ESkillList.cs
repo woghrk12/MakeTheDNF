@@ -1,4 +1,4 @@
-public enum SkillList
+public enum ESkillList
 {
 	NONE = -1,
 	

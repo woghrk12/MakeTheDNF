@@ -13,7 +13,7 @@ public class SkillTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static SkillData skillData;
-    private const string enumName = "SkillList";
+    private const string enumName = "ESkillList";
 
     private bool isSelectedAnother = false;
     private ReorderableList effectList;

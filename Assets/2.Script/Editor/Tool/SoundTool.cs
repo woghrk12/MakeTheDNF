@@ -16,7 +16,7 @@ public class SoundTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static SoundData soundData;
-    private const string enumName = "SoundList";
+    private const string enumName = "ESoundList";
 
     private bool isSelectedAnother = false;
     private ReorderableList loopList;

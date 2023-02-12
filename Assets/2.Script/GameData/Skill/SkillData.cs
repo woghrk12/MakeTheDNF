@@ -115,9 +115,9 @@ public class SkillData : BaseData<SkillStat>
                     {
                         if (t_offsets[i] == string.Empty) continue;
                         string[] t_vector = t_offsets[i].Split(',');
-                        skillStats[t_curID].effectOffsets[i].x = int.Parse(t_vector[0]);
-                        skillStats[t_curID].effectOffsets[i].y = int.Parse(t_vector[1]);
-                        skillStats[t_curID].effectOffsets[i].z = int.Parse(t_vector[2]);
+                        skillStats[t_curID].effectOffsets[i].x = float.Parse(t_vector[0]);
+                        skillStats[t_curID].effectOffsets[i].y = float.Parse(t_vector[1]);
+                        skillStats[t_curID].effectOffsets[i].z = float.Parse(t_vector[2]);
                     }
                 }
 
