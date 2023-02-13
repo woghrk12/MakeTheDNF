@@ -15,17 +15,16 @@ public class ObjectPoolingManager : SingletonMonobehaviour<ObjectPoolingManager>
 
     #region Methods
 
-    public void AddPool(GameObject p_obj, int p_size)
+    public void AddPool(string p_tag, GameObject p_obj, int p_size)
     {
-        string t_tagName = p_obj.name;
-        Transform t_category = new GameObject(t_tagName).transform;
+        Transform t_category = new GameObject(p_tag).transform;
         t_category.SetParent(transform);
 
-        prefabs.Add(t_tagName, p_obj);
-        categories.Add(t_tagName, t_category);
-        poolDictionary.Add(t_tagName, new Queue<GameObject>());
+        prefabs.Add(p_tag, p_obj);
+        categories.Add(p_tag, t_category);
+        poolDictionary.Add(p_tag, new Queue<GameObject>());
 
-        for (int i = 0; i < p_size; i++) CreateNewObject(t_tagName, p_obj);
+        for (int i = 0; i < p_size; i++) CreateNewObject(p_tag, p_obj);
     }
 
     public GameObject Instantiate(string p_tag) => SpawnFromPool(p_tag, Vector3.zero, Quaternion.identity);
