@@ -30,7 +30,8 @@ public class ObjectPoolingManager : SingletonMonobehaviour<ObjectPoolingManager>
     public GameObject Instantiate(string p_tag) => SpawnFromPool(p_tag, Vector3.zero, Quaternion.identity);
     public GameObject Instantiate(string p_tag, Vector3 p_pos) => SpawnFromPool(p_tag, p_pos, Quaternion.identity);
     public GameObject Instantiate(string p_tag, Vector3 p_pos, Quaternion p_rotation) => SpawnFromPool(p_tag, p_pos, p_rotation);
-    public void Destroy(GameObject p_obj) => ReturnToPool(p_obj);
+    public void Destroy(string p_tag, GameObject p_obj) => ReturnToPool(p_tag, p_obj);
+    public void Destroy(GameObject p_obj) => ReturnToPool(p_obj.name, p_obj);
 
     #endregion Methods
 
@@ -49,10 +50,10 @@ public class ObjectPoolingManager : SingletonMonobehaviour<ObjectPoolingManager>
         return t_obj;
     }
 
-    private void ReturnToPool(GameObject p_obj)
+    private void ReturnToPool(string p_tag, GameObject p_obj)
     {
         p_obj.SetActive(false);
-        poolDictionary[p_obj.name].Enqueue(p_obj);
+        poolDictionary[p_tag].Enqueue(p_obj);
     }
 
     private void CreateNewObject(string p_tag, GameObject p_prefab)
