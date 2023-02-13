@@ -104,18 +104,11 @@ public class EffectData : BaseData<EffectClip>
         }
     }
 
-    public override EffectClip GetClip(int p_idx, bool p_isCopy = false)
+    public override EffectClip GetCopyClip(int p_idx)
     {
-        if (p_idx < 0 || p_idx >= DataCount) return default;
+        if (p_idx < 0 || p_idx >= DataCount) return null;
 
         EffectClip t_origin = effectClips[p_idx];
-
-        if (!p_isCopy)
-        {
-            t_origin.PreLoad();
-            return t_origin;
-        }
-
         EffectClip t_copyClip = new EffectClip();
 
         t_copyClip.clipID = t_origin.clipID;

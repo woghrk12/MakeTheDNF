@@ -166,18 +166,11 @@ public class SoundData : BaseData<SoundClip>
         }
     }
 
-    public override SoundClip GetClip(int p_idx, bool p_isCopy = false)
+    public override SoundClip GetCopyClip(int p_idx)
     {
         if (p_idx < 0 || p_idx >= DataCount) return default;
 
         SoundClip t_origin = soundClips[p_idx];
-
-        if (!p_isCopy)
-        {
-            t_origin.PreLoad();
-            return t_origin;
-        }
-
         SoundClip t_copyClip = new SoundClip();
 
         t_copyClip.clipID = t_origin.clipID;

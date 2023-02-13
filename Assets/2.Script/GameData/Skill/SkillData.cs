@@ -215,18 +215,11 @@ public class SkillData : BaseData<SkillStat>
         }
     }
 
-    public override SkillStat GetClip(int p_idx, bool p_isCopy = false)
+    public override SkillStat GetCopyClip(int p_idx)
     {
         if (p_idx < 0 || p_idx >= DataCount) return null;
 
         SkillStat t_origin = skillStats[p_idx];
-
-        if (!p_isCopy)
-        {
-            t_origin.PreLoadIcon();
-            return t_origin;
-        }
-
         SkillStat t_copy = new SkillStat();
 
         t_copy.skillID = t_origin.skillID;

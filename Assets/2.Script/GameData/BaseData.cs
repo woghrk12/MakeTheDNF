@@ -41,7 +41,7 @@ public abstract class BaseData<T> : ScriptableObject
 
     public abstract void LoadData();
     public abstract void SaveData();
-    public abstract T GetClip(int p_idx, bool p_isCopy = false);
+    public abstract T GetCopyClip(int p_idx);
     #endregion Abstract Methods
 
     #region Virtual Methods
