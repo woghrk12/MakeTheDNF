@@ -87,7 +87,6 @@ public class SkillData : BaseData<SkillStat>
                     skillStats[t_curID].skillEffectPaths = new string[t_numEffect];
                     skillStats[t_curID].skillEffectNames = new string[t_numEffect];
                     skillStats[t_curID].skillEffects = new GameObject[t_numEffect];
-                    skillStats[t_curID].effectOffsets = new Vector3[t_numEffect];
                 }
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTPATH))
                 {
@@ -106,18 +105,6 @@ public class SkillData : BaseData<SkillStat>
                     {
                         if (t_names[i] == string.Empty) continue;
                         skillStats[t_curID].skillEffectNames[i] = t_names[i];
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.EFFECTOFFSET))
-                {
-                    string[] t_offsets = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_offsets.Length; i++)
-                    {
-                        if (t_offsets[i] == string.Empty) continue;
-                        string[] t_vector = t_offsets[i].Split(',');
-                        skillStats[t_curID].effectOffsets[i].x = float.Parse(t_vector[0]);
-                        skillStats[t_curID].effectOffsets[i].y = float.Parse(t_vector[1]);
-                        skillStats[t_curID].effectOffsets[i].z = float.Parse(t_vector[2]);
                     }
                 }
 
@@ -213,11 +200,6 @@ public class SkillData : BaseData<SkillStat>
                                 t_str = "";
                                 foreach (string t_name in t_clip.skillEffectNames) t_str += t_name + "/";
                                 t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTNAME, t_str);
-
-                                t_str = "";
-                                foreach (Vector3 t_offset in t_clip.effectOffsets) 
-                                    t_str += t_offset.x.ToString() + "," + t_offset.y.ToString() + "," + t_offset.z.ToString() + "/";
-                                t_writer.WriteElementString(XmlElementName.SkillData.EFFECTOFFSET, t_str);
                             }
                             t_writer.WriteEndElement();
 
@@ -288,13 +270,11 @@ public class SkillData : BaseData<SkillStat>
         t_copy.skillEffectPaths = new string[t_numEffect];
         t_copy.skillEffectNames = new string[t_numEffect];
         t_copy.skillEffects = new GameObject[t_numEffect];
-        t_copy.effectOffsets = new Vector3[t_numEffect];
         for (int i = 0; i < t_numEffect; i++)
         {
             t_copy.skillEffectPaths[i] = t_origin.skillEffectPaths[i];
             t_copy.skillEffectNames[i] = t_origin.skillEffectNames[i];
             t_copy.skillEffects[i] = t_origin.skillEffects[i];
-            t_copy.effectOffsets[i] = t_origin.effectOffsets[i];
         }
 
         t_copy.acquireLevel = t_origin.acquireLevel;

@@ -157,13 +157,11 @@ public class SkillTool : EditorWindow
                     {
                         t_clip.skillEffectPaths[t_idxEffect] = EditorHelper.GetPath(t_clip.skillEffects[t_idxEffect]);
                         t_clip.skillEffectNames[t_idxEffect] = t_clip.skillEffects[t_idxEffect].name;
-                        t_clip.effectOffsets[t_idxEffect] = EditorGUILayout.Vector3Field("Effect Offset", t_clip.effectOffsets[t_idxEffect], GUILayout.Width(EditorHelper.uiWidthLarge));
                     }
                     else
                     {
                         t_clip.skillEffectPaths[t_idxEffect] = string.Empty;
                         t_clip.skillEffectNames[t_idxEffect] = string.Empty;
-                        t_clip.effectOffsets[t_idxEffect] = Vector3.zero;
                     }
                 }
 

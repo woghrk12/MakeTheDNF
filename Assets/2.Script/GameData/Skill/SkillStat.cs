@@ -27,7 +27,7 @@ public class SkillStat
     #region Variables
 
     // Identity
-    public int skillID = 0;
+    public int skillID = -1;
 
     // Skill Icon
     public string skillIconPath = string.Empty;
@@ -52,7 +52,6 @@ public class SkillStat
     public string[] skillEffectPaths = new string[0];
     public string[] skillEffectNames = new string[0];
     public GameObject[] skillEffects = new GameObject[0];
-    public Vector3[] effectOffsets = new Vector3[0];
 
     // Acquire Level
     // minimum level value for acquiring the skill
@@ -112,7 +111,6 @@ public class SkillStat
         skillEffects = ArrayHelper.Add(null, skillEffects);
         skillEffectPaths = ArrayHelper.Add(string.Empty, skillEffectPaths);
         skillEffectNames = ArrayHelper.Add(string.Empty, skillEffectNames);
-        effectOffsets = ArrayHelper.Add(Vector3.zero, effectOffsets);
     }
 
     public void RemoveEffect(int p_idx)
@@ -121,7 +119,6 @@ public class SkillStat
         skillEffects = ArrayHelper.Remove(p_idx, skillEffects);
         skillEffectPaths = ArrayHelper.Remove(p_idx, skillEffectPaths);
         skillEffectNames = ArrayHelper.Remove(p_idx, skillEffectNames);
-        effectOffsets = ArrayHelper.Remove(p_idx, effectOffsets);
     }
 
     #endregion Helper Methods
