@@ -84,27 +84,12 @@ public class SkillData : BaseData<SkillStat>
                 {
                     t_numEffect = int.Parse(t_reader.GetAttribute(XmlElementName.SkillData.NUMSKILLEFFECT));
                     skillStats[t_curID].numSkillEffect = t_numEffect;
-                    skillStats[t_curID].skillEffectPaths = new string[t_numEffect];
-                    skillStats[t_curID].skillEffectNames = new string[t_numEffect];
-                    skillStats[t_curID].skillEffects = new GameObject[t_numEffect];
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTPATH))
-                {
-                    string[] t_paths = t_reader.ReadElementContentAsString().Split(',');
-                    for (int i = 0; i < t_paths.Length; i++)
+                    skillStats[t_curID].skillEffects = new EEffectList[t_numEffect];
+                    string[] t_effects = t_reader.ReadElementContentAsString().Split('/');
+                    for (int i = 0; i < t_numEffect; i++)
                     {
-                        if (t_paths[i] == string.Empty) continue;
-                        skillStats[t_curID].skillEffectPaths[i] = t_paths[i];
-                    }
-                }
-                if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECTNAME))
-                {
-
-                    string[] t_names = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_names.Length; i++)
-                    {
-                        if (t_names[i] == string.Empty) continue;
-                        skillStats[t_curID].skillEffectNames[i] = t_names[i];
+                        if (t_effects[i] == string.Empty) continue;
+                        skillStats[t_curID].skillEffects[i] = (EEffectList)Enum.Parse(typeof(EEffectList), t_effects[i]);
                     }
                 }
 
@@ -194,12 +179,8 @@ public class SkillData : BaseData<SkillStat>
                             t_writer.WriteAttributeString(XmlElementName.SkillData.NUMSKILLEFFECT, t_clip.numSkillEffect.ToString());
                             {
                                 string t_str = "";
-                                foreach (string t_path in t_clip.skillEffectPaths) t_str += t_path + ",";
-                                t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTPATH, t_str);
-
-                                t_str = "";
-                                foreach (string t_name in t_clip.skillEffectNames) t_str += t_name + "/";
-                                t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECTNAME, t_str);
+                                foreach (EEffectList t_effect in t_clip.skillEffects) t_str += t_effect.ToString() + "/";
+                                t_writer.WriteString(t_str);
                             }
                             t_writer.WriteEndElement();
 
@@ -242,7 +223,6 @@ public class SkillData : BaseData<SkillStat>
 
         if (!p_isCopy)
         {
-            t_origin.PreLoadEffect();
             t_origin.PreLoadIcon();
             return t_origin;
         }
@@ -267,15 +247,9 @@ public class SkillData : BaseData<SkillStat>
         t_copy.skillMotion = t_origin.skillMotion;
 
         int t_numEffect = t_copy.numSkillEffect = t_origin.numSkillEffect;
-        t_copy.skillEffectPaths = new string[t_numEffect];
-        t_copy.skillEffectNames = new string[t_numEffect];
-        t_copy.skillEffects = new GameObject[t_numEffect];
+        t_copy.skillEffects = new EEffectList[t_numEffect];
         for (int i = 0; i < t_numEffect; i++)
-        {
-            t_copy.skillEffectPaths[i] = t_origin.skillEffectPaths[i];
-            t_copy.skillEffectNames[i] = t_origin.skillEffectNames[i];
             t_copy.skillEffects[i] = t_origin.skillEffects[i];
-        }
 
         t_copy.acquireLevel = t_origin.acquireLevel;
         t_copy.minLevel = t_origin.minLevel;
@@ -326,7 +300,6 @@ public class SkillData : BaseData<SkillStat>
     {
         foreach (SkillStat t_clip in skillStats)
         {
-            t_clip.ReleaseEffect();
             t_clip.ReleaseIcon();
         }
 

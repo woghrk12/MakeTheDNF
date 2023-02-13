@@ -74,18 +74,20 @@ public class SkillTool : EditorWindow
                 if (isSelectedAnother)
                 {
                     // Initialize Effect List 
-                    effectList = new ReorderableList(ArrayHelper.ArrayToList(t_clip.skillEffectNames), typeof(string));
+                    effectList = new ReorderableList(ArrayHelper.ArrayToList(t_clip.skillEffects), typeof(EEffectList));
                     effectList.index = -1;
                     effectList.drawElementCallback = (Rect p_rect, int p_idx, bool p_isActive, bool p_isFocused) =>
                     {
-                        var t_element = t_clip.skillEffectNames[p_idx];
-                        EditorGUI.LabelField(p_rect, t_element != string.Empty ? t_element : "New Effect");
+                        p_rect.y += 3f;
+                        p_rect.width = EditorHelper.uiWidthLarge;
+                        p_rect.height = EditorGUIUtility.singleLineHeight;
+                        t_clip.skillEffects[p_idx] = (EEffectList)EditorGUI.EnumPopup(p_rect, t_clip.skillEffects[p_idx]);
                     };
                     effectList.drawHeaderCallback = (Rect p_rect) => { EditorGUI.LabelField(p_rect, "Effect List"); };
                     effectList.onAddCallback = (ReorderableList p_list) => 
                     {
                         t_clip.AddEffect();
-                        p_list.list.Add("New Effect");
+                        p_list.list.Add(EEffectList.NONE);
                     };
                     effectList.onRemoveCallback = (ReorderableList p_list) => 
                     {
@@ -148,22 +150,6 @@ public class SkillTool : EditorWindow
                 // Skill Effect
                 EditorGUILayout.LabelField("Skill Effect", EditorStyles.boldLabel);
                 effectList.DoLayoutList();
-                int t_idxEffect = effectList.index;
-                if (t_idxEffect >= 0)
-                {
-                    if (t_clip.skillEffects[t_idxEffect] == null && t_clip.skillEffectNames[t_idxEffect] != string.Empty) t_clip.PreLoadEffect();
-                    t_clip.skillEffects[t_idxEffect] = EditorGUILayout.ObjectField("Skill Effect", t_clip.skillEffects[t_idxEffect], typeof(GameObject), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as GameObject;
-                    if (t_clip.skillEffects[t_idxEffect] != null)
-                    {
-                        t_clip.skillEffectPaths[t_idxEffect] = EditorHelper.GetPath(t_clip.skillEffects[t_idxEffect]);
-                        t_clip.skillEffectNames[t_idxEffect] = t_clip.skillEffects[t_idxEffect].name;
-                    }
-                    else
-                    {
-                        t_clip.skillEffectPaths[t_idxEffect] = string.Empty;
-                        t_clip.skillEffectNames[t_idxEffect] = string.Empty;
-                    }
-                }
 
                 EditorGUILayout.Separator();
                 EditorGUILayout.Separator();

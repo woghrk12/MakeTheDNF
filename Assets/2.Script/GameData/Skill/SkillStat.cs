@@ -49,9 +49,7 @@ public class SkillStat
 
     // Skill Effect
     public int numSkillEffect = 0;
-    public string[] skillEffectPaths = new string[0];
-    public string[] skillEffectNames = new string[0];
-    public GameObject[] skillEffects = new GameObject[0];
+    public EEffectList[] skillEffects = new EEffectList[0];
 
     // Acquire Level
     // minimum level value for acquiring the skill
@@ -70,24 +68,6 @@ public class SkillStat
     #endregion Variables
 
     #region Methods
-
-    public void PreLoadEffect()
-    {
-        for (int i = 0; i < numSkillEffect; i++)
-        {
-            if (skillEffects[i] != null) continue;
-            skillEffects[i] = Resources.Load(skillEffectPaths[i] + skillEffectNames[i]) as GameObject;
-        }
-    }
-
-    public void ReleaseEffect()
-    {
-        for (int i = 0; i < numSkillEffect; i++)
-        {
-            if (skillEffects[i] == null) continue;
-            skillEffects[i] = null;
-        }
-    }
 
     public void PreLoadIcon()
     {
@@ -108,17 +88,13 @@ public class SkillStat
     public void AddEffect()
     {
         numSkillEffect++;
-        skillEffects = ArrayHelper.Add(null, skillEffects);
-        skillEffectPaths = ArrayHelper.Add(string.Empty, skillEffectPaths);
-        skillEffectNames = ArrayHelper.Add(string.Empty, skillEffectNames);
+        skillEffects = ArrayHelper.Add(EEffectList.NONE, skillEffects);
     }
 
     public void RemoveEffect(int p_idx)
     {
         numSkillEffect--;
         skillEffects = ArrayHelper.Remove(p_idx, skillEffects);
-        skillEffectPaths = ArrayHelper.Remove(p_idx, skillEffectPaths);
-        skillEffectNames = ArrayHelper.Remove(p_idx, skillEffectNames);
     }
 
     #endregion Helper Methods
