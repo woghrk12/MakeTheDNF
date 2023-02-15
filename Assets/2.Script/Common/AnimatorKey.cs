@@ -16,4 +16,10 @@ public class AnimatorKey
         public const string UpperSlash = "UpperSlash";
         public const string StrongSlash = "StrongSlash";
     }
+
+    public class EffectState
+    {
+        public const string Idle = "Base Layer.Idle";
+        public const string Activate = "Base Layer.Activate";
+    }
 }
