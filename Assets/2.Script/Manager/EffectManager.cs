@@ -35,11 +35,12 @@ public class EffectManager : SingletonMonobehaviour<EffectManager>
         maxZ = p_maxZ;
     }
 
-    public GameObject OnEffect(EEffectList p_idx, bool p_isLeft, Vector3 p_position, float p_sizeFactor = 1f)
+    public GameObject OnEffect(EEffectList p_idx, bool p_isLeft, Vector3 p_position, float p_sizeFactor)
     {
         string t_tag = p_idx.ToString();
         GameObject t_effect = ObjectPoolingManager.Instance.Instantiate(t_tag);
 
+        t_effect.transform.position = new Vector3(p_position.x, p_position.y + p_position.z * DNFTransform.convRate, 0f);
         t_effect.transform.localScale = new Vector3(p_isLeft ? -p_sizeFactor : p_sizeFactor, p_sizeFactor, 1f);
 
         if (t_effect.transform.GetChild(0).TryGetComponent(out SpriteRenderer t_renderer))
