@@ -68,11 +68,5 @@ public class EffectClip
         clip = null;
     }
 
-    public GameObject Instantiate()
-    {
-        if (clip == null) PreLoad();
-        return clip != null ? GameObject.Instantiate(clip) : null;
-    }
-
     #endregion Methods
 }
