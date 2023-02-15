@@ -48,8 +48,7 @@ public class SkillStat
     public string skillMotion = string.Empty;
 
     // Skill Effect
-    public int numSkillEffect = 0;
-    public EEffectList[] skillEffects = new EEffectList[0];
+    public EEffectList skillEffect = EEffectList.NONE;
 
     // Acquire Level
     // minimum level value for acquiring the skill
@@ -82,20 +81,4 @@ public class SkillStat
     }
 
     #endregion Methods
-
-    #region Helper Methods
-
-    public void AddEffect()
-    {
-        numSkillEffect++;
-        skillEffects = ArrayHelper.Add(EEffectList.NONE, skillEffects);
-    }
-
-    public void RemoveEffect(int p_idx)
-    {
-        numSkillEffect--;
-        skillEffects = ArrayHelper.Remove(p_idx, skillEffects);
-    }
-
-    #endregion Helper Methods
 }

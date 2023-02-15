@@ -80,9 +80,6 @@ public class XmlElementName
 
         // Skill Effect
         public const string SKILLEFFECT = "SkillEffect";
-        public const string NUMSKILLEFFECT = "NumSkillEffect";
-        public const string SKILLEFFECTPATH = "SkillEffectPath";
-        public const string SKILLEFFECTNAME = "SkillEffectName";
 
         // Acquire Level
         public const string ACQUIRE = "Acquire";

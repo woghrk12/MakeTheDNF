@@ -32,7 +32,6 @@ public class SkillData : BaseData<SkillStat>
         {
             int t_length = 0;
             int t_curID = 0;
-            int t_numEffect = 0;
 
             while (t_reader.Read())
             {
@@ -81,17 +80,7 @@ public class SkillData : BaseData<SkillStat>
 
                 // Skill Effect
                 if (t_reader.IsStartElement(XmlElementName.SkillData.SKILLEFFECT))
-                {
-                    t_numEffect = int.Parse(t_reader.GetAttribute(XmlElementName.SkillData.NUMSKILLEFFECT));
-                    skillStats[t_curID].numSkillEffect = t_numEffect;
-                    skillStats[t_curID].skillEffects = new EEffectList[t_numEffect];
-                    string[] t_effects = t_reader.ReadElementContentAsString().Split('/');
-                    for (int i = 0; i < t_numEffect; i++)
-                    {
-                        if (t_effects[i] == string.Empty) continue;
-                        skillStats[t_curID].skillEffects[i] = (EEffectList)Enum.Parse(typeof(EEffectList), t_effects[i]);
-                    }
-                }
+                    skillStats[t_curID].skillEffect = (EEffectList)Enum.Parse(typeof(EEffectList), t_reader.ReadElementContentAsString());
 
                 // Acquire Level
                 if (t_reader.IsStartElement(XmlElementName.SkillData.ACQUIRELEVEL))
@@ -175,14 +164,7 @@ public class SkillData : BaseData<SkillStat>
                             }
                             t_writer.WriteEndElement();
 
-                            t_writer.WriteStartElement(XmlElementName.SkillData.SKILLEFFECT);
-                            t_writer.WriteAttributeString(XmlElementName.SkillData.NUMSKILLEFFECT, t_clip.numSkillEffect.ToString());
-                            {
-                                string t_str = "";
-                                foreach (EEffectList t_effect in t_clip.skillEffects) t_str += t_effect.ToString() + "/";
-                                t_writer.WriteString(t_str);
-                            }
-                            t_writer.WriteEndElement();
+                            t_writer.WriteElementString(XmlElementName.SkillData.SKILLEFFECT, t_clip.skillEffect.ToString());
 
                             t_writer.WriteStartElement(XmlElementName.SkillData.ACQUIRE);
                             {
@@ -239,10 +221,7 @@ public class SkillData : BaseData<SkillStat>
         t_copy.isNoMotion = t_origin.isNoMotion;
         t_copy.skillMotion = t_origin.skillMotion;
 
-        int t_numEffect = t_copy.numSkillEffect = t_origin.numSkillEffect;
-        t_copy.skillEffects = new EEffectList[t_numEffect];
-        for (int i = 0; i < t_numEffect; i++)
-            t_copy.skillEffects[i] = t_origin.skillEffects[i];
+        t_copy.skillEffect = t_origin.skillEffect;
 
         t_copy.acquireLevel = t_origin.acquireLevel;
         t_copy.minLevel = t_origin.minLevel;
