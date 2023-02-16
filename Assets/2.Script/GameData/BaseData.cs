@@ -19,7 +19,8 @@ public abstract class BaseData<T> : ScriptableObject
     #region Abstract Methods
 
     public abstract string[] GetNameList(bool p_isShowID, string p_filterWord = "");
-    public abstract T GetClip(int p_idx);
+    public abstract void SetData(int p_idx, T p_data);
+    public abstract T GetData(int p_idx);
 
     #endregion Abstract Methods
 
