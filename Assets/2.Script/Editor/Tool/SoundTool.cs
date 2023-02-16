@@ -16,6 +16,7 @@ public class SoundTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static SoundData soundData;
+    private const string dataPath = "Assets/9.Resources/Resources/Data/Database/SoundData.asset";
     private const string enumName = "ESoundList";
 
     private bool isSelectedAnother = false;
@@ -23,11 +24,16 @@ public class SoundTool : EditorWindow
 
     #endregion Variables
 
-    [MenuItem("Tools/Data/SoundData Tool")]
+    [MenuItem("Tools/Data/Sound Tool")]
     private static void Init()
     {
-        soundData = CreateInstance<SoundData>();
-        soundData.LoadData();
+        soundData = AssetDatabase.LoadAssetAtPath<SoundData>(dataPath);
+        if (soundData == null)
+        {
+            soundData = CreateInstance<SoundData>();
+            AssetDatabase.CreateAsset(soundData, dataPath);
+            AssetDatabase.Refresh();
+        }
         selection = -1;
         GetWindow<SoundTool>(false, "Sound Tool").Show();
     }
@@ -70,7 +76,7 @@ public class SoundTool : EditorWindow
             EditorGUILayout.Separator();
             scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             {
-                SoundClip t_clip = soundData.soundClips[selection];
+                SoundClip t_clip = soundData.GetData(selection);
 
                 if (isSelectedAnother)
                 {
@@ -118,7 +124,7 @@ public class SoundTool : EditorWindow
 
                 // Identity
                 EditorGUILayout.LabelField("ID", t_clip.clipID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
-                soundData.names[selection] = EditorGUILayout.TextField("Name", soundData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
+                EditorGUILayout.LabelField("Name", t_clip.clipName, GUILayout.Width(EditorHelper.uiWidthLarge));
 
                 // Audio Clip
                 if (t_clip.Clip == null && t_clip.clipName != string.Empty) t_clip.PreLoad();
@@ -151,7 +157,7 @@ public class SoundTool : EditorWindow
                     t_clip.clipName = string.Empty;
                 }
 
-                soundData.soundClips[selection] = t_clip;
+                soundData.SetData(selection, t_clip);
             }
             EditorGUILayout.EndScrollView();
         }
