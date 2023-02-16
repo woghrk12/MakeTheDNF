@@ -9,14 +9,18 @@ public class EffectData : BaseData<EffectClip>
 
     public override string[] GetNameList(bool p_isShowID, string p_filterWord = "")
     {
-        throw new NotImplementedException();
-    }
+        string[] t_retList = new string[0];
+        if (database == null) return t_retList;
 
-    public override EffectClip GetClip(int p_idx)
-    {
-        if (p_idx < 0 || p_idx >= DataCount) return null;
+        t_retList = new string[DataCount];
 
-        return database[p_idx];
+        for (int i = 0; i < DataCount; i++)
+        {
+            if (p_filterWord != "" && !database[i].clipName.ToLower().Contains(p_filterWord.ToLower())) continue;
+            t_retList[i] = p_isShowID ? i.ToString() + " : " + database[i].clipName : database[i].clipName;
+        }
+
+        return t_retList;
     }
 
     public override void AddData(string p_newName)
