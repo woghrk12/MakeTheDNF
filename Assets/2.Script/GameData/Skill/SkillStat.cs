@@ -22,6 +22,7 @@ public class SkillStat
         TWENTY,
         TWENTYFIVE,
         THIRTY,
+        END
     }
 
     #region Variables
@@ -61,8 +62,8 @@ public class SkillStat
     public int needPoint = 0;
 
     // Skill List Info
-    public List<int> canCancelList = new List<int>();
-    public List<int> preLearnedList = new List<int>();
+    public List<ESkillList> canCancelList = new List<ESkillList>();
+    public List<ESkillList> preLearnedList = new List<ESkillList>();
 
     #endregion Variables
 

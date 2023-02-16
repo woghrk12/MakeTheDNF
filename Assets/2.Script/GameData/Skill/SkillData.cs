@@ -97,20 +97,22 @@ public class SkillData : BaseData<SkillStat>
                 // Skill List
                 if (t_reader.IsStartElement(XmlElementName.SkillData.CANCANCELLIST))
                 {
+                    skillStats[t_curID].canCancelList = new List<ESkillList>();
                     string[] t_canCancelList = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_canCancelList.Length; i++)
                     {
                         if (t_canCancelList[i] == string.Empty) continue;
-                        skillStats[t_curID].canCancelList[i] = int.Parse(t_canCancelList[i]);
+                        skillStats[t_curID].canCancelList.Add((ESkillList)Enum.Parse(typeof(ESkillList), t_canCancelList[i].ToString()));
                     }
                 }
                 if (t_reader.IsStartElement(XmlElementName.SkillData.PRELEAREDLIST))
                 {
+                    skillStats[t_curID].preLearnedList = new List<ESkillList>();
                     string[] t_preLearnedList = t_reader.ReadElementContentAsString().Split('/');
                     for (int i = 0; i < t_preLearnedList.Length; i++)
                     {
                         if (t_preLearnedList[i] == string.Empty) continue;
-                        skillStats[t_curID].preLearnedList[i] = int.Parse(t_preLearnedList[i]);
+                        skillStats[t_curID].preLearnedList.Add((ESkillList)Enum.Parse(typeof(ESkillList), t_preLearnedList[i].ToString()));
                     }
                 }
             }
@@ -180,10 +182,10 @@ public class SkillData : BaseData<SkillStat>
                             {
                                 string t_str = "";
 
-                                foreach (int t_id in t_clip.canCancelList) t_str += t_id.ToString() + "/";
+                                foreach (ESkillList t_id in t_clip.canCancelList) t_str += t_id.ToString() + "/";
                                 t_writer.WriteElementString(XmlElementName.SkillData.CANCANCELLIST, t_str);
 
-                                foreach (int t_id in t_clip.preLearnedList) t_str += t_id.ToString() + "/";
+                                foreach (ESkillList t_id in t_clip.preLearnedList) t_str += t_id.ToString() + "/";
                                 t_writer.WriteElementString(XmlElementName.SkillData.PRELEAREDLIST, t_str);
                             }
                             t_writer.WriteEndElement();
@@ -229,12 +231,12 @@ public class SkillData : BaseData<SkillStat>
         t_copy.stepLevel = t_origin.stepLevel;
         t_copy.needPoint = t_origin.needPoint;
 
-        t_copy.canCancelList = new List<int>();
-        foreach (int t_skillID in t_origin.canCancelList)
+        t_copy.canCancelList = new List<ESkillList>();
+        foreach (ESkillList t_skillID in t_origin.canCancelList)
             t_copy.canCancelList.Add(t_skillID);
 
-        t_copy.preLearnedList = new List<int>();
-        foreach (int t_skillID in t_origin.preLearnedList)
+        t_copy.preLearnedList = new List<ESkillList>();
+        foreach (ESkillList t_skillID in t_origin.preLearnedList)
             t_copy.preLearnedList.Add(t_skillID);
 
         return t_copy;

@@ -117,12 +117,6 @@ public class SkillTool : EditorWindow
                 t_clip.stepLevel = EditorGUILayout.IntField("Step Level", t_clip.stepLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.needPoint = EditorGUILayout.IntField("Need Point", t_clip.needPoint, GUILayout.Width(EditorHelper.uiWidthLarge));
                 
-                EditorGUILayout.Separator();
-                EditorGUILayout.Separator();
-
-                EditorGUILayout.LabelField("Skill List Info", EditorStyles.boldLabel);
-                // List Modify
-
                 skillData.skillStats[selection] = t_clip;
             }
             EditorGUILayout.EndScrollView();
