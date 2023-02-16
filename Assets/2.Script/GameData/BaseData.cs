@@ -16,11 +16,27 @@ public abstract class BaseData<T> : ScriptableObject
 
     #endregion Properties
 
+    #region Set/Get Method
+
+    public void SetData(int p_idx, T p_data)
+    {
+        if (p_idx < 0 || p_idx >= DataCount) return;
+
+        database[p_idx] = p_data;
+    }
+
+    public T GetData(int p_idx)
+    {
+        if (p_idx < 0 || p_idx >= DataCount) return default;
+
+        return database[p_idx];
+    }
+
+    #endregion Set/Get Method
+
     #region Abstract Methods
 
     public abstract string[] GetNameList(bool p_isShowID, string p_filterWord = "");
-    public abstract void SetData(int p_idx, T p_data);
-    public abstract T GetData(int p_idx);
 
     #endregion Abstract Methods
 
