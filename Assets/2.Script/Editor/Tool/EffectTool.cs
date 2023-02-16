@@ -10,15 +10,21 @@ public class EffectTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static EffectData effectData;
+    private const string dataPath = "Assets/9.Resources/Resources/Data/Database/EffectData.asset";
     private const string enumName = "EEffectList";
 
     #endregion Variables
 
-    [MenuItem("Tools/Data/EffectData Tool")]
+    [MenuItem("Tools/Data/Effect Tool")]
     private static void Init()
     {
-        effectData = CreateInstance<EffectData>();
-        effectData.LoadData();
+        effectData = AssetDatabase.LoadAssetAtPath<EffectData>(dataPath);
+        if (effectData == null)
+        {
+            effectData = CreateInstance<EffectData>();
+            AssetDatabase.CreateAsset(effectData, dataPath);
+            AssetDatabase.Refresh();
+        }
         selection = -1;
         GetWindow<EffectTool>(false, "Effect Tool").Show();
     }
@@ -55,11 +61,11 @@ public class EffectTool : EditorWindow
             EditorGUILayout.Separator();
             scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             {
-                EffectClip t_clip = effectData.effectClips[selection];
+                EffectClip t_clip = effectData.GetData(selection);
 
                 // Identity
                 EditorGUILayout.LabelField("ID", t_clip.clipID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
-                effectData.names[selection] = EditorGUILayout.TextField("Name", effectData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
+                EditorGUILayout.LabelField("Name", t_clip.clipName, GUILayout.Width(EditorHelper.uiWidthLarge));
 
                 // Effect Clip
                 if (t_clip.Clip == null && t_clip.clipName != string.Empty) t_clip.PreLoad();
@@ -83,7 +89,7 @@ public class EffectTool : EditorWindow
                     t_clip.clipName = string.Empty;
                 }
 
-                effectData.effectClips[selection] = t_clip;
+                effectData.SetData(selection, t_clip);
             }
             EditorGUILayout.EndScrollView();
         }
