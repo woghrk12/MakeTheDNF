@@ -10,6 +10,7 @@ public class SkillTool : EditorWindow
     private Vector2 scrollPos2 = Vector2.zero;
 
     private static SkillData skillData;
+    private const string dataPath = "Assets/9.Resources/Resources/Data/Database/SkillData.asset";
     private const string enumName = "ESkillList";
 
     #endregion Variables
@@ -17,8 +18,13 @@ public class SkillTool : EditorWindow
     [MenuItem("Tools/Data/SkillData Tool")]
     private static void Init()
     {
-        skillData = CreateInstance<SkillData>();
-        skillData.LoadData();
+        skillData = AssetDatabase.LoadAssetAtPath<SkillData>(dataPath);
+        if (skillData == null)
+        {
+            skillData = CreateInstance<SkillData>();
+            AssetDatabase.CreateAsset(skillData, dataPath);
+            AssetDatabase.Refresh();
+        }
         selection = -1;
         GetWindow<SkillTool>(false, "Skill Tool").Show();
     }
@@ -57,11 +63,11 @@ public class SkillTool : EditorWindow
 
             scrollPos2 = EditorGUILayout.BeginScrollView(scrollPos2);
             {
-                SkillStat t_clip = skillData.skillStats[selection];
+                SkillStat t_clip = skillData.GetData(selection);
 
                 // Identity
                 EditorGUILayout.LabelField("ID", t_clip.skillID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
-                skillData.names[selection] = EditorGUILayout.TextField("Name", skillData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
+                //EditorGUILayout.TextField("Name", skillData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
                 
                 // Skill Icon
                 if (t_clip.skillIcon == null && t_clip.skillIconName != string.Empty) t_clip.PreLoadIcon();
@@ -69,7 +75,7 @@ public class SkillTool : EditorWindow
                 if (t_clip.skillIcon != null)
                 {
                     t_clip.skillIconPath = EditorHelper.GetPath(t_clip.skillIcon);
-                    t_clip.skillIconName = "Icon_" + skillData.names[selection];
+                    //t_clip.skillIconName = "Icon_" + skillData.names[selection];
                 }
                 else
                 {
@@ -116,8 +122,8 @@ public class SkillTool : EditorWindow
                 t_clip.maxLevel = EditorGUILayout.IntField("Max Level", t_clip.maxLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.stepLevel = EditorGUILayout.IntField("Step Level", t_clip.stepLevel, GUILayout.Width(EditorHelper.uiWidthLarge));
                 t_clip.needPoint = EditorGUILayout.IntField("Need Point", t_clip.needPoint, GUILayout.Width(EditorHelper.uiWidthLarge));
-                
-                skillData.skillStats[selection] = t_clip;
+
+                skillData.SetData(selection, t_clip);
             }
             EditorGUILayout.EndScrollView();
         }
