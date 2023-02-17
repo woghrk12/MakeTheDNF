@@ -124,7 +124,12 @@ public class SoundTool : EditorWindow
 
                 // Identity
                 EditorGUILayout.LabelField("ID", t_clip.clipID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
-                EditorGUILayout.LabelField("Name", t_clip.clipName, GUILayout.Width(EditorHelper.uiWidthLarge));
+                var t_name = soundData.GetName(selection);
+                t_name = EditorGUILayout.TextField("Name", t_name, GUILayout.Width(EditorHelper.uiWidthLarge));
+                soundData.SetName(selection, t_name);
+
+                EditorGUILayout.Separator();
+                EditorGUILayout.Separator();    
 
                 // Audio Clip
                 if (t_clip.Clip == null && t_clip.clipName != string.Empty) t_clip.PreLoad();

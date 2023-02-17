@@ -65,7 +65,12 @@ public class EffectTool : EditorWindow
 
                 // Identity
                 EditorGUILayout.LabelField("ID", t_clip.clipID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
-                EditorGUILayout.LabelField("Name", t_clip.clipName, GUILayout.Width(EditorHelper.uiWidthLarge));
+                var t_name = effectData.GetName(selection);
+                t_name = EditorGUILayout.TextField("Name", t_name, GUILayout.Width(EditorHelper.uiWidthLarge));
+                effectData.SetName(selection, t_name);
+
+                EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
 
                 // Effect Clip
                 if (t_clip.Clip == null && t_clip.clipName != string.Empty) t_clip.PreLoad();

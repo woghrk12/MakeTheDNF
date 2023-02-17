@@ -112,12 +112,12 @@ public class EditorToolLayer<T>
             if (GUILayout.Button("Reload Settings"))
             {
                 p_data = ScriptableObject.CreateInstance<BaseData<T>>();
-                p_data.LoadData();
+                
                 p_selection = 0;
             }
             if (GUILayout.Button("Save Settings"))
             {
-                p_data.SaveData();
+                
                 CreateEnumStructure(p_data, p_enumName);
                 AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
             }
@@ -134,15 +134,18 @@ public class EditorToolLayer<T>
         StringBuilder t_builder = new StringBuilder();
         t_builder.AppendLine();
 
-        int t_lenght = p_data.names != null ? p_data.DataCount : 0;
+        int t_lenght = p_data.DataCount;
+        var t_nameList = p_data.GetNameList(false);
+        
         for (int i = 0; i < t_lenght; i++)
         {
-            if (p_data.names[i] == string.Empty) continue;
+            if (t_nameList[i] == string.Empty) continue;
 
-            string t_name = p_data.names[i];
+            string t_name = t_nameList[i];
             t_name = string.Concat(t_name.Where(t_char => !char.IsWhiteSpace(t_char)));
             t_builder.AppendLine("    " + t_name + " = " + i + ",");
         }
+
         EditorHelper.CreateEnumStructure(p_enumName, t_builder);
     }
 

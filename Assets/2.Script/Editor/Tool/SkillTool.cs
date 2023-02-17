@@ -67,8 +67,13 @@ public class SkillTool : EditorWindow
 
                 // Identity
                 EditorGUILayout.LabelField("ID", t_clip.skillID.ToString(), GUILayout.Width(EditorHelper.uiWidthLarge));
-                //EditorGUILayout.TextField("Name", skillData.names[selection], GUILayout.Width(EditorHelper.uiWidthLarge));
-                
+                var t_name = skillData.GetName(selection);
+                t_name = EditorGUILayout.TextField("Name", t_name, GUILayout.Width(EditorHelper.uiWidthLarge));
+                skillData.SetName(selection, t_name);
+
+                EditorGUILayout.Separator();
+                EditorGUILayout.Separator();
+
                 // Skill Icon
                 if (t_clip.skillIcon == null && t_clip.skillIconName != string.Empty) t_clip.PreLoadIcon();
                 t_clip.skillIcon = EditorGUILayout.ObjectField("Skill Icon", t_clip.skillIcon, typeof(Sprite), false, GUILayout.Width(EditorHelper.uiWidthLarge)) as Sprite;
