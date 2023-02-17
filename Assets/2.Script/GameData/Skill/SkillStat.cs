@@ -28,7 +28,7 @@ public class SkillStat
     #region Variables
 
     // Identity
-    public int skillID = -1;
+    public int skillID = 0;
 
     // Skill Icon
     public string skillIconPath = string.Empty;
@@ -66,6 +66,18 @@ public class SkillStat
     public List<ESkillList> preLearnedList = new List<ESkillList>();
 
     #endregion Variables
+
+    #region Constructors
+
+    public SkillStat() { }
+
+    public SkillStat(string p_iconPath, string p_iconName)
+    {
+        skillIconPath = p_iconPath;
+        skillIconName = p_iconName;
+    }
+
+    #endregion Constructors
 
     #region Methods
 
