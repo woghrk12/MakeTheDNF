@@ -40,6 +40,7 @@ public class EffectTool : EditorWindow
             {
                 EditorToolLayer<EffectClip>.EditorToolListLayer(effectData, ref scrollPos1, ref selection, EditorHelper.uiWidthMiddle);
                 if (selection >= 0) InfoLayer();
+                EditorUtility.SetDirty(effectData);
             }
             EditorGUILayout.EndHorizontal();
             EditorToolLayer<EffectClip>.EditorToolBottomLayer(effectData, ref selection, enumName);

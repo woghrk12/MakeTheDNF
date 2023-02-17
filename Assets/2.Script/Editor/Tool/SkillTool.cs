@@ -40,7 +40,8 @@ public class SkillTool : EditorWindow
             EditorGUILayout.BeginHorizontal();
             {
                 EditorToolLayer<SkillStat>.EditorToolListLayer(skillData, ref scrollPos1, ref selection, EditorHelper.uiWidthMiddle);
-                if (selection >= 0) InfoLayer();               
+                if (selection >= 0) InfoLayer();
+                EditorUtility.SetDirty(skillData);
             }
             EditorGUILayout.EndHorizontal();
             EditorToolLayer<SkillStat>.EditorToolBottomLayer(skillData, ref selection, enumName);

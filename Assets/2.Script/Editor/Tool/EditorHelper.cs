@@ -117,9 +117,8 @@ public class EditorToolLayer<T>
             }
             if (GUILayout.Button("Save Settings"))
             {
-                
+                AssetDatabase.SaveAssets();
                 CreateEnumStructure(p_data, p_enumName);
-                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
             }
         }
         EditorGUILayout.EndHorizontal();

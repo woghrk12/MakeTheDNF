@@ -55,6 +55,7 @@ public class SoundTool : EditorWindow
                     isSelectedAnother = t_oldSelection != selection;
                     InfoLayer();
                 }
+                EditorUtility.SetDirty(soundData);
             }
             EditorGUILayout.EndHorizontal();
             EditorToolLayer<SoundClip>.EditorToolBottomLayer(soundData, ref selection, enumName);
